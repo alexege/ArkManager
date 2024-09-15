@@ -14,6 +14,8 @@ import LoginRegView from '@/views/LoginRegView.vue'
 
 import { useAuthStore } from '@/stores/auth.store'
 import TimerView from '@/views/TimerView.vue'
+import ShopView from '@/views/ShopView.vue'
+import BossView from '@/views/BossView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -80,9 +82,33 @@ const router = createRouter({
       component: MessagesView
     },
     {
+      path: '/shop',
+      name: 'shop',
+      component: ShopView
+    },
+    {
       path: '/settings',
       name: 'settings',
       component: SettingsView
+    },
+    {
+      path: '/boss',
+      name: 'boss',
+      component: BossView,
+      children: [
+        {
+          path: '/boss/broodmother',
+          component: () => import('@/views/boss/Broodmother.vue')
+        },
+        {
+          path: '/boss/megapithecus',
+          component: () => import('@/views/boss/Megapithecus.vue')
+        },
+        {
+          path: '/boss/dragon',
+          component: () => import('@/views/boss/Dragon.vue')
+        }
+      ]
     }
   ]
 })

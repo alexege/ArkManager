@@ -53,13 +53,13 @@ export const useTimerStore = defineStore('timer', {
     // },
 
     async addTimer(timer) {
-      const newTimer = await axios.post(`${API_URL}/timer/addTimer`, timer)
+      const newTimer = await axios.post(`${API_URL}/timers`, timer)
       this.timers.push(newTimer.data)
     },
 
     async updateTimer(updatedTimer) {
       try {
-        await axios.patch(`${API_URL}/timer/update/${updatedTimer._id}`, updatedTimer)
+        await axios.patch(`${API_URL}/timers/${updatedTimer._id}`, updatedTimer)
 
         let timerToUpdateIdx = this.timers.indexOf(
           this.timers.find((timer) => timer._id == updatedTimer._id)
@@ -78,7 +78,7 @@ export const useTimerStore = defineStore('timer', {
 
     async deleteTimer(id) {
       try {
-        await axios.delete(`${API_URL}/timer/${id}`).then(() => {
+        await axios.delete(`${API_URL}/timers/${id}`).then(() => {
           let index = this.timers.findIndex((timer) => timer._id == id)
           this.timers.splice(index, 1)
         })

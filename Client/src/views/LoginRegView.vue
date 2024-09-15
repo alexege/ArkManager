@@ -123,7 +123,7 @@ const fieldValidation = () => {
                     </div>
                     <span class="error" v-if="validationErrors.firstName">{{
                         validationErrors.firstName
-                        }}</span>
+                    }}</span>
                 </div>
                 <div class="form-input">
                     <div class="input-field">
@@ -133,7 +133,7 @@ const fieldValidation = () => {
                     </div>
                     <span class="error" v-if="validationErrors.lastName">{{
                         validationErrors.lastName
-                        }}</span>
+                    }}</span>
                 </div>
                 <div class="form-input">
                     <div class="input-field">
@@ -185,7 +185,7 @@ const fieldValidation = () => {
     display: grid;
     height: 100vh;
     place-items: center;
-    background: #0b71ac;
+    /* background: #0b71ac; */
 }
 
 .container {
@@ -197,7 +197,7 @@ const fieldValidation = () => {
     border-radius: 5px;
     color: #fff;
     /* background: #ffffff1f; */
-    background: #0b71ac;
+    /* background: #0b71ac; */
 }
 
 .container h2 {
@@ -212,7 +212,7 @@ const fieldValidation = () => {
     border-radius: 5px;
     color: #fff;
     cursor: pointer;
-    background: #1395e0;
+    /* background: #1395e0; */
 }
 
 .container button:hover {

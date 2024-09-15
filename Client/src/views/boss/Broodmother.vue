@@ -97,7 +97,7 @@ const selectTier = (selectedTier) => {
                         <div class="grid-item alpha">70</div>
                         <div class="grid-item name gamma beta alpha">
                             <div class="unlock">
-                                <img src="" />
+                                <img src="@/../../Client/src/assets/artifacts/Artifact_of_the_Clever.png" />
                                 <p>Artifact of the Clever</p>
                             </div>
                         </div>
@@ -106,7 +106,7 @@ const selectTier = (selectedTier) => {
                         <div class="grid-item alpha">1</div>
                         <div class="grid-item name gamma beta alpha">
                             <div class="unlock">
-                                <img src="" />
+                                <img src="@/../../Client/src/assets/artifacts/Artifact_of_the_Hunter.png" />
                                 <p>Artifact of the Hunter</p>
                             </div>
                         </div>
@@ -115,7 +115,7 @@ const selectTier = (selectedTier) => {
                         <div class="grid-item alpha">1</div>
                         <div class="grid-item name gamma beta alpha">
                             <div class="unlock">
-                                <img src="" />
+                                <img src="@/../../Client/src/assets/artifacts/Artifact_of_the_Massive.png" />
                                 <p>Artifact of the Massive</p>
                             </div>
                         </div>
@@ -124,7 +124,7 @@ const selectTier = (selectedTier) => {
                         <div class="grid-item alpha">1</div>
                         <div class="grid-item name beta alpha">
                             <div class="unlock">
-                                <img src="" />
+                                <img src="@/../../Client/src/assets/trophies/Argentavis_Talon.webp" />
                                 <p>Argentavis Talon</p>
                             </div>
                         </div>
@@ -133,7 +133,7 @@ const selectTier = (selectedTier) => {
                         <div class="grid-item alpha">10</div>
                         <div class="grid-item name beta alpha">
                             <div class="unlock">
-                                <img src="" />
+                                <img src="@/../../Client/src/assets/trophies/Sarcosuchus_Skin.webp" />
                                 <p>Sarcosuchus Skin</p>
                             </div>
                         </div>
@@ -142,7 +142,7 @@ const selectTier = (selectedTier) => {
                         <div class="grid-item alpha">10</div>
                         <div class="grid-item name beta alpha">
                             <div class="unlock">
-                                <img src="" />
+                                <img src="@/../../Client/src/assets/trophies/Sauropod_Vertebra.webp" />
                                 <p>Sauropod Vertebra</p>
                             </div>
                         </div>
@@ -151,7 +151,7 @@ const selectTier = (selectedTier) => {
                         <div class="grid-item alpha">10</div>
                         <div class="grid-item name beta alpha">
                             <div class="unlock">
-                                <img src="" />
+                                <img src="@/../../Client/src/assets/trophies/Titanoboa_Venom.webp" />
                                 <p>Titanboa Venom</p>
                             </div>
                         </div>
@@ -164,12 +164,17 @@ const selectTier = (selectedTier) => {
 
                     <div style="display: flex; justify-content: center; align-items: center; gap: 10px;">
                         <h2>Rewards</h2>
-                        <img src="https://ark.wiki.gg/images/a/a5/Element.png" alt="" width="25">
                     </div>
                     <div class="rewards-grid">
+                        <div class="grid-title">Item</div>
                         <div class="grid-item tier gamma" @click="selectTier('gamma')">Gamma</div>
                         <div class="grid-item tier beta" @click="selectTier('beta')">Beta</div>
                         <div class="grid-item tier alpha" @click="selectTier('alpha')">Alpha</div>
+                        <div class="grid-title">
+                            <img src="https://ark.wiki.gg/images/a/a5/Element.png" alt="" width="20">
+
+                            Element
+                        </div>
                         <div class="grid-item gamma">20</div>
                         <div class="grid-item beta">56</div>
                         <div class="grid-item alpha">148</div>
@@ -211,7 +216,7 @@ const selectTier = (selectedTier) => {
                     </div>
                     <div class="grid-item name gamma beta alpha">
                         <div class="unlock">
-                            <img src="" />
+                            <img src="@/../../Client/src/assets/engrams/Tek_Replicator.webp">
                             <p>Tek Replicator</p>
                         </div>
                     </div>
@@ -222,7 +227,7 @@ const selectTier = (selectedTier) => {
                     <div class="grid-item alpha"><i class="bx bx-check"></i></div>
                     <div class="grid-item name gamma beta alpha">
                         <div class="unlock">
-                            <img src="" />
+                            <img src="@/../../Client/src/assets/engrams/Tek_Foundation.webp">
                             <p>Tek Foundation</p>
                         </div>
                     </div>
@@ -233,8 +238,8 @@ const selectTier = (selectedTier) => {
                     <div class="grid-item alpha"><i class="bx bx-check"></i></div>
                     <div class="grid-item name gamma beta alpha">
                         <div class="unlock">
-                            <img src="" />
-                            <p>Tke Triangle Foundation</p>
+                            <img src="@/../../Client/src/assets/engrams/Tek_Triangle_Ceiling.png">
+                            <p>Tek Triangle Ceiling</p>
                         </div>
                     </div>
                     <div class="grid-item gamma">
@@ -244,8 +249,8 @@ const selectTier = (selectedTier) => {
                     <div class="grid-item alpha"><i class="bx bx-check"></i></div>
                     <div class="grid-item name gamma beta alpha">
                         <div class="unlock">
-                            <img src="" />
-                            <p>Tek Triangle Roof / Corner</p>
+                            <img src="@/../../Client/src/assets/engrams/Tek_Triangle_Foundation.png">
+                            <p>Tek Triangle Foundation</p>
                         </div>
                     </div>
                     <div class="grid-item gamma">
@@ -255,8 +260,8 @@ const selectTier = (selectedTier) => {
                     <div class="grid-item alpha"><i class="bx bx-check"></i></div>
                     <div class="grid-item name gamma beta alpha">
                         <div class="unlock">
-                            <img src="" />
-                            <p>Tek Quarter / Triangle Ceiling</p>
+                            <img src="@/../../Client/src/assets/engrams/Tek_Triangle_Roof.png">
+                            <p>Tek Triangle Roof</p>
                         </div>
                     </div>
                     <div class="grid-item gamma">
@@ -266,62 +271,7 @@ const selectTier = (selectedTier) => {
                     <div class="grid-item alpha"><i class="bx bx-check"></i></div>
                     <div class="grid-item name beta alpha">
                         <div class="unlock">
-                            <img src="" />
-                            <p>Tek Pillar</p>
-                        </div>
-                    </div>
-                    <div class="grid-item"><i class="bx bx-x"></i></div>
-                    <div class="grid-item beta"><i class="bx bx-check"></i></div>
-                    <div class="grid-item alpha"><i class="bx bx-check"></i></div>
-                    <div class="grid-item name beta alpha">
-                        <div class="unlock">
-                            <img src="" />
-                            <p>Tek Wall / Doorway / Window</p>
-                        </div>
-                    </div>
-                    <div class="grid-item"><i class="bx bx-x"></i></div>
-                    <div class="grid-item beta"><i class="bx bx-check"></i></div>
-                    <div class="grid-item alpha"><i class="bx bx-check"></i></div>
-                    <div class="grid-item name beta alpha">
-                        <div class="unlock">
-                            <img src="" />
-                            <p>Tek Ceiling / Hatchframe</p>
-                        </div>
-                    </div>
-                    <div class="grid-item"><i class="bx bx-x"></i></div>
-                    <div class="grid-item beta"><i class="bx bx-check"></i></div>
-                    <div class="grid-item alpha"><i class="bx bx-check"></i></div>
-                    <div class="grid-item name beta alpha">
-                        <div class="unlock">
-                            <img src="" />
-                            <p>Tek Quarter Wall / Railing</p>
-                        </div>
-                    </div>
-                    <div class="grid-item"><i class="bx bx-x"></i></div>
-                    <div class="grid-item beta"><i class="bx bx-check"></i></div>
-                    <div class="grid-item alpha"><i class="bx bx-check"></i></div>
-                    <div class="grid-item name beta alpha">
-                        <div class="unlock">
-                            <img src="" />
-                            <p>Tke Sloped Wall</p>
-                        </div>
-                    </div>
-                    <div class="grid-item"><i class="bx bx-x"></i></div>
-                    <div class="grid-item beta"><i class="bx bx-check"></i></div>
-                    <div class="grid-item alpha"><i class="bx bx-check"></i></div>
-                    <div class="grid-item name beta alpha">
-                        <div class="unlock">
-                            <img
-                                src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQZElQ26BEIQ1lkpAu5oEdXbhoW-hCAOJMLMw&s" />
-                            <p>Tek Ladder</p>
-                        </div>
-                    </div>
-                    <div class="grid-item"><i class="bx bx-x"></i></div>
-                    <div class="grid-item beta"><i class="bx bx-check"></i></div>
-                    <div class="grid-item alpha"><i class="bx bx-check"></i></div>
-                    <div class="grid-item name beta alpha">
-                        <div class="unlock">
-                            <img src="https://ark.wiki.gg/images/1/1b/Tek_Boots.png" />
+                            <img src="@/../../Client/src/assets/engrams/Tek_Boots.webp">
                             <p>Tek Boots</p>
                         </div>
                     </div>
@@ -330,8 +280,8 @@ const selectTier = (selectedTier) => {
                     <div class="grid-item alpha"><i class="bx bx-check"></i></div>
                     <div class="grid-item name beta alpha">
                         <div class="unlock">
-                            <img src="" />
-                            <p>Tek Turrets</p>
+                            <img src="@/../../Client/src/assets/engrams/Tek_Catwalk.png">
+                            <p>Tek Catwalk</p>
                         </div>
                     </div>
                     <div class="grid-item"><i class="bx bx-x"></i></div>
@@ -339,91 +289,127 @@ const selectTier = (selectedTier) => {
                     <div class="grid-item alpha"><i class="bx bx-check"></i></div>
                     <div class="grid-item name beta alpha">
                         <div class="unlock">
-                            <img src="" />
+                            <img src="@/../../Client/src/assets/engrams/Tek_Ceiling.png">
+                            <p>Tek Ceiling</p>
+                        </div>
+                    </div>
+                    <div class="grid-item"><i class="bx bx-x"></i></div>
+                    <div class="grid-item beta"><i class="bx bx-check"></i></div>
+                    <div class="grid-item alpha"><i class="bx bx-check"></i></div>
+                    <div class="grid-item name beta alpha">
+                        <div class="unlock">
+                            <img src="@/../../Client/src/assets/engrams/Tek_Fence_Foundation.png">
+                            <p>Tek Fence Foundation</p>
+                        </div>
+                    </div>
+                    <div class="grid-item"><i class="bx bx-x"></i></div>
+                    <div class="grid-item beta"><i class="bx bx-check"></i></div>
+                    <div class="grid-item alpha"><i class="bx bx-check"></i></div>
+                    <div class="grid-item name beta alpha">
+                        <div class="unlock">
+                            <img src="@/../../Client/src/assets/engrams/Tek_Ladder.png">
+                            <p>Tek Ladder</p>
+                        </div>
+                    </div>
+                    <div class="grid-item"><i class="bx bx-x"></i></div>
+                    <div class="grid-item beta"><i class="bx bx-check"></i></div>
+                    <div class="grid-item alpha"><i class="bx bx-check"></i></div>
+                    <div class="grid-item name beta alpha">
+                        <div class="unlock">
+                            <img src="@/../../Client/src/assets/engrams/Tek_Pillar.png">
+                            <p>Tek Pillar</p>
+                        </div>
+                    </div>
+                    <div class="grid-item"><i class="bx bx-x"></i></div>
+                    <div class="grid-item beta"><i class="bx bx-check"></i></div>
+                    <div class="grid-item alpha"><i class="bx bx-check"></i></div>
+                    <div class="grid-item name beta alpha">
+                        <div class="unlock">
+                            <img src="@/../../Client/src/assets/engrams/Tek_Railing.png">
+                            <p>Tek Railing</p>
+                        </div>
+                    </div>
+                    <div class="grid-item"><i class="bx bx-x"></i></div>
+                    <div class="grid-item beta"><i class="bx bx-check"></i></div>
+                    <div class="grid-item alpha"><i class="bx bx-check"></i></div>
+                    <div class="grid-item name beta alpha">
+                        <div class="unlock">
+                            <img src="@/../../Client/src/assets/engrams/Tek_Ramp.png">
+                            <p>Tek Ramp</p>
+                        </div>
+                    </div>
+                    <div class="grid-item"><i class="bx bx-x"></i></div>
+                    <div class="grid-item beta"><i class="bx bx-check"></i></div>
+                    <div class="grid-item alpha"><i class="bx bx-check"></i></div>
+                    <div class="grid-item name beta alpha">
+                        <div class="unlock">
+                            <img src="@/../../Client/src/assets/engrams/Tek_Sloped_Roof.png">
+                            <p>Tek Sloped Roof</p>
+                        </div>
+                    </div>
+                    <div class="grid-item"><i class="bx bx-x"></i></div>
+                    <div class="grid-item beta"><i class="bx bx-check"></i></div>
+                    <div class="grid-item alpha"><i class="bx bx-check"></i></div>
+                    <div class="grid-item name beta alpha">
+                        <div class="unlock">
+                            <img src="@/../../Client/src/assets/engrams/Tek_Sloped_Wall_Left.png">
+                            <p>Tek Sloped Wall Left</p>
+                        </div>
+                    </div>
+                    <div class="grid-item"><i class="bx bx-x"></i></div>
+                    <div class="grid-item beta"><i class="bx bx-check"></i></div>
+                    <div class="grid-item alpha"><i class="bx bx-check"></i></div>
+                    <div class="grid-item name beta alpha">
+                        <div class="unlock">
+                            <img src="@/../../Client/src/assets/engrams/Tek_Sloped_Wall_Right.png">
+                            <p>Tek Sloped Wall Right</p>
+                        </div>
+                    </div>
+                    <div class="grid-item"><i class="bx bx-x"></i></div>
+                    <div class="grid-item beta"><i class="bx bx-check"></i></div>
+                    <div class="grid-item alpha"><i class="bx bx-check"></i></div>
+                    <div class="grid-item name beta alpha">
+                        <div class="unlock">
+                            <img src="@/../../Client/src/assets/engrams/Tek_Staircase.png">
+                            <p>Tek Staircase</p>
+                        </div>
+                    </div>
+                    <div class="grid-item"><i class="bx bx-x"></i></div>
+                    <div class="grid-item beta"><i class="bx bx-check"></i></div>
+                    <div class="grid-item alpha"><i class="bx bx-check"></i></div>
+                    <div class="grid-item name beta alpha">
+                        <div class="unlock">
+                            <img src="@/../../Client/src/assets/engrams/Tek_Wall.png">
+                            <p>Tek Wall</p>
+                        </div>
+                    </div>
+                    <div class="grid-item"><i class="bx bx-x"></i></div>
+                    <div class="grid-item beta"><i class="bx bx-check"></i></div>
+                    <div class="grid-item alpha"><i class="bx bx-check"></i></div>
+                    <div class="grid-item name beta alpha">
+                        <div class="unlock">
+                            <img src="@/../../Client/src/assets/engrams/Tek_Helmet.png">
                             <p>Tek Helmet</p>
                         </div>
                     </div>
                     <div class="grid-item"><i class="bx bx-x"></i></div>
-                    <div class="grid-item beta"><i class="bx bx-check"></i></div>
+                    <div class="grid-item beta"><i class="bx bx-x"></i></div>
                     <div class="grid-item alpha"><i class="bx bx-check"></i></div>
                     <div class="grid-item name beta alpha">
                         <div class="unlock">
-                            <img src="" />
-                            <p>Mosasaur Tek Saddle</p>
-                        </div>
-                    </div>
-                    <!-- <div class="grid-item"><i class="bx bx-x"></i></div>
-                    <div class="grid-item beta"><i class="bx bx-check"></i></div>
-                    <div class="grid-item alpha"><i class="bx bx-check"></i></div>
-                    <div class="grid-item name beta alpha">
-                        <div class="unlock">
-                            <img src="" />
-                            <p>Item Name</p>
+                            <img src="@/../../Client/src/assets/engrams/Tek_Mosasaur_Saddle.png">
+                            <p>Tek Mosasaur Saddle</p>
                         </div>
                     </div>
                     <div class="grid-item"><i class="bx bx-x"></i></div>
-                    <div class="grid-item beta"><i class="bx bx-check"></i></div>
-                    <div class="grid-item alpha"><i class="bx bx-check"></i></div>
-                    <div class="grid-item name beta alpha">
-                        <div class="unlock">
-                            <img src="" />
-                            <p>Item Name</p>
-                        </div>
-                    </div>
-                    <div class="grid-item"><i class="bx bx-x"></i></div>
-                    <div class="grid-item beta"><i class="bx bx-check"></i></div>
-                    <div class="grid-item alpha"><i class="bx bx-check"></i></div>
-                    <div class="grid-item name beta alpha">
-                        <div class="unlock">
-                            <img src="" />
-                            <p>Item Name</p>
-                        </div>
-                    </div>
-                    <div class="grid-item"><i class="bx bx-x"></i></div>
-                    <div class="grid-item beta"><i class="bx bx-check"></i></div>
-                    <div class="grid-item alpha"><i class="bx bx-check"></i></div>
-                    <div class="grid-item name beta alpha">
-                        <div class="unlock">
-                            <img src="" />
-                            <p>Item Name</p>
-                        </div>
-                    </div>
-                    <div class="grid-item"><i class="bx bx-x"></i></div>
-                    <div class="grid-item beta"><i class="bx bx-check"></i></div>
-                    <div class="grid-item alpha"><i class="bx bx-check"></i></div>
-                    <div class="grid-item name beta alpha">
-                        <div class="unlock">
-                            <img src="" />
-                            <p>Item Name</p>
-                        </div>
-                    </div>
-                    <div class="grid-item"><i class="bx bx-x"></i></div>
-                    <div class="grid-item beta"><i class="bx bx-check"></i></div>
+                    <div class="grid-item beta"><i class="bx bx-x"></i></div>
                     <div class="grid-item alpha"><i class="bx bx-check"></i></div>
                     <div class="grid-item name alpha">
                         <div class="unlock">
-                            <img src="" />
-                            <p>Item Name</p>
+                            <img src="@/../../Client/src/assets/engrams/Tek_Turret.png">
+                            <p>Tek Turret</p>
                         </div>
                     </div>
-                    <div class="grid-item"><i class="bx bx-x"></i></div>
-                    <div class="grid-item"><i class="bx bx-x"></i></div>
-                    <div class="grid-item alpha"><i class="bx bx-check"></i></div>
-                    <div class="grid-item name alpha">
-                        <div class="unlock">
-                            <img src="" />
-                            <p>Item Name</p>
-                        </div>
-                    </div>
-                    <div class="grid-item"><i class="bx bx-x"></i></div>
-                    <div class="grid-item"><i class="bx bx-x"></i></div>
-                    <div class="grid-item alpha"><i class="bx bx-check"></i></div>
-                    <div class="grid-item name alpha">
-                        <div class="unlock">
-                            <img src="" />
-                            <p>Item Name</p>
-                        </div>
-                    </div> -->
                     <div class="grid-item"><i class="bx bx-x"></i></div>
                     <div class="grid-item"><i class="bx bx-x"></i></div>
                     <div class="grid-item alpha"><i class="bx bx-check"></i></div>
@@ -464,6 +450,7 @@ const selectTier = (selectedTier) => {
     /* overflow: hidden; */
     margin: 2px;
     background-color: rgba(255, 255, 255, 0.05);
+    padding: 0 .5em;
 }
 
 .grid-item {
@@ -520,7 +507,7 @@ const selectTier = (selectedTier) => {
 
 .rewards-grid {
     display: grid;
-    grid-template-columns: repeat(3, auto);
+    grid-template-columns: repeat(4, auto);
     grid-template-rows: auto;
     text-align: center;
     margin-bottom: 2em;

@@ -56,7 +56,9 @@ const selectTier = (selectedTier) => {
 <template>
     <div>
         <div class="header">
-            <h2>Section Header</h2>
+            <h2>Megapithecus</h2>
+            <img src="@/assets/bosses/megapithecus.png" class="item-img" width="200px" style="margin: 0 auto;" />
+
             <div class="difficulty">
                 <button id="gamma-btn" class="gamma" @click="selectTier('gamma')">Gamma</button>
                 <button id="beta-btn" class="beta" @click="selectTier('beta')">Beta</button>
@@ -89,54 +91,77 @@ const selectTier = (selectedTier) => {
                             </div>
                         </div>
                         <div class="grid-item name gamma beta alpha">Player Level</div>
-                        <div class="grid-item gamma">30</div>
-                        <div class="grid-item beta">30</div>
-                        <div class="grid-item alpha">70</div>
+                        <div class="grid-item gamma">45</div>
+                        <div class="grid-item beta">65</div>
+                        <div class="grid-item alpha">85</div>
                         <div class="grid-item name gamma beta alpha">
-                            <img src="" />
-                            <p>Item Name</p>
+                            <div class="unlock">
+                                <img src="@/../../Client/src/assets/artifacts/Artifact_of_the_Brute.png" />
+                                <p>Artifact of the Brute</p>
+                            </div>
                         </div>
                         <div class="grid-item gamma">1</div>
                         <div class="grid-item beta">1</div>
                         <div class="grid-item alpha">1</div>
                         <div class="grid-item name gamma beta alpha">
-                            <img src="" />
-                            <p>Item Name</p>
+                            <div class="unlock">
+                                <img src="@/../../Client/src/assets/artifacts/Artifact_of_the_Devourer.png" />
+                                <p>Artifact of the Devourer</p>
+                            </div>
                         </div>
                         <div class="grid-item gamma">1</div>
                         <div class="grid-item beta">1</div>
                         <div class="grid-item alpha">1</div>
                         <div class="grid-item name gamma beta alpha">
-                            <img src="" />
-                            <p>Item Name</p>
+                            <div class="unlock">
+                                <img src="@/../../Client/src/assets/artifacts/Artifact_of_the_Pack.png" />
+                                <p>Artifact of the Pack</p>
+                            </div>
                         </div>
                         <div class="grid-item gamma">1</div>
                         <div class="grid-item beta">1</div>
                         <div class="grid-item alpha">1</div>
                         <div class="grid-item name beta alpha">
-                            <img src="" />
-                            <p>Item Name</p>
+                            <div class="unlock">
+                                <img src="@/../../Client/src/assets/trophies/Megalania_Toxin.png" />
+                                <p>Megalania Toxin</p>
+                            </div>
                         </div>
                         <div class="grid-item">-</div>
                         <div class="grid-item beta">5</div>
                         <div class="grid-item alpha">10</div>
                         <div class="grid-item name beta alpha">
-                            <img src="" />
-                            <p>Item Name</p>
+                            <div class="unlock">
+                                <img src="@/../../Client/src/assets/trophies/Megalodon_Tooth.png" />
+                                <p>Megalodon Tooth</p>
+                            </div>
                         </div>
                         <div class="grid-item">-</div>
                         <div class="grid-item beta">5</div>
                         <div class="grid-item alpha">10</div>
                         <div class="grid-item name beta alpha">
-                            <img src="" />
-                            <p>Item Name</p>
+                            <div class="unlock">
+                                <img src="@/../../Client/src/assets/trophies/Spinosaurus_Sail.png" />
+                                <p>Spinosaurus Sail</p>
+                            </div>
                         </div>
                         <div class="grid-item">-</div>
                         <div class="grid-item beta">5</div>
                         <div class="grid-item alpha">10</div>
                         <div class="grid-item name beta alpha">
-                            <img src="" />
-                            <p>Item Name</p>
+                            <div class="unlock">
+                                <img src="@/../../Client/src/assets/trophies/Therizino_Claws.png" />
+                                <p>Therizino Claws</p>
+                            </div>
+                        </div>
+                        <div class="grid-item">-</div>
+                        <div class="grid-item beta">5</div>
+                        <div class="grid-item alpha">10</div>
+                        <div class="grid-item name beta alpha">
+                            <div class="unlock">
+                                <img src="@/../../Client/src/assets/trophies/Thylacoleo_Hook-Claw.png" />
+                                <p>Thylacoleo Claw</p>
+                            </div>
                         </div>
                         <div class="grid-item">-</div>
                         <div class="grid-item beta">5</div>
@@ -144,29 +169,41 @@ const selectTier = (selectedTier) => {
                     </div>
                 </div>
                 <div class="rewards">
-                    <h2>Rewards</h2>
+
+                    <div style="display: flex; justify-content: center; align-items: center; gap: 10px;">
+                        <h2>Rewards</h2>
+                    </div>
                     <div class="rewards-grid">
+                        <div class="grid-title">Item</div>
                         <div class="grid-item tier gamma" @click="selectTier('gamma')">Gamma</div>
                         <div class="grid-item tier beta" @click="selectTier('beta')">Beta</div>
                         <div class="grid-item tier alpha" @click="selectTier('alpha')">Alpha</div>
+                        <div class="grid-title">
+                            <img src="https://ark.wiki.gg/images/a/a5/Element.png" alt="" width="20">
+
+                            Element
+                        </div>
                         <div class="grid-item gamma">20</div>
                         <div class="grid-item beta">56</div>
                         <div class="grid-item alpha">148</div>
                     </div>
                 </div>
-                <div class="stats">
+                <!-- <div class="stats">
                     <h2>Stats</h2>
                     <div class="stats-grid">
                         <div class="grid-item">Something</div>
                         <div class="grid-item">Something</div>
                         <div class="grid-item">Something</div>
                     </div>
-                </div>
+                </div> -->
             </div>
             <div class="column-two">
-                <h2>Item One</h2>
+                <h2>Engram Unlocks</h2>
                 <div class="unlocks-grid">
-                    <img src="" class="item-img" />
+                    <!-- <img src="https://www.dododex.com/media/creature/broodmotherlysrix.png" class="item-img" /> -->
+                    <div class="grid-item">
+                        Item
+                    </div>
                     <div class="grid-item tier gamma" @click="selectTier('gamma')">
                         <span class="vertical">
                             <i class="bx bxs-objects-vertical-bottom"></i>
@@ -187,8 +224,8 @@ const selectTier = (selectedTier) => {
                     </div>
                     <div class="grid-item name gamma beta alpha">
                         <div class="unlock">
-                            <img src="" />
-                            <p>Item Name</p>
+                            <img src="">
+                            <p></p>
                         </div>
                     </div>
                     <div class="grid-item gamma">
@@ -198,8 +235,8 @@ const selectTier = (selectedTier) => {
                     <div class="grid-item alpha"><i class="bx bx-check"></i></div>
                     <div class="grid-item name gamma beta alpha">
                         <div class="unlock">
-                            <img src="" />
-                            <p>Item Name</p>
+                            <img src="">
+                            <p></p>
                         </div>
                     </div>
                     <div class="grid-item gamma">
@@ -209,8 +246,8 @@ const selectTier = (selectedTier) => {
                     <div class="grid-item alpha"><i class="bx bx-check"></i></div>
                     <div class="grid-item name gamma beta alpha">
                         <div class="unlock">
-                            <img src="" />
-                            <p>Item Name</p>
+                            <img src="">
+                            <p></p>
                         </div>
                     </div>
                     <div class="grid-item gamma">
@@ -220,8 +257,8 @@ const selectTier = (selectedTier) => {
                     <div class="grid-item alpha"><i class="bx bx-check"></i></div>
                     <div class="grid-item name gamma beta alpha">
                         <div class="unlock">
-                            <img src="" />
-                            <p>Item Name</p>
+                            <img src="">
+                            <p></p>
                         </div>
                     </div>
                     <div class="grid-item gamma">
@@ -231,8 +268,8 @@ const selectTier = (selectedTier) => {
                     <div class="grid-item alpha"><i class="bx bx-check"></i></div>
                     <div class="grid-item name gamma beta alpha">
                         <div class="unlock">
-                            <img src="" />
-                            <p>Item Name</p>
+                            <img src="">
+                            <p></p>
                         </div>
                     </div>
                     <div class="grid-item gamma">
@@ -242,8 +279,8 @@ const selectTier = (selectedTier) => {
                     <div class="grid-item alpha"><i class="bx bx-check"></i></div>
                     <div class="grid-item name beta alpha">
                         <div class="unlock">
-                            <img src="" />
-                            <p>Item Name</p>
+                            <img src="">
+                            <p></p>
                         </div>
                     </div>
                     <div class="grid-item"><i class="bx bx-x"></i></div>
@@ -251,8 +288,8 @@ const selectTier = (selectedTier) => {
                     <div class="grid-item alpha"><i class="bx bx-check"></i></div>
                     <div class="grid-item name beta alpha">
                         <div class="unlock">
-                            <img src="" />
-                            <p>Item Name</p>
+                            <img src="">
+                            <p></p>
                         </div>
                     </div>
                     <div class="grid-item"><i class="bx bx-x"></i></div>
@@ -260,8 +297,8 @@ const selectTier = (selectedTier) => {
                     <div class="grid-item alpha"><i class="bx bx-check"></i></div>
                     <div class="grid-item name beta alpha">
                         <div class="unlock">
-                            <img src="" />
-                            <p>Item Name</p>
+                            <img src="">
+                            <p></p>
                         </div>
                     </div>
                     <div class="grid-item"><i class="bx bx-x"></i></div>
@@ -269,8 +306,8 @@ const selectTier = (selectedTier) => {
                     <div class="grid-item alpha"><i class="bx bx-check"></i></div>
                     <div class="grid-item name beta alpha">
                         <div class="unlock">
-                            <img src="" />
-                            <p>Item Name</p>
+                            <img src="">
+                            <p></p>
                         </div>
                     </div>
                     <div class="grid-item"><i class="bx bx-x"></i></div>
@@ -278,8 +315,8 @@ const selectTier = (selectedTier) => {
                     <div class="grid-item alpha"><i class="bx bx-check"></i></div>
                     <div class="grid-item name beta alpha">
                         <div class="unlock">
-                            <img src="" />
-                            <p>Item Name</p>
+                            <img src="">
+                            <p></p>
                         </div>
                     </div>
                     <div class="grid-item"><i class="bx bx-x"></i></div>
@@ -287,8 +324,8 @@ const selectTier = (selectedTier) => {
                     <div class="grid-item alpha"><i class="bx bx-check"></i></div>
                     <div class="grid-item name beta alpha">
                         <div class="unlock">
-                            <img src="" />
-                            <p>Item Name</p>
+                            <img src="">
+                            <p></p>
                         </div>
                     </div>
                     <div class="grid-item"><i class="bx bx-x"></i></div>
@@ -296,8 +333,8 @@ const selectTier = (selectedTier) => {
                     <div class="grid-item alpha"><i class="bx bx-check"></i></div>
                     <div class="grid-item name beta alpha">
                         <div class="unlock">
-                            <img src="" />
-                            <p>Item Name</p>
+                            <img src="">
+                            <p></p>
                         </div>
                     </div>
                     <div class="grid-item"><i class="bx bx-x"></i></div>
@@ -305,8 +342,8 @@ const selectTier = (selectedTier) => {
                     <div class="grid-item alpha"><i class="bx bx-check"></i></div>
                     <div class="grid-item name beta alpha">
                         <div class="unlock">
-                            <img src="" />
-                            <p>Item Name</p>
+                            <img src="">
+                            <p></p>
                         </div>
                     </div>
                     <div class="grid-item"><i class="bx bx-x"></i></div>
@@ -314,8 +351,8 @@ const selectTier = (selectedTier) => {
                     <div class="grid-item alpha"><i class="bx bx-check"></i></div>
                     <div class="grid-item name beta alpha">
                         <div class="unlock">
-                            <img src="" />
-                            <p>Item Name</p>
+                            <img src="">
+                            <p></p>
                         </div>
                     </div>
                     <div class="grid-item"><i class="bx bx-x"></i></div>
@@ -323,8 +360,8 @@ const selectTier = (selectedTier) => {
                     <div class="grid-item alpha"><i class="bx bx-check"></i></div>
                     <div class="grid-item name beta alpha">
                         <div class="unlock">
-                            <img src="" />
-                            <p>Item Name</p>
+                            <img src="">
+                            <p></p>
                         </div>
                     </div>
                     <div class="grid-item"><i class="bx bx-x"></i></div>
@@ -332,8 +369,8 @@ const selectTier = (selectedTier) => {
                     <div class="grid-item alpha"><i class="bx bx-check"></i></div>
                     <div class="grid-item name beta alpha">
                         <div class="unlock">
-                            <img src="" />
-                            <p>Item Name</p>
+                            <img src="">
+                            <p></p>
                         </div>
                     </div>
                     <div class="grid-item"><i class="bx bx-x"></i></div>
@@ -341,8 +378,8 @@ const selectTier = (selectedTier) => {
                     <div class="grid-item alpha"><i class="bx bx-check"></i></div>
                     <div class="grid-item name beta alpha">
                         <div class="unlock">
-                            <img src="" />
-                            <p>Item Name</p>
+                            <img src="">
+                            <p></p>
                         </div>
                     </div>
                     <div class="grid-item"><i class="bx bx-x"></i></div>
@@ -350,8 +387,8 @@ const selectTier = (selectedTier) => {
                     <div class="grid-item alpha"><i class="bx bx-check"></i></div>
                     <div class="grid-item name beta alpha">
                         <div class="unlock">
-                            <img src="" />
-                            <p>Item Name</p>
+                            <img src="">
+                            <p></p>
                         </div>
                     </div>
                     <div class="grid-item"><i class="bx bx-x"></i></div>
@@ -359,44 +396,26 @@ const selectTier = (selectedTier) => {
                     <div class="grid-item alpha"><i class="bx bx-check"></i></div>
                     <div class="grid-item name beta alpha">
                         <div class="unlock">
-                            <img src="" />
-                            <p>Item Name</p>
+                            <img src="">
+                            <p></p>
                         </div>
                     </div>
                     <div class="grid-item"><i class="bx bx-x"></i></div>
-                    <div class="grid-item beta"><i class="bx bx-check"></i></div>
+                    <div class="grid-item beta"><i class="bx bx-x"></i></div>
                     <div class="grid-item alpha"><i class="bx bx-check"></i></div>
                     <div class="grid-item name beta alpha">
                         <div class="unlock">
-                            <img src="" />
-                            <p>Item Name</p>
+                            <img src="">
+                            <p></p>
                         </div>
                     </div>
                     <div class="grid-item"><i class="bx bx-x"></i></div>
-                    <div class="grid-item beta"><i class="bx bx-check"></i></div>
+                    <div class="grid-item beta"><i class="bx bx-x"></i></div>
                     <div class="grid-item alpha"><i class="bx bx-check"></i></div>
                     <div class="grid-item name alpha">
                         <div class="unlock">
-                            <img src="" />
-                            <p>Item Name</p>
-                        </div>
-                    </div>
-                    <div class="grid-item"><i class="bx bx-x"></i></div>
-                    <div class="grid-item"><i class="bx bx-x"></i></div>
-                    <div class="grid-item alpha"><i class="bx bx-check"></i></div>
-                    <div class="grid-item name alpha">
-                        <div class="unlock">
-                            <img src="" />
-                            <p>Item Name</p>
-                        </div>
-                    </div>
-                    <div class="grid-item"><i class="bx bx-x"></i></div>
-                    <div class="grid-item"><i class="bx bx-x"></i></div>
-                    <div class="grid-item alpha"><i class="bx bx-check"></i></div>
-                    <div class="grid-item name alpha">
-                        <div class="unlock">
-                            <img src="" />
-                            <p>Item Name</p>
+                            <img src="">
+                            <p></p>
                         </div>
                     </div>
                     <div class="grid-item"><i class="bx bx-x"></i></div>
@@ -439,6 +458,7 @@ const selectTier = (selectedTier) => {
     /* overflow: hidden; */
     margin: 2px;
     background-color: rgba(255, 255, 255, 0.05);
+    padding: 0 .5em;
 }
 
 .grid-item {
@@ -495,7 +515,7 @@ const selectTier = (selectedTier) => {
 
 .rewards-grid {
     display: grid;
-    grid-template-columns: repeat(3, auto);
+    grid-template-columns: repeat(4, auto);
     grid-template-rows: auto;
     text-align: center;
     margin-bottom: 2em;
@@ -516,8 +536,9 @@ const selectTier = (selectedTier) => {
 }
 
 .unlocks-grid .item-img {
-    min-width: 200px;
-    min-height: 100px;
+    min-width: 50px;
+    min-height: 50px;
+    width: 150px;
     padding: 0.5em;
     box-sizing: border-box;
     outline: 1px solid black;
@@ -562,7 +583,7 @@ const selectTier = (selectedTier) => {
 .unlock {
     display: flex;
     flex-direction: row;
-    justify-content: center;
+    justify-content: flex-start;
     align-items: center;
     width: 100%;
 }

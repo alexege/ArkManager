@@ -16,6 +16,7 @@ import { useAuthStore } from '@/stores/auth.store'
 import TimerView from '@/views/TimerView.vue'
 import ShopView from '@/views/ShopView.vue'
 import BossView from '@/views/BossView.vue'
+import AdminSpawnCommands from '@/views/AdminSpawnCommands.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -109,6 +110,11 @@ const router = createRouter({
           component: () => import('@/views/boss/Dragon.vue')
         }
       ]
+    },
+    {
+      path: '/spawnCommands',
+      name: 'spawnCommands',
+      component: AdminSpawnCommands
     }
   ]
 })

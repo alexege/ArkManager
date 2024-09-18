@@ -188,20 +188,12 @@ const selectTier = (selectedTier) => {
                         <div class="grid-item alpha">148</div>
                     </div>
                 </div>
-                <!-- <div class="stats">
-                    <h2>Stats</h2>
-                    <div class="stats-grid">
-                        <div class="grid-item">Something</div>
-                        <div class="grid-item">Something</div>
-                        <div class="grid-item">Something</div>
-                    </div>
-                </div> -->
             </div>
             <div class="column-two">
                 <h2>Engram Unlocks</h2>
                 <div class="unlocks-grid">
                     <!-- <img src="https://www.dododex.com/media/creature/broodmotherlysrix.png" class="item-img" /> -->
-                    <div class="grid-item">
+                    <div class="grid-title">
                         Item
                     </div>
                     <div class="grid-item tier gamma" @click="selectTier('gamma')">
@@ -224,198 +216,107 @@ const selectTier = (selectedTier) => {
                     </div>
                     <div class="grid-item name gamma beta alpha">
                         <div class="unlock">
-                            <img src="">
-                            <p></p>
+                            <img src="@/../../Client/src/assets/engrams/Tek_Replicator.png">
+                            <p>Tek Replicator</p>
                         </div>
                     </div>
-                    <div class="grid-item gamma">
-                        <i class="bx bx-check"></i>
-                    </div>
+
+                    <div class="grid-item gamma"><i class="bx bx-check"></i></div>
                     <div class="grid-item beta"><i class="bx bx-check"></i></div>
                     <div class="grid-item alpha"><i class="bx bx-check"></i></div>
                     <div class="grid-item name gamma beta alpha">
                         <div class="unlock">
-                            <img src="">
-                            <p></p>
+                            <img src="@/../../Client/src/assets/engrams/Tek_Gauntlets.png">
+                            <p>Tek Gauntlets</p>
                         </div>
                     </div>
-                    <div class="grid-item gamma">
-                        <i class="bx bx-check"></i>
-                    </div>
+
+                    <div class="grid-item gamma"><i class="bx bx-check"></i></div>
                     <div class="grid-item beta"><i class="bx bx-check"></i></div>
                     <div class="grid-item alpha"><i class="bx bx-check"></i></div>
                     <div class="grid-item name gamma beta alpha">
                         <div class="unlock">
-                            <img src="">
-                            <p></p>
+                            <img src="@/../../Client/src/assets/engrams/Tek_Generator.png">
+                            <p>Tek Generator</p>
                         </div>
                     </div>
-                    <div class="grid-item gamma">
-                        <i class="bx bx-check"></i>
-                    </div>
+
+                    <div class="grid-item"><i class="bx bx-x"></i></div>
                     <div class="grid-item beta"><i class="bx bx-check"></i></div>
                     <div class="grid-item alpha"><i class="bx bx-check"></i></div>
                     <div class="grid-item name gamma beta alpha">
                         <div class="unlock">
-                            <img src="">
-                            <p></p>
+                            <img src="@/../../Client/src/assets/engrams/Tek_Dinosaur_Gateway.png">
+                            <p>Tek Dinosaur Gateway</p>
                         </div>
                     </div>
-                    <div class="grid-item gamma">
-                        <i class="bx bx-check"></i>
-                    </div>
+
+                    <div class="grid-item"><i class="bx bx-x"></i></div>
                     <div class="grid-item beta"><i class="bx bx-check"></i></div>
                     <div class="grid-item alpha"><i class="bx bx-check"></i></div>
                     <div class="grid-item name gamma beta alpha">
                         <div class="unlock">
-                            <img src="">
-                            <p></p>
+                            <img src="@/../../Client/src/assets/engrams/Tek_Dinosaur_Gate.png">
+                            <p>Tek Dinosaur Gate</p>
                         </div>
                     </div>
-                    <div class="grid-item gamma">
-                        <i class="bx bx-check"></i>
-                    </div>
-                    <div class="grid-item beta"><i class="bx bx-check"></i></div>
-                    <div class="grid-item alpha"><i class="bx bx-check"></i></div>
-                    <div class="grid-item name beta alpha">
-                        <div class="unlock">
-                            <img src="">
-                            <p></p>
-                        </div>
-                    </div>
+
                     <div class="grid-item"><i class="bx bx-x"></i></div>
                     <div class="grid-item beta"><i class="bx bx-check"></i></div>
                     <div class="grid-item alpha"><i class="bx bx-check"></i></div>
-                    <div class="grid-item name beta alpha">
+                    <div class="grid-item name gamma beta alpha">
                         <div class="unlock">
-                            <img src="">
-                            <p></p>
+                            <img src="@/../../Client/src/assets/engrams/Tek_Large_Cellar_Door.png">
+                            <p>Tek Large Cellar Door</p>
                         </div>
                     </div>
                     <div class="grid-item"><i class="bx bx-x"></i></div>
                     <div class="grid-item beta"><i class="bx bx-check"></i></div>
                     <div class="grid-item alpha"><i class="bx bx-check"></i></div>
-                    <div class="grid-item name beta alpha">
+                    <div class="grid-item name gamma beta alpha">
                         <div class="unlock">
-                            <img src="">
-                            <p></p>
+                            <img src="@/../../Client/src/assets/engrams/Tek_Trough.png">
+                            <p>Tek Trough</p>
                         </div>
                     </div>
+
                     <div class="grid-item"><i class="bx bx-x"></i></div>
                     <div class="grid-item beta"><i class="bx bx-check"></i></div>
                     <div class="grid-item alpha"><i class="bx bx-check"></i></div>
-                    <div class="grid-item name beta alpha">
+                    <div class="grid-item name gamma beta alpha">
                         <div class="unlock">
-                            <img src="">
-                            <p></p>
+                            <img src="@/../../Client/src/assets/engrams/Tek_Rifle.png">
+                            <p>Tek Rifle</p>
                         </div>
                     </div>
+
                     <div class="grid-item"><i class="bx bx-x"></i></div>
                     <div class="grid-item beta"><i class="bx bx-check"></i></div>
                     <div class="grid-item alpha"><i class="bx bx-check"></i></div>
-                    <div class="grid-item name beta alpha">
+                    <div class="grid-item name gamma beta alpha">
                         <div class="unlock">
-                            <img src="">
-                            <p></p>
+                            <img src="@/../../Client/src/assets/engrams/Tek_Large_Wall.png">
+                            <p>Tek Large Wall</p>
                         </div>
                     </div>
                     <div class="grid-item"><i class="bx bx-x"></i></div>
-                    <div class="grid-item beta"><i class="bx bx-check"></i></div>
+                    <div class="grid-item"><i class="bx bx-x"></i></div>
                     <div class="grid-item alpha"><i class="bx bx-check"></i></div>
-                    <div class="grid-item name beta alpha">
+
+                    <div class="grid-item name gamma beta alpha">
                         <div class="unlock">
-                            <img src="">
-                            <p></p>
+                            <img src="@/../../Client/src/assets/engrams/Tek_Grenade.png">
+                            <p>Tek Grenade</p>
                         </div>
                     </div>
                     <div class="grid-item"><i class="bx bx-x"></i></div>
-                    <div class="grid-item beta"><i class="bx bx-check"></i></div>
-                    <div class="grid-item alpha"><i class="bx bx-check"></i></div>
-                    <div class="grid-item name beta alpha">
-                        <div class="unlock">
-                            <img src="">
-                            <p></p>
-                        </div>
-                    </div>
                     <div class="grid-item"><i class="bx bx-x"></i></div>
-                    <div class="grid-item beta"><i class="bx bx-check"></i></div>
                     <div class="grid-item alpha"><i class="bx bx-check"></i></div>
-                    <div class="grid-item name beta alpha">
+
+                    <div class="grid-item name gamma beta alpha">
                         <div class="unlock">
-                            <img src="">
-                            <p></p>
-                        </div>
-                    </div>
-                    <div class="grid-item"><i class="bx bx-x"></i></div>
-                    <div class="grid-item beta"><i class="bx bx-check"></i></div>
-                    <div class="grid-item alpha"><i class="bx bx-check"></i></div>
-                    <div class="grid-item name beta alpha">
-                        <div class="unlock">
-                            <img src="">
-                            <p></p>
-                        </div>
-                    </div>
-                    <div class="grid-item"><i class="bx bx-x"></i></div>
-                    <div class="grid-item beta"><i class="bx bx-check"></i></div>
-                    <div class="grid-item alpha"><i class="bx bx-check"></i></div>
-                    <div class="grid-item name beta alpha">
-                        <div class="unlock">
-                            <img src="">
-                            <p></p>
-                        </div>
-                    </div>
-                    <div class="grid-item"><i class="bx bx-x"></i></div>
-                    <div class="grid-item beta"><i class="bx bx-check"></i></div>
-                    <div class="grid-item alpha"><i class="bx bx-check"></i></div>
-                    <div class="grid-item name beta alpha">
-                        <div class="unlock">
-                            <img src="">
-                            <p></p>
-                        </div>
-                    </div>
-                    <div class="grid-item"><i class="bx bx-x"></i></div>
-                    <div class="grid-item beta"><i class="bx bx-check"></i></div>
-                    <div class="grid-item alpha"><i class="bx bx-check"></i></div>
-                    <div class="grid-item name beta alpha">
-                        <div class="unlock">
-                            <img src="">
-                            <p></p>
-                        </div>
-                    </div>
-                    <div class="grid-item"><i class="bx bx-x"></i></div>
-                    <div class="grid-item beta"><i class="bx bx-check"></i></div>
-                    <div class="grid-item alpha"><i class="bx bx-check"></i></div>
-                    <div class="grid-item name beta alpha">
-                        <div class="unlock">
-                            <img src="">
-                            <p></p>
-                        </div>
-                    </div>
-                    <div class="grid-item"><i class="bx bx-x"></i></div>
-                    <div class="grid-item beta"><i class="bx bx-check"></i></div>
-                    <div class="grid-item alpha"><i class="bx bx-check"></i></div>
-                    <div class="grid-item name beta alpha">
-                        <div class="unlock">
-                            <img src="">
-                            <p></p>
-                        </div>
-                    </div>
-                    <div class="grid-item"><i class="bx bx-x"></i></div>
-                    <div class="grid-item beta"><i class="bx bx-x"></i></div>
-                    <div class="grid-item alpha"><i class="bx bx-check"></i></div>
-                    <div class="grid-item name beta alpha">
-                        <div class="unlock">
-                            <img src="">
-                            <p></p>
-                        </div>
-                    </div>
-                    <div class="grid-item"><i class="bx bx-x"></i></div>
-                    <div class="grid-item beta"><i class="bx bx-x"></i></div>
-                    <div class="grid-item alpha"><i class="bx bx-check"></i></div>
-                    <div class="grid-item name alpha">
-                        <div class="unlock">
-                            <img src="">
-                            <p></p>
+                            <img src="@/../../Client/src/assets/engrams/Tek_Rex_Saddle.png">
+                            <p>Tek Rex Saddle</p>
                         </div>
                     </div>
                     <div class="grid-item"><i class="bx bx-x"></i></div>

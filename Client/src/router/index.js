@@ -102,12 +102,20 @@ const router = createRouter({
           component: () => import('@/views/boss/Broodmother.vue')
         },
         {
+          path: '/boss/broodmother2',
+          component: () => import('@/views/boss/Broodmother2.vue')
+        },
+        {
           path: '/boss/megapithecus',
           component: () => import('@/views/boss/Megapithecus.vue')
         },
         {
           path: '/boss/dragon',
           component: () => import('@/views/boss/Dragon.vue')
+        },
+        {
+          path: '/boss/overseer',
+          component: () => import('@/views/boss/Overseer.vue')
         }
       ]
     },

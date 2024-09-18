@@ -63,6 +63,10 @@ const textsToCopy = ref([{
     title: 'Alpha Center',
     command: 'cheat summon bossteleport_twobosses_spidergorilla_hard_c',
 },
+{
+    title: 'Performance Commands',
+    command: 'r.VolumetricCloud 0 | r.shadowquality 0 | r.fog 0 | sg.FoliageQuality 0 | r.bloomquality 0 | r.PostProcessing.DisableMaterials 1 | Gamma 3 | grass.Enable 0 | r.Water.SingleLayer.Reflection 0 | r.LightShaftQuality 0 | r.shadowquality 0 | r.VolumetricCloud 0 | r.VolumetricFog 0 | r.BloomQuality 0 | r.Lumen.Reflections.Allow 0 | r.Lumen.DiffuseIndirect.Allow 1 | r.Shadow.Virtual.Enable 0 | r.DistanceFieldShadowing 0 | r.Shadow.CSM.MaxCascades 0 | sg.FoliageQuality 0 | sg.TextureQuality 0 | show InstancedFoliage | show InstancedStaticMeshes | show DynamicShadows | show InstancedGrass | wp.Runtime.HLOD 0 | ark.MaxActiveDestroyedMeshGeoCollectionCount 0 | grass.sizeScale 0 | r.Lumen.DiffuseIndirect.Allow 1 | r.MipMapLODBias 0'
+}
 ]);
 
 // Copy function that takes the text to be copied

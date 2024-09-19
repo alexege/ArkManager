@@ -73,12 +73,6 @@ onMounted(() => {
   padding: 2rem;
 }
 
-@media (max-width: 1024px) {
-  .app {
-    padding-left: 6rem;
-  }
-}
-
 :root {
   --primary-color: #42b883;
   --secondary-color: #35495e;

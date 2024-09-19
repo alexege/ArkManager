@@ -1,8 +1,14 @@
 <script setup>
-import { ref } from 'vue'
+import { ref, watch } from 'vue'
 const emit = defineEmits(['update'])
-const props = defineProps(['min', 'max', 'index'])
-const count = ref(0)
+const props = defineProps(['min', 'max', 'index', 'startCount'])
+const count = ref(props.startCount || 0)
+watch(
+    () => props.startCount,
+    (newValue) => {
+        count.value = newValue
+    }
+)
 const increment = () => {
     if (Number(props.max) && count.value < Number(props.max)) {
         count.value += 1
@@ -79,8 +85,11 @@ input[type='number'] {
 
 input[type='number'] {
     text-align: center;
-    width: 50px;
-    background-color: rgba(255, 255, 255, 0.025);
+    width: 100%;
+    min-width: 10px;
+    max-width: 3em;
+    /* background-color: rgba(255, 255, 255, 0.025); */
+    background-color: rgba(255, 255, 255, 0.205);
     color: white;
     border: none;
 }

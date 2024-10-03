@@ -2,7 +2,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 import AdminDashboard from '@/views/AdminDashboard.vue'
 import Dashboard from '../views/Dashboard.vue'
 import Drag from '../views/Drag.vue'
-// import DragAndDrop from '../views/DragAndDrop.vue'
+import DragAndDrop from '../views/DragAndDrop.vue'
 import ToDoView from '@/views/ToDoView.vue'
 import Profile from '../views/Profile.vue'
 import NotesView from '@/views/NotesView.vue'
@@ -46,11 +46,11 @@ const router = createRouter({
       name: 'drag',
       component: Drag
     },
-    // {
-    //   path: '/draganddrop',
-    //   name: 'draganddrop',
-    //   component: DragAndDrop
-    // },
+    {
+      path: '/draganddrop',
+      name: 'draganddrop',
+      component: DragAndDrop
+    },
     {
       path: '/timers',
       name: 'timers',
@@ -97,6 +97,10 @@ const router = createRouter({
       name: 'boss',
       component: BossView,
       children: [
+        {
+          path: '/boss/all',
+          component: () => import('@/views/boss/AllTributes.vue')
+        },
         {
           path: '/boss/broodmother',
           component: () => import('@/views/boss/Broodmother.vue')

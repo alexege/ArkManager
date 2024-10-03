@@ -1,3 +1,5 @@
+// TimerViewOld.vue
+
 <script setup>
 import { ref } from "vue";
 import { storeToRefs } from "pinia";
@@ -6,9 +8,11 @@ import Countdown from "@/components/timers/Countdown.vue";
 import { useTimerStore } from "@/stores/timer.store.js";
 
 const { fetchTimers } = useTimerStore();
+
 const { addTimer, deleteTimer } = useTimerStore();
-const { allTimers, countDownTimers, stopwatchTimers } = storeToRefs(useTimerStore());
+
 // const { allTimers, allStopwatchTimers, allCountDownTimers } = storeToRefs(useTimerStore());
+const { allTimers, countDownTimers, stopwatchTimers } = storeToRefs(useTimerStore());
 
 const activeButton = ref("both");
 const displayMethod = ref("show-grid");
@@ -57,15 +61,6 @@ async function add(type) {
             </a>
         </div>
 
-        <div class="add-timer">
-            <button @click="add('stopwatch')" v-if="activeButton != 'countdowns'">
-                Add Stopwatch
-            </button>
-            <button @click="add('countdown')" v-if="activeButton != 'stopwatches'">
-                Add Countdown
-            </button>
-        </div>
-
         <!-- Stopwatches -->
         <div class="timer-grid" :class="displayMethod" v-if="activeButton == 'stopwatches'">
             <Stopwatch v-for="timer in stopwatchTimers" :key="timer._id" :timer="timer" @close="close" />
@@ -97,6 +92,15 @@ async function add(type) {
                     </div>
                 </div>
             </template>
+        </div>
+
+        <div class="add-timer">
+            <button @click="add('stopwatch')" v-if="activeButton != 'countdowns'">
+                Add Stopwatch
+            </button>
+            <button @click="add('countdown')" v-if="activeButton != 'stopwatches'">
+                Add Countdown
+            </button>
         </div>
 
         <div class="timer-display-buttons">
@@ -237,11 +241,10 @@ h2 {
 
 .show-grid {
     display: grid;
-    grid-template-columns: repeat(3, minmax(250px, 350px));
+    grid-template-columns: repeat(3, 1fr);
     /* grid-template-rows: repeat(auto, 0.5fr); */
     grid-template-rows: repeat(auto-fill, minmax(50px, 150px));
     gap: 1em;
-    justify-content: center;
 }
 
 .show-two-column {

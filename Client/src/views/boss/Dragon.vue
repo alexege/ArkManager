@@ -68,7 +68,7 @@ const requirements = ref([
         img: '/assets/trophies/Giganotosaurus_Heart.png',
         gamma: 0,
         beta: 5,
-        alpha: 10,
+        alpha: 2,
         amount: 0
     },
     {
@@ -86,7 +86,7 @@ const requirements = ref([
         img: '/assets/trophies/Tyrannosaurus_Arm.png',
         gamma: 0,
         beta: 5,
-        alpha: 10,
+        alpha: 15,
         amount: 0
     },
     {
@@ -320,7 +320,7 @@ const clearAll = () => {
 <template>
     <div>
         <div class="header">
-            <h2>Megapithecus</h2>
+            <h2>Dragon</h2>
             <img src="/assets/bosses/Dragon.png" class="item-img" width="200px" style="margin: 0 auto;" />
             <div class="difficulty">
                 <template v-for="tier in tiers" :key="tier">

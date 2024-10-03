@@ -59,7 +59,7 @@ export const useTimerStore = defineStore('timer', {
 
     async updateTimer(updatedTimer) {
       try {
-        await axios.patch(`${API_URL}/timers/${updatedTimer._id}`, updatedTimer)
+        await axios.put(`${API_URL}/timers/${updatedTimer._id}`, updatedTimer)
 
         let timerToUpdateIdx = this.timers.indexOf(
           this.timers.find((timer) => timer._id == updatedTimer._id)

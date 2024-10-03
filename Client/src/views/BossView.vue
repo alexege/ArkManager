@@ -2,31 +2,61 @@
 <template>
     <div class="container">
         <div class="links">
-            <router-link to="/boss/broodmother" class="link">Broodmother Lysrix</router-link>
-            <!-- History is the default tab here -->
+            <router-link to="/boss/all" class="link">All Items</router-link>
+            <router-link to="/boss/broodmother" class="link">Broodmother</router-link>
             <router-link to="/boss/megapithecus" class="link">Megapithecus</router-link>
             <router-link to="/boss/dragon" class="link">Dragon</router-link>
         </div>
-        <router-view></router-view>
+        <router-view v-slot="{ Component }">
+            <transition name="fade" mode="out-in">
+
+                <component :is="Component" />
+
+            </transition>
+        </router-view>
     </div>
 </template>
 <style scoped>
 .container {
     color: white;
-    background-color: black;
-    height: 100vh;
-    overflow: auto;
+    /* background-color: black; */
+    /* background-color: white; */
+    height: 100%;
+    /* overflow: hidden; */
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 1.5rem;
 }
 
 .links {
     display: flex;
     justify-content: space-around;
+    flex-wrap: wrap;
 }
 
 .link {
     padding: 0.5em 1em;
     margin: 1em;
-    outline: 1px solid black;
-    border-radius: 5px;
+    outline: 1px solid white;
+    text-decoration: none;
+    color: white;
+    text-align: center;
+    min-width: 4em;
+}
+
+.link:hover {
+    background: rgba(135, 207, 235, 0.205);
+    outline: 1px solid white;
+}
+
+/* Transitions */
+.fade-enter-from,
+.fade-leave-to {
+    opacity: 0;
+}
+
+.fade-enter-active,
+.fade-leave-active {
+    transition: opacity 0.25s ease-out;
 }
 </style>

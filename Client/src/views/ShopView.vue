@@ -57,7 +57,7 @@ const handleNotificationClick = (id) => {
     width: 100vw;
     margin: 0 auto;
     height: 100vh;
-    background-color: #3693af;
+    /* background-color: #3693af; */
 }
 
 .grid-item {
@@ -77,6 +77,6 @@ const handleNotificationClick = (id) => {
     padding: 0 2em;
     /* width: 80vw; */
     /* height: 80vh; */
-    background-color: #3693af;
+    /* background-color: #3693af; */
 }
 </style>

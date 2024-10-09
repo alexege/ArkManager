@@ -212,6 +212,15 @@ const searchCategories = (query) => {
       </li>
       <li>
         <a href="#">
+          <RouterLink to="/boss/all">
+            <i class='bx bxs-castle'></i>
+            <span class="links_name">Bosses</span>
+          </RouterLink>
+        </a>
+        <span class="tooltip">Bosses</span>
+      </li>
+      <li>
+        <a href="#">
           <RouterLink to="/settings">
             <i class="bx bx-cog"></i>
             <span class="links_name">Setting</span>

@@ -11,12 +11,13 @@ import MessagesView from '@/views/MessagesView.vue'
 import LoginView from '@/views/LoginView.vue'
 import RegisterView from '@/views/RegisterView.vue'
 import LoginRegView from '@/views/LoginRegView.vue'
-
+import StatsView from '@/views/StatsView.vue'
 import { useAuthStore } from '@/stores/auth.store'
 import TimerView from '@/views/TimerView.vue'
 import ShopView from '@/views/ShopView.vue'
 import BossView from '@/views/BossView.vue'
 import AdminSpawnCommands from '@/views/AdminSpawnCommands.vue'
+import MapsView from '@/views/MapsView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -78,6 +79,11 @@ const router = createRouter({
       component: NotesView
     },
     {
+      path: '/maps',
+      name: 'maps',
+      component: MapsView
+    },
+    {
       path: '/messages',
       name: 'messages',
       component: MessagesView
@@ -86,6 +92,11 @@ const router = createRouter({
       path: '/shop',
       name: 'shop',
       component: ShopView
+    },
+    {
+      path: '/stats',
+      name: 'stats',
+      component: StatsView
     },
     {
       path: '/settings',

@@ -172,7 +172,7 @@ const clearSearch = () => {
 <style scoped>
 h2 {
     font-size: 1.5em;
-    padding: 2em;
+    padding: 1em;
 }
 
 .page {
@@ -202,6 +202,10 @@ h2 {
     flex-wrap: wrap;
 }
 
+.square-view label {
+    padding: .5em 0;
+}
+
 .artifact-container,
 .trophy-container {
     display: flex;
@@ -210,7 +214,7 @@ h2 {
     flex-direction: column;
     /* border: 1px solid white; */
     border: 1px solid rgb(16, 15, 28);
-    border-radius: 10px;
+    border-radius: 5px;
     padding: 0.25em;
     /* max-width: 8em; */
     /* min-width: 8em; */
@@ -262,6 +266,7 @@ h2 {
     justify-content: center;
     align-items: center;
     gap: 0.5em;
+    margin: 0.25em 0;
 }
 
 .controls input {
@@ -316,9 +321,9 @@ input[type='number']::-webkit-outer-spin-button {
 }
 
 .details-square img {
-    width: 4rem;
-    height: 4rem;
-    margin: 0.5em;
+    /* width: 4rem; */
+    /* height: 4rem; */
+    /* margin: 0.5em; */
     /* background: rgba(255, 255, 255, 0.15); */
 }
 
@@ -328,7 +333,7 @@ input[type='number']::-webkit-outer-spin-button {
     justify-content: center;
     align-items: center;
     gap: 0.5em;
-    margin: 0.5em;
+    margin: 0 0.5em;
 }
 
 .controls-square span {
@@ -370,10 +375,11 @@ input[type='number']::-webkit-outer-spin-button {
 }
 
 .details-square img {
-    width: 4rem;
-    height: 4rem;
-    margin: 0.5em;
+    width: 3rem;
+    /* height: rem; */
+    /* margin: 0.5em; */
     /* background: rgba(255, 255, 255, 0.15); */
+    margin: 0 0.5em;
 }
 
 .controls-square {

@@ -33,7 +33,7 @@ export const useTimerStore = defineStore('timer', {
       this.timers = []
       this.loading = true
       try {
-        this.timers = await fetch(`${API_URL}/timer/allTimers`).then((response) => response.json())
+        this.timers = await fetch(`${API_URL}/timers`).then((response) => response.json())
       } catch (error) {
         this.error = error
       } finally {

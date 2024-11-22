@@ -65,6 +65,7 @@ const onDragLeave = (event) => {
       <template v-for="(zone, index) in dropZones" :key="zone.id">
         <div class="drop-zone" :class="[{ preview: dragActive }, { 'fade-in': dragActive }]"
           @drop="onDrop($event, index)" @dragover.prevent @dragenter="onDragEnter" @dragleave="onDragLeave">
+
           <div v-for="timer in getCell(index)" :key="timer.id" class="drag-el">
             <button class="handle" @mousedown="(event) => {
               const dragEl = event.currentTarget.parentNode
@@ -81,6 +82,7 @@ const onDragLeave = (event) => {
             </button>
             <pre style="color: black">{{ timer.title }}</pre>
           </div>
+
         </div>
       </template>
     </div>

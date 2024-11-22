@@ -2,6 +2,7 @@ const db = require("../models");
 const Timer = require("../models/timer.model");
 
 exports.createTimer = (req, res) => {
+  console.log("Create timer firing");
   const newTimer = new Timer({
     name: req.body.name,
     type: req.body.type,

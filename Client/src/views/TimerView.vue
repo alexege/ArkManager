@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onMounted } from "vue";
+import { ref, onMounted, computed, watch } from "vue";
 import { storeToRefs } from "pinia";
 import Stopwatch from "@/components/timers/Stopwatch.vue";
 import Countdown from "@/components/timers/Countdown.vue";
@@ -7,8 +7,8 @@ import { useTimerStore } from "@/stores/timer.store.js";
 const timerStore = useTimerStore();
 
 const { fetchTimers } = useTimerStore();
-const { addTimer, deleteTimer } = useTimerStore();
-const { allTimers, countDownTimers, stopwatchTimers } = storeToRefs(useTimerStore());
+const { addTimer, addDropZone, deleteTimer } = useTimerStore();
+const { countDownTimers, stopwatchTimers } = storeToRefs(useTimerStore());
 // const { allTimers, allStopwatchTimers, allCountDownTimers } = storeToRefs(useTimerStore());
 
 const activeButton = ref("both");
@@ -50,20 +50,55 @@ const dragActive = ref(false)
 const timers = ref([
     { id: 0, title: 'Timer 1', cell: 0 },
     { id: 1, title: 'Timer 2', cell: 1 },
-    { id: 2, title: 'Timer 3', cell: 2 },
-    { id: 3, title: 'Timer 4', cell: 3 },
-    { id: 4, title: 'Timer 5', cell: 4 }
 ])
 
+const allTimers = computed(() => {
+    return timerStore.timers
+})
+
+const allDropZones = computed(() => {
+    return timerStore.dropZones
+})
+
 onMounted(() => {
-    for (let i = 0; i < 64; i++) {
-        dropZones.value.push({
+    console.log("On mounted");
+    for (let i = 0; i < 100; i++) {
+        addDropZone({
             id: i,
             title: `Zone ${i + 1}`
         })
     }
 
+    console.log("all timers:", allTimers.value);
+    console.log("all timers:", allTimers.value.length);
+
+    // for (let i = 0; i < allTimers.length; i++) {
+    //     console.log("test")
+    //     dropZones.value.push({
+    //         id: allTimers.value[i]._id,
+    //         title: `Zone ${i + 1}`
+    //     })
+    // }
+
+    // if (dropZones.value.length < 23) {
+    //     for (let i = 0; i < 23 - allDropZones.value.length; i++) {
+    //         addDropZone({ id: i, title: `Zone ${i + 1}` });
+    //     }
+    // }
+
     storeTimers.value = timerStore.timers
+})
+
+watch((allTimers), (newVal, oldVal) => {
+
+    console.log("Number of timers:", allTimers.value.length);
+
+    for (let i = 0; i < allTimers.value.length; i++) {
+        addDropZone({ id: allTimers.value[i]._id, title: `Zone ${i + 1}` });
+        // storeTimers.value[i]);
+    }
+
+    console.log("New value:", newVal);
 })
 
 const getCell = (cell) => {
@@ -73,6 +108,7 @@ const startDrag = (event, timer) => {
     dragActive.value = true
     event.dataTransfer.setData('timerId', timer.id)
 }
+
 const onDrop = (event, cell) => {
     dragActive.value = false
     const timerId = event.dataTransfer.getData('timerId')
@@ -89,6 +125,7 @@ const onDragEnter = (event) => {
     const dropZone = event.target.closest('.drop-zone')
     if (dropZone) dropZone.classList.add('drag-over')
 }
+
 const onDragLeave = (event) => {
     const dropZone = event.target.closest('.drop-zone')
     if (dropZone) dropZone.classList.remove('drag-over')
@@ -97,8 +134,8 @@ const onDragLeave = (event) => {
 </script>
 <template>
     <div class="timer-view">
+
         <h2>Timers</h2>
-        {{ allTimers }}
         <div class="timer-filter-buttons">
             <a @click="activeButton = 'countdowns'" :class="{ 'active-button': activeButton == 'countdowns' }">
                 Countdowns
@@ -132,7 +169,7 @@ const onDragLeave = (event) => {
 
         <!-- Both -->
         <div v-if="activeButton == 'both'">
-            <template v-if="displayMethod == 'show-two-column'">
+            <!-- <template v-if="displayMethod == 'show-two-column'">
                 <div class="two-columns">
                     <div class="show-two-column">
                         <Stopwatch v-for="timer in stopwatchTimers" :key="timer._id" :timer="timer" @close="close" />
@@ -143,24 +180,40 @@ const onDragLeave = (event) => {
                 </div>
             </template>
 
-            <template v-else>
+<template v-else>
                 <div :class="displayMethod">
                     <div v-for="timer in allTimers" :key="timer._id">
                         <Stopwatch v-if="timer.type == 'stopwatch'" :timer="timer" @close="close" />
                         <Countdown v-if="timer.type == 'countdown'" :timer="timer" @close="close" />
                     </div>
                 </div>
-            </template>
+            </template> -->
 
 
             <!-- Grid View Start -->
             <div class="grid">
-                <template v-for="(zone, index) in dropZones" :key="zone.id">
+                <template v-for="(zone, index) in allDropZones" :key="zone.id">
                     <div class="drop-zone" :class="[{ preview: dragActive }, { 'fade-in': dragActive }]"
                         @drop="onDrop($event, index)" @dragover.prevent @dragenter="onDragEnter"
                         @dragleave="onDragLeave">
 
-                        <div v-for="timer in getCell(index)" :key="timer.id" class="drag-el">
+                        {{ index }} : {{ zone.id }}
+
+                        <!-- <div v-for="timer in allTimers" :key="timer.id">
+                            <pre>{{ timer }}</pre>
+                        </div> -->
+
+                        <div v-for="timer in allTimers" :key="timer.id">
+                            <!-- <pre>{{ timer }}</pre> -->
+                            <template v-if="timer.type == 'stopwatch' && timer._id == zone.id">
+                                <Stopwatch :timer="timer" @close="close" />
+                            </template>
+                            <template v-if="timer.type == 'countdown' && timer._id == zone.id">
+                                <Countdown :timer="timer" @close="close" />
+                            </template>
+                        </div>
+
+                        <!-- <div v-for="timer in getCell(index)" :key="timer.id" class="drag-el">
                             <button class="handle" @mousedown="(event) => {
                                 const dragEl = event.currentTarget.parentNode
                                 dragEl.setAttribute('draggable', 'true')
@@ -175,7 +228,7 @@ const onDragLeave = (event) => {
                                 &#x2630;
                             </button>
                             <pre style="color: black">{{ timer.title }}</pre>
-                        </div>
+                        </div> -->
 
                     </div>
                 </template>

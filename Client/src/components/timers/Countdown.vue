@@ -275,6 +275,7 @@ const progressColor = computed(() => {
                 </template>
             </div>
             <div class="controls">
+                <i class='bx bx-menu'></i>
                 <i @click="deleteTimer" class='bx bx-x'></i>
             </div>
         </div>
@@ -337,7 +338,10 @@ const progressColor = computed(() => {
         <div class="time-up-overlay" v-if="timerComplete">
             <h2>{{ timer.name }}</h2>
             <h2>Timer is Up!</h2>
-            <i @click="onReset(); timerComplete = false" class='bx bx-reset'></i>
+            <div class="timer-up-controls">
+                <i @click="onReset(); timerComplete = false" class='bx bx-reset'></i>
+                <i @click="deleteTimer" class='bx bx-x'></i>
+            </div>
 
         </div>
 
@@ -540,5 +544,11 @@ i:hover {
     flex-direction: column;
     justify-content: center;
     align-items: center;
+}
+
+.timer-up-controls {
+    display: flex;
+    justify-content: center;
+    gap: .5em;
 }
 </style>

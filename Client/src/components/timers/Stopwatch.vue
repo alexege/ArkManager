@@ -92,7 +92,10 @@ async function updateTimerName() {
             <template v-else>
                 <span @dblclick="editTimerName = true">{{ timer.name }}</span>
             </template>
-            <i @click="deleteTimer(timer._id)" class='bx bx-x close'></i>
+            <div class="controls">
+                <i class='bx bx-menu'></i>
+                <i @click="deleteTimer(timer._id)" class='bx bx-x close'></i>
+            </div>
         </div>
         <div class="timer-middle">
             <span class="time-elapsed"
@@ -151,7 +154,15 @@ async function updateTimerName() {
     padding: 10px 0;
 }
 
-.timer-top .close {
+/* .timer-top .close {
+    position: absolute;
+    top: 0;
+    right: 0;
+    margin: 2.5px 2.5px;
+    cursor: pointer;
+} */
+
+.timer-top .controls {
     position: absolute;
     top: 0;
     right: 0;

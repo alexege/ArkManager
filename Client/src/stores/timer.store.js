@@ -6,6 +6,7 @@ const API_URL = 'http://127.0.0.1:8080/api'
 export const useTimerStore = defineStore('timer', {
   state: () => ({
     timers: [],
+    dropZones: [],
     timer: null,
     type: null,
     img: null,
@@ -30,10 +31,12 @@ export const useTimerStore = defineStore('timer', {
   },
   actions: {
     async fetchTimers() {
+      console.log('Fetching timers from store')
       this.timers = []
       this.loading = true
       try {
         this.timers = await fetch(`${API_URL}/timers`).then((response) => response.json())
+        console.log('timers: ', this.timers)
       } catch (error) {
         this.error = error
       } finally {
@@ -52,9 +55,18 @@ export const useTimerStore = defineStore('timer', {
     //   }
     // },
 
+    async addDropZone(dropZone) {
+      this.dropZones.push(dropZone)
+    },
+
     async addTimer(timer) {
       const newTimer = await axios.post(`${API_URL}/timers`, timer)
       this.timers.push(newTimer.data)
+
+      this.addDropZone({
+        id: newTimer.data._id,
+        title: newTimer.data.name
+      })
     },
 
     async updateTimer(updatedTimer) {

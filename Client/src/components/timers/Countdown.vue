@@ -257,10 +257,51 @@ const progressColor = computed(() => {
     return { foreground: color, background: color2 }
 })
 
+// Reactive state
+// const value = ref(0); // Value between 0 and 1
+const colors = [
+    { r: 255, g: 0, b: 0 }, // Red
+    { r: 255, g: 255, b: 0 }, // Yellow
+    { r: 0, g: 255, b: 0 }, // Green
+];
+
+// Computed property for background style
+const backgroundStyle = computed(() => {
+    console.log("------------------------------");
+    console.log("Time remaining:", percentLeft.value);
+    const numColors = colors.length - 1;
+    console.log("numColors: ", numColors);
+    const scaledValue = (percentLeft.value / 100) * numColors;
+    console.log("scaledValue: ", scaledValue);
+    const lowerIndex = Math.floor(scaledValue);
+    console.log("lowerIndex: ", lowerIndex);
+    const upperIndex = Math.min(lowerIndex + 1, numColors);
+    console.log("upperIndex: ", upperIndex);
+    const blendFactor = scaledValue - lowerIndex;
+    console.log("blendFactor: ", blendFactor);
+
+    // Get the two colors to blend
+    const color1 = colors[lowerIndex];
+    const color2 = colors[upperIndex];
+
+    // Interpolate each RGB component
+    const r = Math.round(color1.r + blendFactor * (color2.r - color1.r));
+    const g = Math.round(color1.g + blendFactor * (color2.g - color1.g));
+    const b = Math.round(color1.b + blendFactor * (color2.b - color1.b));
+
+    // Return the computed style
+    return `rgb(${r}, ${g}, ${b})`;
+});
+
 </script>
 <template>
     <div class="countdown-timer" :class="{ timerComplete }"
-        :style="[{ border: `3px solid ${progressColor.foreground}` }]">
+        :style="[{ border: `3px solid ${backgroundStyle}` }, { transition: 'background-color 0.5s' }]">
+        <!-- :style="[{ border: `3px solid ${backgroundStyle}` }]" -->
+        <!-- :style="[{ border: `3px solid ${progressColor.foreground}` }]" -->
+
+        <!-- {{ percentLeft }} -->
+        <!-- {{ backgroundStyle }} -->
 
         <!-- Top -->
         <div class="timer-top">
@@ -275,15 +316,18 @@ const progressColor = computed(() => {
                 </template>
             </div>
             <div class="controls">
-                <i class='bx bx-menu'></i>
+                <i class='bx bx-menu' draggable="true"></i>
                 <i @click="deleteTimer" class='bx bx-x'></i>
             </div>
         </div>
 
         <!-- Middle -->
         <div class="timer-middle">
-            <div class="time-remaining"
-                :style="[{ borderBottom: `2px solid ${progressColor.foreground}` }, { borderTop: `2px solid ${progressColor.foreground}` }]">
+            <div class="time-remaining" :style="[
+                { borderBottom: `2px solid ${backgroundStyle}` },
+                { borderTop: `2px solid ${backgroundStyle}` },
+                { transition: 'background-color 0.5s' }
+            ]">
                 <template v-if="editTimerTime">
                     <div class="time-input">
                         <div class="input-control">
@@ -320,7 +364,7 @@ const progressColor = computed(() => {
         <!-- Bottom -->
         <div class="timer-bottom">
             <div class="timer-controls">
-                <i @click="onReset()" class='bx bx-rewind-circle'></i>
+                <i @click="onReset()" class='bx bx-rewind-circle' :class="{ disabled: timeRemaining <= 0 }"></i>
                 <template v-if="timerActive">
                     <i @click="onPause()" class='bx bx-pause-circle'></i>
                 </template>
@@ -331,7 +375,6 @@ const progressColor = computed(() => {
                 <i @click="editTime" class='bx bx-edit'></i>
 
                 <i @click="onClear()" class='bx bx-x'></i>
-
             </div>
         </div>
 
@@ -342,7 +385,6 @@ const progressColor = computed(() => {
                 <i @click="onReset(); timerComplete = false" class='bx bx-reset'></i>
                 <i @click="deleteTimer" class='bx bx-x'></i>
             </div>
-
         </div>
 
     </div>
@@ -550,5 +592,6 @@ i:hover {
     display: flex;
     justify-content: center;
     gap: .5em;
+    padding-top: .5em;
 }
 </style>

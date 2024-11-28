@@ -21,14 +21,41 @@ async function changeStyle(style) {
 
 async function close(timerId) {
     await deleteTimer(timerId);
+
 }
 
 fetchTimers();
 
+function validateTimersWithDropZones() {
+    // Get the list of all drop zone IDs
+    const dropZoneIds = allDropZones.value.map(zone => zone.id);
+
+    // Check each timer to ensure its cell exists in the drop zones
+    const invalidTimers = allTimers.value.filter(timer => !dropZoneIds.includes(timer.cell));
+
+    if (invalidTimers.length > 0) {
+        console.warn("Invalid timers detected:", invalidTimers);
+        // Optionally handle invalid timers (e.g., assign them to the first empty drop zone)
+        invalidTimers.forEach(timer => {
+            const emptyZone = allDropZones.value.find(zone => !zone.occupied);
+            if (emptyZone) {
+                console.log(`Assigning timer ${timer.id} to empty drop zone ${emptyZone.id}`);
+                timer.cell = emptyZone.id;
+                emptyZone.occupied = true; // Mark the drop zone as occupied
+            } else {
+                console.error(`No empty drop zones available for timer ${timer.id}`);
+            }
+        });
+    } else {
+        console.log("All timers have valid drop zones.");
+    }
+}
+
 async function add(type) {
+
     var data = {
         name: "Timer Name",
-        type: type,
+        type,
         duration: 0,
         endDateTime: null,
         isActive: false,
@@ -37,20 +64,18 @@ async function add(type) {
             "https://t3.ftcdn.net/jpg/03/45/05/92/360_F_345059232_CPieT8RIWOUk4JqBkkWkIETYAkmz2b75.jpg",
     };
 
-    await addTimer(data).then((res) => {
-        console.log("added item with result:", res);
-    });
+    await addTimer(data)
+        .then((res) => {
+        })
+        .catch((error) => {
+            console.log("error:", error);
+        });
 }
 
 // Dropzones
 const dropZones = ref([])
 const storeTimers = ref([])
 const dragActive = ref(false)
-
-const timers = ref([
-    { id: 0, title: 'Timer 1', cell: 0 },
-    { id: 1, title: 'Timer 2', cell: 1 },
-])
 
 const allTimers = computed(() => {
     return timerStore.timers
@@ -61,17 +86,6 @@ const allDropZones = computed(() => {
 })
 
 onMounted(() => {
-    console.log("On mounted");
-    for (let i = 0; i < 100; i++) {
-        addDropZone({
-            id: i,
-            title: `Zone ${i + 1}`
-        })
-    }
-
-    console.log("all timers:", allTimers.value);
-    console.log("all timers:", allTimers.value.length);
-
     // for (let i = 0; i < allTimers.length; i++) {
     //     console.log("test")
     //     dropZones.value.push({
@@ -87,50 +101,8 @@ onMounted(() => {
     // }
 
     storeTimers.value = timerStore.timers
+    validateTimersWithDropZones();
 })
-
-watch((allTimers), (newVal, oldVal) => {
-
-    console.log("Number of timers:", allTimers.value.length);
-
-    for (let i = 0; i < allTimers.value.length; i++) {
-        addDropZone({ id: allTimers.value[i]._id, title: `Zone ${i + 1}` });
-        // storeTimers.value[i]);
-    }
-
-    console.log("New value:", newVal);
-})
-
-const getCell = (cell) => {
-    return timers.value.filter((timer) => timer.cell === cell)
-}
-const startDrag = (event, timer) => {
-    dragActive.value = true
-    event.dataTransfer.setData('timerId', timer.id)
-}
-
-const onDrop = (event, cell) => {
-    dragActive.value = false
-    const timerId = event.dataTransfer.getData('timerId')
-    const timer = timers.value.find((timer) => timer.id == timerId)
-    const existingTimer = getCell(cell)[0]
-    if (existingTimer) {
-        existingTimer.cell = timer.cell // Move existing timer to old cell
-        timer.cell = cell // Move dragged timer to new cell
-    } else {
-        timer.cell = cell
-    }
-}
-const onDragEnter = (event) => {
-    const dropZone = event.target.closest('.drop-zone')
-    if (dropZone) dropZone.classList.add('drag-over')
-}
-
-const onDragLeave = (event) => {
-    const dropZone = event.target.closest('.drop-zone')
-    if (dropZone) dropZone.classList.remove('drag-over')
-}
-
 </script>
 <template>
     <div class="timer-view">
@@ -169,7 +141,7 @@ const onDragLeave = (event) => {
 
         <!-- Both -->
         <div v-if="activeButton == 'both'">
-            <!-- <template v-if="displayMethod == 'show-two-column'">
+            <template v-if="displayMethod == 'show-two-column'">
                 <div class="two-columns">
                     <div class="show-two-column">
                         <Stopwatch v-for="timer in stopwatchTimers" :key="timer._id" :timer="timer" @close="close" />
@@ -180,60 +152,14 @@ const onDragLeave = (event) => {
                 </div>
             </template>
 
-<template v-else>
+            <template v-else>
                 <div :class="displayMethod">
                     <div v-for="timer in allTimers" :key="timer._id">
                         <Stopwatch v-if="timer.type == 'stopwatch'" :timer="timer" @close="close" />
                         <Countdown v-if="timer.type == 'countdown'" :timer="timer" @close="close" />
                     </div>
                 </div>
-            </template> -->
-
-
-            <!-- Grid View Start -->
-            <div class="grid">
-                <template v-for="(zone, index) in allDropZones" :key="zone.id">
-                    <div class="drop-zone" :class="[{ preview: dragActive }, { 'fade-in': dragActive }]"
-                        @drop="onDrop($event, index)" @dragover.prevent @dragenter="onDragEnter"
-                        @dragleave="onDragLeave">
-
-                        {{ index }} : {{ zone.id }}
-
-                        <!-- <div v-for="timer in allTimers" :key="timer.id">
-                            <pre>{{ timer }}</pre>
-                        </div> -->
-
-                        <div v-for="timer in allTimers" :key="timer.id">
-                            <!-- <pre>{{ timer }}</pre> -->
-                            <template v-if="timer.type == 'stopwatch' && timer._id == zone.id">
-                                <Stopwatch :timer="timer" @close="close" />
-                            </template>
-                            <template v-if="timer.type == 'countdown' && timer._id == zone.id">
-                                <Countdown :timer="timer" @close="close" />
-                            </template>
-                        </div>
-
-                        <!-- <div v-for="timer in getCell(index)" :key="timer.id" class="drag-el">
-                            <button class="handle" @mousedown="(event) => {
-                                const dragEl = event.currentTarget.parentNode
-                                dragEl.setAttribute('draggable', 'true')
-                                dragEl.addEventListener('dragstart', (e) => startDrag(e, timer))
-                                dragEl.dispatchEvent(new Event('dragstart')) // Start the drag event
-                            }
-                                " @mouseup="(event) => {
-                                    const dragEl = event.currentTarget.parentNode
-                                    dragEl.removeAttribute('draggable')
-                                }
-                                    ">
-                                &#x2630;
-                            </button>
-                            <pre style="color: black">{{ timer.title }}</pre>
-                        </div> -->
-
-                    </div>
-                </template>
-            </div>
-            <!-- Grid View End -->
+            </template>
 
         </div>
 

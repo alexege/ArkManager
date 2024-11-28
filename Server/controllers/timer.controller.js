@@ -65,6 +65,7 @@ exports.updateTimerById = (req, res) => {
     isActive: req.body.isActive,
     endDateTime: req.body.endDateTime,
     img: req.body.img,
+    cell: req.body.cell,
   };
   Timer.findByIdAndUpdate({ _id: req.params.id }, updateData)
     .then((timer) => {

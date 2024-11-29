@@ -93,7 +93,7 @@ async function updateTimerName() {
                 <span @dblclick="editTimerName = true">{{ timer.name }}</span>
             </template>
             <div class="controls">
-                <i class='bx bx-menu'></i>
+                <!-- <i class='bx bx-menu'></i> -->
                 <i @click="deleteTimer(timer._id)" class='bx bx-x close'></i>
             </div>
         </div>

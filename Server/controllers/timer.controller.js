@@ -11,6 +11,7 @@ exports.createTimer = (req, res) => {
     endDateTime: req.body.endDateTime,
     creator: null,
     img: null,
+    cell: req.body.cell,
   });
   newTimer
     .save()
@@ -59,6 +60,7 @@ exports.getTimerById = (req, res) => {
 };
 
 exports.updateTimerById = (req, res) => {
+  console.log("Update timer firing", req.body);
   const updateData = {
     name: req.body.name,
     duration: req.body.duration,

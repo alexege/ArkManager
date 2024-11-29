@@ -51,6 +51,8 @@ function validateTimersWithDropZones() {
     }
 }
 
+var count = 0;
+
 async function add(type) {
 
     var data = {
@@ -62,6 +64,7 @@ async function add(type) {
         creator: null,
         img:
             "https://t3.ftcdn.net/jpg/03/45/05/92/360_F_345059232_CPieT8RIWOUk4JqBkkWkIETYAkmz2b75.jpg",
+        cell: count++
     };
 
     await addTimer(data)
@@ -103,9 +106,14 @@ onMounted(() => {
     storeTimers.value = timerStore.timers
     validateTimersWithDropZones();
 })
+
 </script>
 <template>
     <div class="timer-view">
+
+        <div v-for="cell in cells" :key="cell.id">
+            <div class="cell">{{ cell }}</div>
+        </div>
 
         <h2>Timers</h2>
         <div class="timer-filter-buttons">

@@ -16,6 +16,7 @@ const Timer = mongoose.model(
       img: {
         type: String,
       },
+      cell: Number,
     },
     { timestamps: true }
   )

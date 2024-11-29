@@ -267,18 +267,11 @@ const colors = [
 
 // Computed property for background style
 const backgroundStyle = computed(() => {
-    console.log("------------------------------");
-    console.log("Time remaining:", percentLeft.value);
     const numColors = colors.length - 1;
-    console.log("numColors: ", numColors);
     const scaledValue = (percentLeft.value / 100) * numColors;
-    console.log("scaledValue: ", scaledValue);
     const lowerIndex = Math.floor(scaledValue);
-    console.log("lowerIndex: ", lowerIndex);
     const upperIndex = Math.min(lowerIndex + 1, numColors);
-    console.log("upperIndex: ", upperIndex);
     const blendFactor = scaledValue - lowerIndex;
-    console.log("blendFactor: ", blendFactor);
 
     // Get the two colors to blend
     const color1 = colors[lowerIndex];
@@ -297,15 +290,11 @@ const backgroundStyle = computed(() => {
 <template>
     <div class="countdown-timer" :class="{ timerComplete }"
         :style="[{ border: `3px solid ${backgroundStyle}` }, { transition: 'background-color 0.5s' }]">
-        <!-- :style="[{ border: `3px solid ${backgroundStyle}` }]" -->
-        <!-- :style="[{ border: `3px solid ${progressColor.foreground}` }]" -->
-
-        <!-- {{ percentLeft }} -->
-        <!-- {{ backgroundStyle }} -->
 
         <!-- Top -->
         <div class="timer-top">
             <div class="timer-title">
+
                 <template v-if="isEditTimerName">
                     <input type="text" v-model="editTimer.name" @blur="updateTimerName" @keydown.enter="updateTimerName"
                         autofocus @focus="$event.target.select()" />
@@ -316,7 +305,7 @@ const backgroundStyle = computed(() => {
                 </template>
             </div>
             <div class="controls">
-                <i class='bx bx-menu' draggable="true"></i>
+                <!-- <i class='bx bx-menu' draggable="true"></i> -->
                 <i @click="deleteTimer" class='bx bx-x'></i>
             </div>
         </div>
@@ -421,9 +410,9 @@ const backgroundStyle = computed(() => {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
-.countdown-timer:hover {
+/* .countdown-timer:hover {
     transform: translateY(-5px);
-}
+} */
 
 .timer-top,
 .timer-middle,

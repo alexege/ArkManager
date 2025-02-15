@@ -198,6 +198,7 @@ const fieldValidation = () => {
     color: #fff;
     /* background: #ffffff1f; */
     /* background: #0b71ac; */
+    background-color: var(--primary-color);
 }
 
 .container h2 {

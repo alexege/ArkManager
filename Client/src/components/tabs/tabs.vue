@@ -40,6 +40,11 @@ export default defineComponent({
             required: false,
             default: false,
         },
+        activeTabIndex: {
+            type: Number,
+            required: false,
+            default: 0
+        }
     },
     emits: {
         tabChanged(index) {
@@ -47,6 +52,13 @@ export default defineComponent({
         },
     },
     setup(props, { emit, slots }) {
+        watch(
+            () => props.activeTabIndex,
+            (newValue, oldValue) => {
+                console.log(`prop changed: ${oldValue} to ${newValue}`)
+                selectedIndex.value = newValue
+            }
+        )
         const { defaultIndex, resetTabs, position, direction, reverse } = toRefs(props);
         const selectedIndex = ref(0);
         const tabs = ref([]);
@@ -174,8 +186,11 @@ export default defineComponent({
 }
 
 .tabs {
-    display: grid;
-    grid-template-columns: 1fr;
+    /* display: grid; */
+    /* grid-template-columns: 1fr; */
+    /* display: flex; */
+    /* min-width: 30%; */
+    width: 30%;
 }
 
 .tabs .tab-list {

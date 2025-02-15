@@ -143,7 +143,7 @@ const deleteAPoint = (mapId, point) => {
 }
 import Tab from '@/components/tabs/tab.vue'
 // Modal Logic
-import ModalAddPoint from '../modals2/ModalAddPoint.vue';
+import ModalAddPoint from '../modals/ModalAddPoint.vue';
 const isModalOpen = ref(false);
 
 const openModal = () => {
@@ -184,8 +184,8 @@ const selectPoint = (event, point) => {
     activeTabIndex.value = 0
 }
 // Edit Logic
-import ModalEditPoint from '@/components/modals2/ModalEditPoint.vue'
-import Item1View from '@/views/boss/Item1View.vue';
+import ModalEditPoint from '@/components/modals/ModalEditPoint.vue'
+// import Item1View from '@/views/boss/Item1View.vue';
 const showEditModal = ref(false)
 const editPoint = (event, point) => {
     event.stopPropagation()
@@ -463,7 +463,7 @@ const matchCount = (category) => {
     /* justify-content: center; */
     align-items: center;
     position: relative;
-    background-color: #fbe6a5;
+    /* background-color: #fbe6a5; */
     width: 100%;
     /* Make it take full width */
     height: 100%;

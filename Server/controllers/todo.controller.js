@@ -2,7 +2,6 @@ const Todo = require("../models/todo.model");
 const Category = require("../models/category.model");
 
 exports.createTodo = async (req, res) => {
-
   //Create the new Todo Object using info from the req.body
   const newTodo = new Todo({
     title: req.body.title,
@@ -14,7 +13,6 @@ exports.createTodo = async (req, res) => {
   });
 
   if (req.body.categories) {
-
     for (const cat of req.body.categories) {
       let value = await Category.findOne({ name: cat }).then((cat) =>
         newTodo.categories.push(cat)
@@ -51,6 +49,8 @@ exports.getTodoById = (req, res) => {
 };
 
 exports.updateTodoById = (req, res) => {
+  console.log("updating todo by id: ", req.body);
+  console.log("updating todo by id: ", req.params._id);
   //Updated Fields / Fields to Update
   let updateData = {
     title: req.body.title,
@@ -79,11 +79,11 @@ exports.deleteTodo = (req, res) => {
 
 exports.deleteAllTodos = (req, res) => {
   Todo.deleteMany()
-  .then(() => {
-    res.status(200).send({ message: "Delete all todos!" })
-  })
-  .catch((error) => {
-    res.status(500).send({ message: error })
-    return
-  })
-}
+    .then(() => {
+      res.status(200).send({ message: "Delete all todos!" });
+    })
+    .catch((error) => {
+      res.status(500).send({ message: error });
+      return;
+    });
+};

@@ -10,6 +10,7 @@ const details = ref({
     password: null
 })
 const formType = ref('login')
+
 const switchForms = () => {
     validationErrors.value = {}
     formType.value == 'login' ? (formType.value = 'register') : (formType.value = 'login')
@@ -25,7 +26,10 @@ const login = () => {
 
     const authStore = useAuthStore();
     return authStore.login(details.value)
-        .catch(error => console.log(error))
+        .catch(error => {
+            console.log(error)
+            validationErrors.value.login = "Error logging in. Either user doesn't exist or something went wrong.";
+        })
 
 }
 const register = () => {
@@ -160,6 +164,7 @@ const fieldValidation = () => {
                 </div>
                 <span class="error" v-if="validationErrors.password">{{ validationErrors.password }}</span>
             </div>
+            <span class="error" v-if="validationErrors.login">{{ validationErrors.login }}</span>
             <template v-if="activeForm == 'login'">
                 <button @click="login">Login</button>
             </template>
@@ -198,7 +203,7 @@ const fieldValidation = () => {
     color: #fff;
     /* background: #ffffff1f; */
     /* background: #0b71ac; */
-    background-color: var(--primary-color);
+    background-color: var(--secondary-color);
 }
 
 .container h2 {
@@ -225,7 +230,6 @@ const fieldValidation = () => {
     /* border: 2px solid cyan; */
     background-color: #fff;
     color: #0b71ac;
-    border: 2px solid cyan;
 }
 
 .page-title {
@@ -284,9 +288,9 @@ const fieldValidation = () => {
     transition: 0.3s;
 }
 
-.input-field input:focus {
+/* .input-field input:focus {
     border: 2px solid cyan;
-}
+} */
 
 .input-field input:focus~label,
 .input-field input:valid~label {
@@ -294,6 +298,6 @@ const fieldValidation = () => {
     left: 15px;
     font-size: 16px;
     padding: 0 2px;
-    background: #0b71ac;
+    background: var(--secondary-color);
 }
 </style>

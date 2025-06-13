@@ -7,6 +7,7 @@ const { user } = storeToRefs(authStore)
 <template>
   <div>
     <span v-if="user">Welcome, {{ user?.username }}</span>
+    <pre>{{ user }}</pre>
 
   </div>
 </template>

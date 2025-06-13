@@ -13,7 +13,7 @@ const newTodo = ref({
   completed: false,
   author: "",
   category: [],
-  priority: "low",
+  priority: "Low",
 });
 
 const addItemAndClear = () => {
@@ -152,15 +152,15 @@ const permissionToManage = (category) => {
         </option>
       </select> -->
       <!-- <input type="checkbox" v-model="newTodo.completed"> -->
-      <button :disabled="newTodo.title == ''">Add</button>
+
     </div>
 
-    <div class="bottom">
+    <div class="middle">
       <select v-model="selectedOption" @change="addTodoCategory">
         <option value="" disabled>Category</option>
+        <option value="custom">Custom</option>
         <option vale="">None</option>
         <option :value="category.name" v-for="category in allCategories" :key="category">{{ category.name }}</option>
-        <option value="custom">Custom</option>
       </select>
 
       <div v-show="selectedOption === 'custom'" class="add-category">
@@ -181,6 +181,10 @@ const permissionToManage = (category) => {
 
     </div>
 
+    <div class="bottom">
+      <button class="add-button" :disabled="newTodo.title == ''">Add</button>
+    </div>
+
 
   </form>
 </template>
@@ -189,9 +193,16 @@ const permissionToManage = (category) => {
 .add-todo-form {
   display: flex;
   flex-direction: column;
+  outline: 1px solid white;
+  border-radius: 5px;
 }
 
 .top {
+  display: flex;
+  flex-direction: row;
+}
+
+.middle {
   display: flex;
   flex-direction: row;
 }
@@ -210,7 +221,7 @@ form {
 
 .form-input {
   width: 100%;
-  min-height: 20px;
+  min-height: 2em;
 }
 
 .add-category {
@@ -254,7 +265,7 @@ form {
   flex-direction: row;
   justify-content: center;
   align-items: center;
-  font-family: "Trip Sans VF","Trip Sans",Arial,sans-serif;
+  font-family: "Trip Sans VF", "Trip Sans", Arial, sans-serif;
 }
 
 i {
@@ -268,5 +279,11 @@ i {
 
 i:hover {
   color: red;
+}
+
+.add-button {
+  display: block;
+  width: 100%;
+  height: 2em;
 }
 </style>

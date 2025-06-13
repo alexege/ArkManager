@@ -114,7 +114,7 @@ export const useTodoListStore = defineStore('todoList', {
     async editTodo(itemId, item) {
       //   this.todoList = this.todoList.filter((item) => item.id != itemId)
       console.log('Attempting to edit todo with id: ', itemId)
-      await axios.patch(`${API_URL}/todo/${itemId}`, item)
+      await axios.put(`${API_URL}/todo/${itemId}`, item)
 
       const todoIndex = this.todoList.findIndex((todo) => todo._id === itemId)
       this.todoList.splice(todoIndex, 1, item)
@@ -123,7 +123,7 @@ export const useTodoListStore = defineStore('todoList', {
       const updateData = item
       updateData.completed = !updateData.completed
 
-      await axios.patch(`${API_URL}/todo/${item._id}`, updateData)
+      await axios.put(`${API_URL}/todo/${item._id}`, updateData)
 
       const todo = this.todoList.find((todo) => todo.id === item._id)
       if (todo) {

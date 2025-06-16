@@ -107,6 +107,26 @@ const hasPermission = (category) => {
     </div>
 
     <div class="content">
+      <div class="grid" v-if="filteredTodosIncomplete.length">
+        <h3>Pending ({{ filteredTodosIncomplete.length }})</h3>
+        <ul class="todo-headers">
+          <li class="completion">Completion</li>
+          <li class="categories">Categories</li>
+          <li class="todo">Todo</li>
+          <li class="author">Author</li>
+          <li class="priority">Priority</li>
+          <li class="actions">Actions</li>
+        </ul>
+
+        <!-- Grid Items -->
+        <div class="todo-grid">
+          <Todo v-for="todo in filteredTodosIncomplete" :key="todo._id" :todo="todo" @category="activeCategory" />
+        </div>
+
+      </div>
+    </div>
+
+    <div class="content">
       <!-- Incomplete Todos -->
       <div class="incomplete-items" v-if="filteredTodosIncomplete.length">
         <h3>Pending ({{ filteredTodosIncomplete.length }})</h3>
@@ -142,6 +162,32 @@ const hasPermission = (category) => {
   </div>
 </template>
 <style scoped>
+.grid {
+  display: grid;
+  /* grid-template-columns: repeat(6, minmax(200px, 1fr)); */
+  gap: 1em;
+}
+
+.todo-headers {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(.25fr, 1fr));
+  padding: .25rem;
+  list-style: none;
+  margin: 0 0 8px 0;
+}
+
+.todo-headers li {
+  padding: .5rem;
+}
+
+.todo-grid {
+  display: grid;
+  grid-template-columns: 1fr 2fr 1fr auto minmax(2fr, 1fr) .25em;
+  gap: .25em;
+}
+
+
+
 /* Layout */
 .todo-container {
   text-align: center;

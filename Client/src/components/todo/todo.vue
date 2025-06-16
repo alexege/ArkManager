@@ -29,7 +29,11 @@ const updateTodo = (todo) => {
 };
 
 const deleteTodoItem = (itemId) => {
-  todoStore.deleteTodo(itemId);
+
+  const confirmed = window.confirm('Are you sure  you wish to delete this item?')
+  if (confirmed) {
+    todoStore.deleteTodo(itemId);
+  }
 };
 
 const timeDiff = (date1, date2) => {
@@ -80,8 +84,6 @@ const permissionToManage = (todo) => {
 
 <template>
   <div class="todo-container">
-
-    <!-- <pre>{{ todo }}</pre> -->
 
     <div class="completion">
       <input type="checkbox" v-if="permissionToManage(todo)" class="checkbox" @click="toggleCompleted(todo)"
@@ -136,8 +138,8 @@ const permissionToManage = (todo) => {
 
 <style scoped>
 .todo-container {
-  display: flex;
-  outline: 1px solid white;
+  display: grid;
+  grid-template-columns: .5fr 1fr 3fr 1fr 1fr 1fr;
 }
 
 .completion {
@@ -224,6 +226,7 @@ const permissionToManage = (todo) => {
   display: flex;
   justify-content: center;
   align-items: center;
+  border: 1px solid white;
 }
 
 /* Priority */

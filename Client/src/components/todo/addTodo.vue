@@ -3,10 +3,14 @@ import { ref } from "vue";
 import { storeToRefs } from "pinia";
 import { useTodoListStore } from "@/stores/todo.store";
 import { useUsersStore } from "@/stores/user.store";
+import { useCategoryStore } from "@/stores/category.store";
+
 const todoStore = useTodoListStore();
 const userStore = useUsersStore();
+var categoryStore = useCategoryStore();
 
 userStore.getAll()
+categoryStore.allCategories
 
 const newTodo = ref({
   title: "",
@@ -59,9 +63,9 @@ const customValue = ref({
   author: JSON.parse(localStorage.getItem('user')).id || newTodo.value.author
 })
 
-import { useCategoryStore } from "@/stores/category.store";
+// import { useCategoryStore } from "@/stores/category.store";
 import { useAuthStore } from "@/stores/auth.store";
-const categoryStore = useCategoryStore();
+// const categoryStore = useCategoryStore();
 
 const addACategory = async () => {
   if (customValue.value) {
@@ -112,7 +116,8 @@ const removeCategory = (category) => {
 // Permission to interact / edit content
 const { activeUser } = storeToRefs(useAuthStore())
 const permissionToManage = (category) => {
-
+  console.log("category:", category);
+  console.log("ActiveUser.avalue:", activeUser.value);
   // Admin, Moderator, Author/Owner
 
   if (activeUser.value) {
@@ -134,7 +139,6 @@ const permissionToManage = (category) => {
 </script>
 <template>
   <form @submit.prevent="addItemAndClear(newTodo)" class="add-todo-form">
-
     <!-- Custom Input / DropDown -->
     <div class="top">
       <input class="form-input" type="text" v-model="newTodo.title" placeholder="Title" />
@@ -144,15 +148,6 @@ const permissionToManage = (category) => {
         <option value="Medium">Medium</option>
         <option value="Low">Low</option>
       </select>
-
-      <!-- <select v-model="newTodo.author" placeholder="Author">
-        <option value="">None</option>
-        <option value="" v-for="author in userStore.users" :key="author._id">
-          {{ author.username }}
-        </option>
-      </select> -->
-      <!-- <input type="checkbox" v-model="newTodo.completed"> -->
-
     </div>
 
     <div class="middle">
@@ -167,11 +162,11 @@ const permissionToManage = (category) => {
         <input type="text" v-model="customValue.name">
         <button @click.prevent="addACategory">Add</button>
       </div>
-
+      <pre>{{ todoCategories }}</pre>
       <div class="category-list">
         <div class="category" v-for="category in todoCategories" :key="category._id">
           <a>
-            <span>{{ category }}</span>
+            <span>{{ category }} - {{ permissionToManage(category) }}</span>
             <span v-if="permissionToManage(category)" @click.prevent="removeCategory(category)">
               <i class='bx bx-x'></i>
             </span>
@@ -193,8 +188,8 @@ const permissionToManage = (category) => {
 .add-todo-form {
   display: flex;
   flex-direction: column;
-  outline: 1px solid white;
-  border-radius: 5px;
+  width: 80%;
+  margin: 0 auto;
 }
 
 .top {

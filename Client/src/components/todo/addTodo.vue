@@ -48,7 +48,7 @@ const addItemAndClear = () => {
     newTodo.value.title = "";
     newTodo.value.completed = false;
 
-    selectedOption.value = null
+    selectedOption.value = "None"
     todoCategories.value = []
 
     //TODO: Add id of the selected Category to the Todo Object
@@ -92,12 +92,14 @@ const addTodoCategory = () => {
 
   if (!todoCategories.value.includes(selectedOption.value)) {
 
-
-    if (selectedOption.value !== "custom" && selectedOption.value !== "All" && selectedOption.value !== "None") {
+    if (selectedOption.value !== "custom"
+      && selectedOption.value !== "All"
+      && selectedOption.value !== "None"
+    ) {
       todoCategories.value.push(selectedOption.value)
     }
 
-    if (customValue.value.name) {
+    if (customValue.value.name && customValue.value !== "") {
       todoCategories.value.push(customValue.value.name)
     }
 
@@ -139,52 +141,82 @@ const permissionToManage = (category) => {
 </script>
 <template>
   <form @submit.prevent="addItemAndClear(newTodo)" class="add-todo-form">
-    <!-- Custom Input / DropDown -->
-    <div class="top">
-      <input class="form-input" type="text" v-model="newTodo.title" placeholder="Title" />
 
-      <select name="priority" id="priority" v-model="newTodo.priority">
-        <option value="High">High</option>
-        <option value="Medium">Medium</option>
-        <option value="Low">Low</option>
-      </select>
-    </div>
+    <div class="container">
 
-    <div class="middle">
-      <select v-model="selectedOption" @change="addTodoCategory">
-        <option value="" disabled>Category</option>
-        <option value="custom">Custom</option>
-        <option vale="">None</option>
-        <option :value="category.name" v-for="category in allCategories" :key="category">{{ category.name }}</option>
-      </select>
+      <div class="wrapper">
+        <div class="left">
+          <input class="form-input" type="text" v-model="newTodo.title" placeholder="Title" />
 
-      <div v-show="selectedOption === 'custom'" class="add-category">
-        <input type="text" v-model="customValue.name">
-        <button @click.prevent="addACategory">Add</button>
-      </div>
-      <pre>{{ todoCategories }}</pre>
-      <div class="category-list">
-        <div class="category" v-for="category in todoCategories" :key="category._id">
-          <a>
-            <span>{{ category }} - {{ permissionToManage(category) }}</span>
-            <span v-if="permissionToManage(category)" @click.prevent="removeCategory(category)">
-              <i class='bx bx-x'></i>
-            </span>
-          </a>
+          <select name="priority" id="priority" v-model="newTodo.priority">
+            <option value="High">High</option>
+            <option value="Medium">Medium</option>
+            <option value="Low">Low</option>
+          </select>
+
         </div>
+        <div class="bottom">
+          <select v-model="selectedOption" @change="addTodoCategory">
+            <option value="" disabled>Category</option>
+            <option value="custom">Custom</option>
+            <option vale="">None</option>
+            <option :value="category.name" v-for="category in allCategories" :key="category">{{ category.name }}
+            </option>
+          </select>
+
+          <div v-show="selectedOption === 'custom'" class="add-category">
+            <input type="text" v-model="customValue.name">
+            <button @click.prevent="addACategory">Add</button>
+          </div>
+          <div class="category-list">
+            <div class="category" v-for="category in todoCategories" :key="category._id">
+              <a>
+                <span>{{ category }}</span>
+                <span v-if="permissionToManage(category)" @click.prevent="removeCategory(category)">
+                  <i class='bx bx-x'></i>
+                </span>
+              </a>
+            </div>
+          </div>
+        </div>
+
+
+      </div>
+
+      <div class="right">
+        <!-- Custom Input / DropDown -->
+        <button class="add-button" :disabled="newTodo.title == ''">Add</button>
       </div>
 
     </div>
 
-    <div class="bottom">
-      <button class="add-button" :disabled="newTodo.title == ''">Add</button>
-    </div>
 
 
   </form>
 </template>
 
 <style scoped>
+.container {
+  display: flex;
+}
+
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  flex: 6;
+}
+
+.left {
+  display: flex;
+}
+
+.right {
+  display: flex;
+  flex: 1;
+  justify-content: center;
+  align-items: center;
+}
+
 .add-todo-form {
   display: flex;
   flex-direction: column;
@@ -234,23 +266,35 @@ form {
 }
 
 .category {
-  /* background-color: #EEF; */
-  border-radius: 20px;
+  /* border-radius: 20px;
   border: 1px #CCF solid;
-  /* padding: 2px 5px; */
   padding: 8px 12px;
-  /* display: inline; */
   display: flex;
   justify-content: center;
-  /* font-size: .75em; */
   font-size: 1em;
   cursor: pointer;
-  min-width: 30px;
+  min-width: 30px; */
+
+  display: flex;
+  align-items: center;
+  color: black;
+  background-color: #eef;
+  border-radius: 15px;
+  padding: 2px 6px;
+  margin-right: 4px;
+  font-size: 0.8em;
+  justify-content: center;
 }
 
 .category:hover {
   outline: 1px solid lime;
 }
+
+.category .bx:hover {
+  color: red;
+  cursor: pointer;
+}
+
 
 .category a {
   min-height: 20px;
@@ -260,7 +304,11 @@ form {
   flex-direction: row;
   justify-content: center;
   align-items: center;
-  font-family: "Trip Sans VF", "Trip Sans", Arial, sans-serif;
+}
+
+.category a:hover {
+  cursor: pointer;
+  color: purple;
 }
 
 i {
@@ -277,8 +325,11 @@ i:hover {
 }
 
 .add-button {
-  display: block;
-  width: 100%;
-  height: 2em;
+  display: flex;
+  flex: 1;
+  height: 100%;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
 }
 </style>

@@ -15,7 +15,10 @@ const todoStore = useTodoListStore();
 const { toggleCompleted, editTodo, deleteTodo } = todoStore;
 
 const isEditing = ref(false);
-const editItem = ref();
+const editItem = ref({
+  title: null,
+  description: null
+});
 
 const toggleEditMode = (todo) => {
   editItem.value = todo.title;
@@ -65,7 +68,7 @@ const permissionToManage = (todo) => {
   // Admin, Moderator, Author/Owner
 
   if (activeUser.value) {
-
+    console.log("active User is: ", activeUser.value)
     // Content Owner
     if (todo.author && activeUser.value.id === todo.author._id) {
       //Has full access, as is owner
@@ -92,10 +95,20 @@ const permissionToManage = (todo) => {
 
     <div class="categories">
       <span v-for="category in todo.categories" :key="category" class="category">
-        <a @click.prevent="$emit('category', category.name)">{{ category.name }}</a>
+        <a @click.prevent="$emit('category', category.name)">
+          {{ category.name }}
+        </a>
+        <i class="bx bx-x" @click="deleteCategory(category._id)" />
         <!-- <a :href="`/todo/category/${category.name}`">{{ category.name }}</a> -->
       </span>
     </div>
+
+    <template v-if="isEditing && permissionToManage(todo)">
+      <input type="text" v-model="editItem.title" @blur="updateTodo(todo)">
+    </template>
+    <template v-else>
+      <div>{{ todo.title }}</div>
+    </template>
 
     <div class="content">
       <template v-if="isEditing && permissionToManage(todo)">
@@ -111,7 +124,6 @@ const permissionToManage = (todo) => {
         </span>
       </template>
     </div>
-
     <div class="author">
       <template v-if="todo.author && todo.author.username">
         {{ todo.author.username }}
@@ -123,14 +135,37 @@ const permissionToManage = (todo) => {
       <span class="priority">{{ todo.priority }}</span>
     </div>
 
-    <div class="actions" v-if="permissionToManage(todo)">
-      <span @click="toggleEditMode(todo)">
+    <!-- <template v-if="permissionToManage(todo)">
+      <div class="actions">
+        <span @click="toggleEditMode(todo)">
+          <i class="bx bx-edit"></i>
+        </span>
+        <span @click="deleteTodoItem(todo._id)">
+          <i class="bx bx-trash"></i>
+        </span>
+      </div>
+    </template>
+    <template v-else>
+      <div class="actions">
+        <span disabled :class="disabled">
+          <i class="bx bx-edit"></i>
+        </span>
+        <span disabled :class="disabled">
+          <i class="bx bx-trash"></i>
+        </span>
+      </div>
+    </template> -->
+
+    <div class="actions">
+      <span :class="{ disabled: !permissionToManage(todo) }" @click="permissionToManage(todo) && toggleEditMode(todo)">
         <i class="bx bx-edit"></i>
       </span>
-      <span @click="deleteTodoItem(todo._id)">
+      <span :class="{ disabled: !permissionToManage(todo) }"
+        @click="permissionToManage(todo) && deleteTodoItem(todo._id)">
         <i class="bx bx-trash"></i>
       </span>
     </div>
+
 
   </div>
 </template>
@@ -139,7 +174,7 @@ const permissionToManage = (todo) => {
 <style scoped>
 .todo-container {
   display: grid;
-  grid-template-columns: .5fr 1fr 3fr 1fr 1fr 1fr;
+  grid-template-columns: .5fr minmax(50px, 1.75fr) 2fr 4fr 1fr 1fr 1fr;
 }
 
 .completion {
@@ -191,24 +226,37 @@ const permissionToManage = (todo) => {
   /* outline: 1px solid rgb(187, 20, 209); */
 }
 
+.actions .bx {
+  cursor: pointer;
+}
+
+.actions .disabled .bx {
+  opacity: 0.25;
+  cursor: not-allowed;
+}
+
 /* Categories */
 .category {
-  /* background-color: #EEF; */
-  /* border-radius: 20px; */
-  border: 1px #CCF solid;
-  padding: 2px 3px;
-  /* display: inline; */
   display: flex;
+  align-items: center;
+  color: black;
+  background-color: #eef;
+  border-radius: 15px;
+  padding: 2px 6px;
+  margin-right: 4px;
+  font-size: 0.8em;
   justify-content: center;
-  font-size: .75em;
-  cursor: pointer;
-  min-width: 30px;
-  margin: .25em;
 }
 
 .category:hover {
   outline: 1px solid lime;
 }
+
+.category .bx:hover {
+  color: red;
+  cursor: pointer;
+}
+
 
 .category a {
   min-height: 20px;
@@ -218,6 +266,11 @@ const permissionToManage = (todo) => {
   flex-direction: row;
   justify-content: center;
   align-items: center;
+}
+
+.category a:hover {
+  cursor: pointer;
+  color: purple;
 }
 
 .todo-body {

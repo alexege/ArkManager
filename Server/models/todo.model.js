@@ -5,6 +5,7 @@ const Todo = mongoose.model(
   new mongoose.Schema(
     {
       title: String,
+      description: String,
       categories: [
         {
           type: mongoose.Schema.Types.ObjectId,

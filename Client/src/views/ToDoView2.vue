@@ -27,7 +27,7 @@ const route = useRoute();
 const category = ref(route.params.category);
 
 const addItemInput = ref(null);
-const headers = ['[✓]', 'Categories', 'Description', 'Author', 'Priority', 'Actions']; // Define headers for the grid
+const headers = ['[✓]', 'Categories', 'Todo', 'Description', 'Author', 'Priority', 'Actions']; // Define headers for the grid
 
 const newItem = ref({
     completed: false,
@@ -78,7 +78,7 @@ const filteredTodosIncomplete = computed(() =>
             <AddTodo />
 
             <!-- Add Todo Item -->
-            <div class="add-item">
+            <!-- <div class="add-item">
                 <input type="text" v-model="newItem.description" id="addItemInput" class="form-input" ref="addItemInput"
                     @keydown.enter="addItem">
                 <select name="" id="priority" v-model="newItem.priority" class="form-input">
@@ -87,7 +87,7 @@ const filteredTodosIncomplete = computed(() =>
                     <option value="High">High</option>
                 </select>
                 <button @click="addItem" class="add-item-button">Add Item</button>
-            </div>
+            </div> -->
 
             <!-- Incomplete Item Rows -->
             <div class="incomplete-items" v-if="filteredTodosIncomplete.length">
@@ -175,7 +175,7 @@ const filteredTodosIncomplete = computed(() =>
 
 .grid-header {
     display: grid;
-    grid-template-columns: .5fr 1fr 3fr 1fr 1fr 1fr;
+    grid-template-columns: .5fr minmax(50px, 1.75fr) 2fr 4fr 1fr 1fr 1fr;
     /* 4 equal-width columns */
     margin-bottom: 10px;
     gap: 10px;

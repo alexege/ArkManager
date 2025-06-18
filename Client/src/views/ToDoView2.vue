@@ -27,7 +27,7 @@ const route = useRoute();
 const category = ref(route.params.category);
 
 const addItemInput = ref(null);
-const headers = ['[✓]', 'Categories', 'Todo', 'Description', 'Author', 'Priority', 'Actions']; // Define headers for the grid
+const headers = ['[✓]', 'Categories', 'Title', 'Author', 'Priority', 'Actions']; // Define headers for the grid
 
 const newItem = ref({
     completed: false,
@@ -175,7 +175,7 @@ const filteredTodosIncomplete = computed(() =>
 
 .grid-header {
     display: grid;
-    grid-template-columns: .5fr minmax(50px, 1.75fr) 2fr 4fr 1fr 1fr 1fr;
+    grid-template-columns: .5fr 2fr 4fr 1fr 1fr 1fr;
     /* 4 equal-width columns */
     margin-bottom: 10px;
     gap: 10px;
@@ -197,7 +197,7 @@ const filteredTodosIncomplete = computed(() =>
 
 .grid-item {
     display: grid;
-    grid-template-columns: .5fr minmax(50px, 1fr) 3fr 1fr 1fr 1fr;
+    grid-template-columns: .5fr 3fr 1fr 1fr 1fr;
     /* 4 equal-width columns for each item */
     gap: 10px;
     color: white;

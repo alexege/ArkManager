@@ -16,8 +16,7 @@ const { toggleCompleted, editTodo, deleteTodo } = todoStore;
 
 const isEditing = ref(false);
 const editItem = ref({
-  title: null,
-  description: null
+  title: null
 });
 
 const toggleEditMode = (todo) => {
@@ -103,12 +102,12 @@ const permissionToManage = (todo) => {
       </span>
     </div>
 
-    <template v-if="isEditing && permissionToManage(todo)">
+    <!-- <template v-if="isEditing && permissionToManage(todo)">
       <input type="text" v-model="editItem.title" @blur="updateTodo(todo)">
     </template>
-    <template v-else>
+<template v-else>
       <div>{{ todo.title }}</div>
-    </template>
+    </template> -->
 
     <div class="content">
       <template v-if="isEditing && permissionToManage(todo)">
@@ -174,7 +173,7 @@ const permissionToManage = (todo) => {
 <style scoped>
 .todo-container {
   display: grid;
-  grid-template-columns: .5fr minmax(50px, 1.75fr) 2fr 4fr 1fr 1fr 1fr;
+  grid-template-columns: .5fr 2fr 4fr 1fr 1fr 1fr;
 }
 
 .completion {
@@ -191,6 +190,7 @@ const permissionToManage = (todo) => {
   flex: 2;
   flex-wrap: wrap;
   /* outline: 1px solid rgb(28, 197, 104); */
+  gap: 5px;
 }
 
 .priority {
@@ -241,9 +241,10 @@ const permissionToManage = (todo) => {
   align-items: center;
   color: black;
   background-color: #eef;
-  border-radius: 15px;
-  padding: 2px 6px;
-  margin-right: 4px;
+  /* border-radius: 15px; */
+  /* padding: 2px 6px; */
+  /* margin-right: 4px; */
+  padding: 1px 2px;
   font-size: 0.8em;
   justify-content: center;
 }

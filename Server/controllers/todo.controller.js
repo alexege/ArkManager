@@ -55,6 +55,7 @@ exports.updateTodoById = (req, res) => {
   let updateData = {
     title: req.body.title,
     completed: req.body.completed,
+    priority: req.body.priority,
   };
 
   Todo.findByIdAndUpdate({ _id: req.params.id }, updateData)

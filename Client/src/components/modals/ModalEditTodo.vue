@@ -19,6 +19,7 @@ watch(
     (newTodo) => {
         if (newTodo) {
             localTodo.title = newTodo.title;
+            localTodo.priority = newTodo.priority;
         }
     },
     { immediate: true }

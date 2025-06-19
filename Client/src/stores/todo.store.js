@@ -114,6 +114,7 @@ export const useTodoListStore = defineStore('todoList', {
     async editTodo(itemId, item) {
       //   this.todoList = this.todoList.filter((item) => item.id != itemId)
       console.log('Attempting to edit todo with id: ', itemId)
+      console.log('the new todo is:', item)
       await axios.put(`${API_URL}/todo/${itemId}`, item)
 
       const todoIndex = this.todoList.findIndex((todo) => todo._id === itemId)

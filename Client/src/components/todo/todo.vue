@@ -2,6 +2,8 @@
 import { ref, computed, onMounted, onBeforeMount, onBeforeUnmount } from "vue";
 import { storeToRefs } from 'pinia'
 
+import ModalEditTodo from "../modals/ModalEditTodo.vue";
+
 defineEmits(['category'])
 defineProps(["todo"]);
 
@@ -21,10 +23,13 @@ const editItem = ref({
 
 const toggleEditMode = (todo) => {
   editItem.value = todo.title;
+  editItem.value = todo
   isEditing.value = !isEditing.value;
 };
 const updateTodo = (todo) => {
-  todo.title = editItem.value;
+  console.log("updateTodo:", todo);
+
+  // todo.title = editItem.value;
   isEditing.value = !isEditing.value;
 
   todoStore.editTodo(todo._id, todo);
@@ -67,7 +72,6 @@ const permissionToManage = (todo) => {
   // Admin, Moderator, Author/Owner
 
   if (activeUser.value) {
-    console.log("active User is: ", activeUser.value)
     // Content Owner
     if (todo.author && activeUser.value.id === todo.author._id) {
       //Has full access, as is owner
@@ -110,18 +114,17 @@ const permissionToManage = (todo) => {
     </template> -->
 
     <div class="content">
-      <template v-if="isEditing && permissionToManage(todo)">
+      <!-- <template v-if="isEditing && permissionToManage(todo)">
         <textarea name="" id="" class="todo-body" v-model="editItem" @blur="updateTodo(todo)"
-          @keydown.enter="$event.target.blur()" autofocus @focus="$event.target.select()"></textarea>
-        <!-- <input class="todo-body" type="text" v-model="editItem" @blur="updateTodo(todo)"
-          @keydown.enter="$event.target.blur()" autofocus @focus="$event.target.select()"> -->
+          @keydown.enter="$event.target.blur()" autofocus @focus="$event.target.select()">
+        </textarea>
       </template>
-      <template v-else>
-        <!-- Todo Body -->
-        <span class="todo-body" @dblclick="toggleEditMode(todo)">
-          <span :class="{ completed: todo.completed }">{{ todo.title }}</span>
-        </span>
-      </template>
+      <template v-else> -->
+      <!-- Todo Body -->
+      <span class="todo-body" @dblclick="toggleEditMode(todo)">
+        <span :class="{ completed: todo.completed }">{{ todo.title }}</span>
+      </span>
+      <!-- </template> -->
     </div>
     <div class="author">
       <template v-if="todo.author && todo.author.username">
@@ -165,12 +168,17 @@ const permissionToManage = (todo) => {
       </span>
     </div>
 
+    <modal-edit-todo :show="isEditing" :todo="editItem" @close="isEditing = false" @update="updateTodo" />
 
   </div>
 </template>
 
 
 <style scoped>
+.checkbox {
+  cursor: pointer;
+}
+
 .todo-container {
   display: grid;
   grid-template-columns: .5fr 2fr 4fr 1fr 1fr 1fr;

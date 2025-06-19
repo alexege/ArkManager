@@ -23,7 +23,9 @@ const selectedMapName = ref(mapOptions.value[0].name)
 
 // Add map to store
 const addMap = () => {
-    mapStore.createMap(selectedMapName.value)
+    const map = mapOptions.value.find(map => map.name === selectedMapName.value);
+
+    mapStore.createMap(map);
 }
 </script>
 <template>

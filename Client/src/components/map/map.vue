@@ -231,6 +231,9 @@ const deleteMap = (mapId) => {
 </script>
 <template>
     <div class="map-container" @mousemove="onContainerMouseMove">
+
+        <pre>{{ map }}</pre>
+
         <i class="bx bx-x" @click="deleteMap(props.map.id)"></i>
         <ModalEditPoint v-if="showEditModal" :point="selectedPoint" :mapId="props.map.id"
             @modal-close="closeEditModal" />

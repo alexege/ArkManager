@@ -28,7 +28,6 @@ const onMouseDown = (event) => {
 }
 const parentMousePosition = ref({ x: 0, y: 0 })
 const onContainerMouseMove = (event) => {
-    console.log(`onMove: ${event.target.closest('.map')}`)
     const container = event.target.closest('.map')
     // const container = document.querySelector('.map')
     if (container) {
@@ -218,8 +217,19 @@ const toggleActive = (name) => {
 }
 //Check to see if the category has any matching points
 const matchCount = (category) => {
-    return props.map.points.filter(point => point.icon == category.name).length;
+    return props.map.points?.filter(point => point.icon == category.name).length;
 }
+
+// Edit Map Name
+const editMapName = ref(props.map.name)
+const editingMapName = ref(false)
+const updateMapName = () => {
+    console.log("Attempting to udpate map name");
+    //TODO: Add updateMapName to map.store
+    mapStore.updateMapName(props.map.id, editMapName.value)
+    editingMapName.value = false
+}
+
 // Delete Map
 const deleteMap = (mapId) => {
     const confirmed = window.confirm('Are you sure  you wish to delete this map?')
@@ -232,7 +242,7 @@ const deleteMap = (mapId) => {
 <template>
     <div class="map-container" @mousemove="onContainerMouseMove">
 
-        <pre>{{ map }}</pre>
+        <!-- <pre>{{ map }}</pre> -->
 
         <i class="bx bx-x" @click="deleteMap(props.map.id)"></i>
         <ModalEditPoint v-if="showEditModal" :point="selectedPoint" :mapId="props.map.id"
@@ -240,7 +250,15 @@ const deleteMap = (mapId) => {
         <ModalAddPoint v-if="isModalOpen" @modal-close="closeModal" @add-point="onAddPoint" :point="point"
             :points="props.map.points">
         </ModalAddPoint>
-        <h2 class="map-name">{{ map.name }}</h2>
+
+        <template v-if="editingMapName">
+            <input type="text" v-model="editMapName">
+            <button @click="updateMapName()">Update</button>
+        </template>
+        <template v-else>
+            <h2 class="map-name" @dblclick="editingMapName = true">{{ map.name }}</h2>
+        </template>
+
         <div class="two-column">
             <div class="map-wrapper">
                 <div class="overlay">
@@ -278,7 +296,7 @@ const deleteMap = (mapId) => {
             </div>
             <Tabs @tabChanged="onTabChange" :activeTabIndex="activeTabIndex" class="tabs-container">
                 <tab title="All Points">
-                    <div v-if="!map.points || map.points.length == 0">
+                    <div v-if="!map.points || map.points?.length == 0">
                         Double click anywhere on the map to create a point.
                     </div>
                     <div class="points-container">
@@ -289,7 +307,7 @@ const deleteMap = (mapId) => {
                                 </span>
                                 - {{ category.name }}
                             </h2>
-                            <template v-for="point in map.points" :key="point.name">
+                            <div v-for="point in map.points" :key="point.name">
                                 <div class="point-display" v-if="point.icon == category.name"
                                     @mouseover="onMouseOver(point)" @mouseleave="onMouseHoverLeave"
                                     @click="toggleActive(point.name)">
@@ -317,7 +335,7 @@ const deleteMap = (mapId) => {
                                         </a>
                                     </div>
                                 </div>
-                            </template>
+                            </div>
                         </div>
                     </div>
 
@@ -370,7 +388,12 @@ const deleteMap = (mapId) => {
                         </div>
                     </div>
                     <div v-else>
-                        Double click anywhere on the map to create a point.
+                        <template v-if="map.points?.length < 1">
+                            Double click anywhere on the map to create a point.
+                        </template>
+                        <template v-else>
+                            Select a point on the map to see more details.
+                        </template>
                     </div>
                 </tab>
             </Tabs>

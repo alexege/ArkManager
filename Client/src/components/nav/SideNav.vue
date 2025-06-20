@@ -367,7 +367,7 @@ aside {
 
 
   /* overflow-y: scroll; */
-  overflow-x: hidden;
+  /* overflow-x: hidden; */
   /* overflow: auto; */
   /* margin: -6px -14px; */
 }
@@ -396,7 +396,7 @@ aside {
 .sidebar li .tooltip {
   position: absolute;
   top: -20px;
-  left: calc(100% + 15px);
+  left: calc(100% + 55px);
   z-index: 3;
   background: #fff;
   box-shadow: 0 5px 10px rgba(0, 0, 0, 0.3);

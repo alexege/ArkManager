@@ -18,41 +18,165 @@ const mapOptions = ref([
     { name: 'Extinction', img: '../../public/assets/maps/Extinction.png' },
 ])
 
+// const allMapData = [
+//     {
+//         name: 'The Island',
+//         img: '../../public/assets/maps/TheIsland.png',
+//         maps: [
+//             {
+//                 mapName: 'My first Island',
+//             },
+//             {
+//                 mapName: 'My second Island',
+//             }
+//         ]
+//     },
+//     {
+//         name: 'Scorched Earth',
+//         img: '../../public/assets/maps/ScorchedEarth.png',
+//         maps: [
+//             {
+//                 mapName: 'My first Scorched Earth',
+//             },
+//             {
+//                 mapName: 'My second Scorched Earth',
+//             }
+//         ]
+//     },
+//     {
+//         name: 'The Center',
+//         img: '../../public/assets/maps/TheCenterMap.jpg',
+//         maps: [
+//             {
+//                 mapName: 'My first Center',
+//             },
+//             {
+//                 mapName: 'My second Center',
+//             }
+//         ]
+//     },
+//     {
+//         name: 'Aberration',
+//         img: '../../public/assets/maps/Aberration.png',
+//         maps: [
+//             {
+//                 mapName: 'My first Aberration',
+//             },
+//             {
+//                 mapName: 'My second Aberration',
+//             }
+//         ]
+//     },
+//     {
+//         name: 'Astraeos',
+//         img: '../../public/assets/maps/Astraeos.png',
+//         maps: [
+//             {
+//                 mapName: 'My first Astraeos',
+//             },
+//             {
+//                 mapName: 'My second Astraeos',
+//             }
+//         ]
+//     },
+//     {
+//         name: 'Extinction',
+//         img: '../../public/assets/maps/Extinction.png',
+//         maps: [
+//             {
+//                 mapName: 'My first Extinction',
+//             },
+//             {
+//                 mapName: 'My second Extinction',
+//             }
+//         ]
+//     }
+// ]
+
 // Selected map name
 const selectedMapName = ref(mapOptions.value[0].name)
 
 // Add map to store
-const addMap = () => {
-    const map = mapOptions.value.find(map => map.name === selectedMapName.value);
+const newMapTitle = ref()
+const newMapDetails = ref({
+    title: newMapTitle.value,
+    name: selectedMapName.value,
+    points: [],
+    img: mapOptions.value.find(map => map.name === selectedMapName.value).img
+})
 
-    mapStore.createMap(map);
+const addMap = () => {
+    // const map = mapOptions.value.find(map => map.name === selectedMapName.value);
+
+    mapStore.createMap(newMapDetails.value);
 }
+
+// Transforming into nested structure
+const groupedMapData = mapStore.allMaps.reduce((acc, curr) => {
+    let existing = acc.find(group => group.name === curr.name)
+    if (!existing) {
+        existing = {
+            id: curr.id,
+            name: curr.name,
+            img: curr.img,
+            maps: []
+        }
+        acc.push(existing)
+    }
+    existing.maps.push({
+        id: curr.id,
+        name: curr.title,
+        img: curr.img,
+        points: curr.points
+    })
+    return acc
+}, []);
+const allMapDataUpdated = ref(groupedMapData)
+const renderedMaps = computed(() => {
+    return allMapDataUpdated.value.filter(map => map.name == selectedMapName.value)[0].maps
+})
+
 </script>
 <template>
     <div>
+
+        <h2 class="title">Scout Maps</h2>
+
         <div class="container">
             <!-- Map Thumbnails -->
             <div class="thumbnail-list">
-                <div v-for="map in mapOptions" :key="map.name" class="thumbnail"
+                <div v-for="map in allMapDataUpdated" :key="map.name" class="thumbnail"
                     :class="{ active: map.name === selectedMapName }" @click="selectedMapName = map.name">
                     <img :src="map.img" :alt="map.name" />
                     <p>{{ map.name }}</p>
+
                 </div>
             </div>
+
+            <!-- Add Map -->
             <div class="addMap">
                 Add a new Map
+                <input type="text" placeholder="Map Name" v-model="newMapTitle">
                 <select name="" id="" v-model="selectedMapName">
-                    <option v-for="map in mapOptions" :key="map" :value="map.name">{{ map.name }}</option>
+                    <option v-for="map in groupedMapData" :key="map" :value="map.name">{{ map.name }}</option>
                 </select>
                 <button @click="addMap">Add Map</button>
             </div>
-            <template v-for="map in allMaps" :key="map.name">
+
+            <!-- Maps -->
+            <div v-for="map in renderedMaps" :key="map.name">
                 <Map :map="map" />
-            </template>
+            </div>
         </div>
     </div>
 </template>
 <style scoped>
+.title {
+    text-align: center;
+    padding: 1em;
+    font-size: 2em;
+}
+
 /* .container {
     margin: 0 auto;
     margin-bottom: 1em;
@@ -68,15 +192,18 @@ const addMap = () => {
     /* height: 100vh; */
     display: flex;
     flex-direction: column;
-    gap: 1em;
+    /* gap: 1em; */
+    background-color: black;
 }
 
 /* Thumbnail Styles */
 .thumbnail-list {
     display: flex;
+    justify-content: center;
     gap: 1em;
     overflow-x: auto;
     padding: 1em 0;
+    color: white;
 }
 
 .thumbnail {
@@ -96,8 +223,10 @@ const addMap = () => {
 
 .thumbnail.active {
     /* border-color: #007BFF; */
+    /* color: black; */
+    color: cyan;
     border-color: cyan;
-    background-color: #f0f8ff;
+    background-color: rgba(255, 255, 255, 0.35);
 }
 
 .addMap {

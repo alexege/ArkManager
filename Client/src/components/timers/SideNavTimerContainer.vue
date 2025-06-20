@@ -25,7 +25,7 @@ const activeButton = ref("All")
         <div style="padding-top: 20px;">
             <template v-if="activeButton == 'All'">
                 <div v-for="timer in allTimers" :key="timer" class="timers">
-                    <SideNavCountdown v-if="timer.type == 'countdown'" :timer="timer" />
+                    <SideNavCountdown v-if="timer.type == 'countdown' && timer.isActive == true" :timer="timer" />
                     <SideNavStopwatch v-if="timer.type == 'stopwatch'" :timer="timer" />
                 </div>
             </template>

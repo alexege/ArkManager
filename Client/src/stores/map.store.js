@@ -4,17 +4,55 @@ export const useMapStore = defineStore('map', {
     maps: [
       {
         id: 1,
-        name: 'map1',
+        title: 'map1',
+        name: 'The Island',
         points: [],
-        img: '/assets/maps/TheCenterMap.jpg'
+        img: '../../assets/maps/TheIsland.png'
       },
       {
         id: 2,
-        name: 'map2',
+        title: 'map2',
+        name: 'The Center',
         points: [],
-        img: '/assets/maps/TheIsland.png'
+        img: '../../assets/maps/TheCenterMap.jpg'
+      },
+      {
+        id: 3,
+        title: 'map3',
+        name: 'Scorched Earth',
+        points: [],
+        img: '../../assets/maps/ScorchedEarth.png'
+      },
+      {
+        id: 4,
+        title: 'map4',
+        name: 'Scorched Earth',
+        points: [],
+        img: '../../assets/maps/ScorchedEarth.png'
+      },
+      {
+        id: 5,
+        title: 'map5',
+        name: 'Scorched Earth',
+        points: [],
+        img: '../../assets/maps/ScorchedEarth.png'
+      },
+      {
+        id: 6,
+        title: 'map6',
+        name: 'Aberration',
+        points: [],
+        img: '../../assets/maps/Aberration.png'
+      },
+      {
+        id: 7,
+        title: 'map7',
+        name: 'Astraeos',
+        points: [],
+        img: '../../assets/maps/Astraeos.png'
       }
     ],
+
     map: null,
     categories: [
       {

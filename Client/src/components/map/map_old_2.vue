@@ -28,7 +28,6 @@ const onMouseDown = (event) => {
 }
 const parentMousePosition = ref({ x: 0, y: 0 })
 const onContainerMouseMove = (event) => {
-    console.log(`onMove: ${event.target.closest('.map')}`)
     const container = event.target.closest('.map')
     // const container = document.querySelector('.map')
     if (container) {

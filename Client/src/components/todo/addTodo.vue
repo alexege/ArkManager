@@ -156,7 +156,7 @@ const permissionToManage = (category) => {
 
         </div>
         <div class="bottom">
-          <select v-model="selectedOption" @change="addTodoCategory">
+          <select v-model="selectedOption" @change="addTodoCategory" class="select">
             <option value="" disabled>Category</option>
             <option value="custom">Custom</option>
             <option vale="">None</option>
@@ -198,12 +198,18 @@ const permissionToManage = (category) => {
 <style scoped>
 .container {
   display: flex;
+  outline: 2px solid white;
+}
+
+.select {
+  min-height: 26px;
 }
 
 .wrapper {
   display: flex;
   flex-direction: column;
   flex: 6;
+  background-color: rgba(255, 255, 255, 0.15);
 }
 
 .left {

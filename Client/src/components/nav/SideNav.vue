@@ -1,259 +1,212 @@
 <script setup>
+import { RouterLink, RouterView } from 'vue-router'
 import { ref, computed, onMounted } from 'vue'
-import { storeToRefs } from 'pinia'
+
+import { useThemeStore } from '../../stores/theme.store'
+const themeStore = useThemeStore()
+
+const theme = computed(() => {
+  return themeStore.theme
+})
 
 const openSideNav = ref(false)
 
-import { useAuthStore } from '@/stores/auth.store';
-const authStore = useAuthStore();
-const { user } = storeToRefs(authStore)
+const expanded = ref(false)
 
-const logout = () => {
-  authStore.logout()
-}
+import { useTimerStore } from '@/stores/timer.store'
+const { allTimers } = storeToRefs(useTimerStore())
 
-//Show Admin Page
-const showAdminPage = computed(() => {
-  if (user.value && user.value.roles) {
-    return user.value.roles.includes('ROLE_ADMIN');
-  }
-  return false
+import Timer from '../timers/Timer.vue'
+import TransitionExpand from '../transitions/TransitionExpand.vue'
+import { storeToRefs } from 'pinia'
+
+onMounted(() => {
+  let isLocked = JSON.parse(localStorage.getItem('isNavLocked'))
+  isNavLocked.value = isLocked
+  // if (isNavLocked.value) openSideNav.value = true
 })
 
-//Search Bar
-const sideNavSearch = ref()
-
-const showTimers = ref(false)
-const toggleTimersView = () => {
-  showTimers.value = !showTimers.value;
-  if (showTimers.value == true && openSideNav.value == false) {
-    openSideNav.value = !openSideNav.value
-  }
-}
-
-import TransitionExpand from '@/components/transitions/TransitionExpand.vue'
-import SideNavTimerContainer from '@/components/timers/SideNavTimerContainer.vue'
-
-// Navbar lock/unlock
 const isNavLocked = ref(false)
 
 const toggleNavLock = () => {
-  console.log("Toggle navlock")
   isNavLocked.value = !isNavLocked.value
-  // openSideNav.value = !openSideNav.value
-
+  openSideNav.value = !openSideNav.value
   localStorage.setItem('isNavLocked', isNavLocked.value)
 }
 
 const showNav = () => {
-  if (!isNavLocked.value) openSideNav.value = true;
+  // console.log(`isNavLocked.value: ${isNavLocked.value}`)
+  if (isNavLocked.value == 'false' || isNavLocked.value == false) openSideNav.value = true
 }
 
 const hideNav = () => {
-  if (!isNavLocked.value) openSideNav.value = false;
+  // console.log(`isNavLocked.value: ${isNavLocked.value}`)
+  if (!isNavLocked.value) openSideNav.value = false
 }
-
-onMounted(() => {
-  isNavLocked.value = JSON.parse(localStorage.getItem('isNavLocked'))
-})
-
-const toggleNav = () => {
-  console.log("toggling side nav")
-  openSideNav.value = !openSideNav.value
-}
-
-const searchCategories = (query) => {
-  if (query.length > 0) {
-    console.log("query: ", query)
-  }
-}
-
 </script>
 <template>
-  <aside class="sidebar" :class="{ open: openSideNav }" @mouseover="showNav" @mouseleave="hideNav">
-    <div class="logo-details">
-      <i class="bx bxl-c-plus-plus icon"></i>
-      <div class="logo_name">Templates</div>
-      <div class="nav-icons">
-
-
-        <span @click="toggleNavLock">
-          <i v-if="isNavLocked" class='bx bx-lock'></i>
-          <i v-else class='bx bx-lock-open'></i>
-        </span>
-
-        <span @click="toggleNav()">
-          <i v-if="openSideNav" class='bx bx-chevron-left'></i>
-          <i v-else class='bx bx-chevron-right'></i>
-        </span>
-
+  <div class="wrapper">
+    <div class="sidebar" :class="{ open: openSideNav }" @mouseenter="showNav()" @mouseleave="hideNav()">
+      <div class="toggle-container">
+        <li class="toggle-btn-container">
+          <span class="material-symbols-outlined toggle-btn" @click="toggleNavLock()">
+            {{ isNavLocked ? 'lock_open' : 'lock' }}
+          </span>
+        </li>
       </div>
-    </div>
-    {{ sideNavSearch }}
-    <ul class="nav-list" :class="{ sideNavScrollBar: !openSideNav }">
-      <li>
-        <i class="bx bx-search" @click="openSideNav = !openSideNav"></i>
-        <input type="text" placeholder="Search..." v-model="sideNavSearch" />
-        <span class="tooltip">Search</span>
-      </li>
-      <li v-if="showAdminPage">
-        <a href="#">
-          <RouterLink to="/admin">
-            <i class="bx bx-grid-alt"></i>
-            <span class="links_name">Admin Dashboard</span>
-          </RouterLink>
-        </a>
-        <span class="tooltip">Admin Dashboard</span>
-      </li>
-      <li>
-        <a href="#">
-          <RouterLink to="/">
-            <i class="bx bx-grid-alt"></i>
-            <span class="links_name">Dashboard</span>
-          </RouterLink>
-        </a>
-        <span class="tooltip">Dashboard</span>
-      </li>
-      <li>
-        <div style="display: flex;">
-          <a href="#" id="">
-            <RouterLink to="/timers" id="sideNavTimers" :class="{ sideNavTimersExpanded: openSideNav }">
+
+      <!-- <div class="logo-details">
+                    <i class="bx bxl-c-plus-plus icon"></i>
+                    <div class="logo_name">Templates</div>
+                    <i
+                        :class="[[openSideNav ? 'bx-menu' : 'bx-menu-alt-right'], 'bx']"
+                        id="btn"
+                        @click="openSideNav = !openSideNav"
+                    ></i>
+                    <i
+                        :class="[[openSideNav ? 'bx-menu' : 'bx-menu-alt-right'], 'bx']"
+                        id="btn"
+                        @click="toggleNavLock()"
+                    >
+                    </i>
+                </div> -->
+      <ul class="nav-list">
+        <li>
+          <i class="bx bx-search" @click="openSideNav = !openSideNav"></i>
+          <input type="text" placeholder="Search..." />
+          <span class="tooltip">Search</span>
+        </li>
+        <li>
+          <a href="#">
+            <RouterLink to="/">
+              <i class="bx bx-grid-alt"></i>
+              <span class="links_name">Dashboard</span>
+            </RouterLink>
+          </a>
+          <span class="tooltip">Dashboard</span>
+        </li>
+        <li>
+          <a href="#">
+            <RouterLink to="/draganddrop">
               <i class="bx bx-timer"></i>
               <span class="links_name">Timers</span>
             </RouterLink>
           </a>
-          <span @click="toggleTimersView" class="timer-extend" v-if="openSideNav">
-            <span>
-              <i v-if="!showTimers" class='bx bx-chevron-down'></i>
-              <i v-else class='bx bx-chevron-up'></i>
-            </span>
-          </span>
-        </div>
-        <span class="tooltip">Timers</span>
-        <TransitionExpand class="accordion">
-          <div v-if="showTimers">
-            <!-- <SideNavTimerContainer style="overflow: auto; overflow-x: hidden; height: 300px;" /> -->
-            <SideNavTimerContainer style="overflow-y: scroll; overflow-x: hidden;" />
+          <span class="tooltip">Timers</span>
+        </li>
+        <li>
+          <a href="#">
+            <RouterLink to="/timers">
+              <i class="bx bx-timer"></i>
+              <span class="links_name">Timers</span>
+              <!-- <button @click="expanded = !expanded">
+                                    {{ expanded ? `Hide` : `Show` }}
+                                </button> -->
+            </RouterLink>
+          </a>
+          <span class="tooltip">Timers</span>
+          <TransitionExpand class="accordion">
+            <div v-if="expanded">
+              <div v-for="timer in allTimers" :key="timer">
+                <Timer :timer="timer" />
+              </div>
+            </div>
+          </TransitionExpand>
+        </li>
+        <li>
+          <a href="#">
+            <RouterLink to="/user">
+              <i class="bx bx-user"></i>
+              <span class="links_name">User</span>
+            </RouterLink>
+          </a>
+          <span class="tooltip">User</span>
+        </li>
+        <li>
+          <a href="#">
+            <RouterLink to="/todo">
+              <i class="bx bx-list-ul"></i>
+              <span class="links_name">Todo</span>
+            </RouterLink>
+          </a>
+          <span class="tooltip">Todo</span>
+        </li>
+        <li>
+          <a href="#">
+            <RouterLink to="/notes">
+              <i class="bx bx-edit"></i>
+              <span class="links_name">Notes</span>
+            </RouterLink>
+          </a>
+          <span class="tooltip">Notes</span>
+        </li>
+        <li>
+          <a href="#">
+            <RouterLink to="/messages">
+              <i class="bx bx-chat"></i>
+              <span class="links_name">Messages</span>
+            </RouterLink>
+          </a>
+          <span class="tooltip">Messages</span>
+        </li>
+        <li>
+          <a href="#">
+            <i class="bx bx-pie-chart-alt-2"></i>
+            <span class="links_name">Analytics</span>
+          </a>
+          <span class="tooltip">Analytics</span>
+        </li>
+        <li>
+          <a href="#">
+            <i class="bx bx-folder"></i>
+            <span class="links_name">File Manager</span>
+          </a>
+          <span class="tooltip">Files</span>
+        </li>
+        <li>
+          <a href="#">
+            <RouterLink link to="/shop">
+              <i class="bx bx-cart-alt"></i>
+              <span class="links_name">Shop</span>
+            </RouterLink>
+          </a>
+          <span class="tooltip">Shop</span>
+        </li>
+        <li>
+          <a href="#">
+            <i class="bx bx-heart"></i>
+            <span class="links_name">Saved</span>
+          </a>
+          <span class="tooltip">Saved</span>
+        </li>
+        <li>
+          <a href="#">
+            <RouterLink to="/settings">
+              <i class="bx bx-cog"></i>
+              <span class="links_name">Setting</span>
+            </RouterLink>
+          </a>
+          <span class="tooltip">Setting</span>
+        </li>
+        <li class="profile">
+          <div class="profile-details">
+            <!-- <img src="profile.jpg" alt="profileImg" /> -->
+            <div class="name_job">
+              <div class="name">Alexander Ege</div>
+              <div class="job">Software Developer</div>
+            </div>
           </div>
-        </TransitionExpand>
-      </li>
-      <li>
-        <a href=" #">
-          <RouterLink to="/user">
-            <i class="bx bx-user"></i>
-            <span class="links_name">User</span>
-          </RouterLink>
-        </a>
-        <span class="tooltip">User</span>
-      </li>
-      <li>
-        <a href="#">
-          <RouterLink to="/todo">
-            <i class="bx bx-list-ul"></i>
-            <span class="links_name">Todo</span>
-          </RouterLink>
-        </a>
-        <span class="tooltip">Todo</span>
-      </li>
-      <li>
-        <a href="#">
-          <RouterLink to="/notes">
-            <i class="bx bx-edit"></i>
-            <span class="links_name">Notes</span>
-          </RouterLink>
-        </a>
-        <span class="tooltip">Notes</span>
-      </li>
-      <li>
-        <a href="#">
-          <RouterLink to="/messages">
-            <i class="bx bx-chat"></i>
-            <span class="links_name">Messages</span>
-          </RouterLink>
-        </a>
-        <span class="tooltip">Messages</span>
-      </li>
-      <!-- <li>
-            <a href="#">
-              <i class="bx bx-pie-chart-alt-2"></i>
-              <span class="links_name">Analytics</span>
-            </a>
-            <span class="tooltip">Analytics</span>
-          </li> -->
-      <li>
-        <a href="#">
-          <i class="bx bx-folder"></i>
-          <span class="links_name">File Manager</span>
-        </a>
-        <span class="tooltip">Files</span>
-      </li>
-      <!-- <li>
-        <a href="#">
-          <i class="bx bx-cart-alt"></i>
-          <span class="links_name">Order</span>
-        </a>
-        <span class="tooltip">Order</span>
-      </li>
-      <li>
-        <a href="#">
-          <i class="bx bx-heart"></i>
-          <span class="links_name">Saved</span>
-        </a>
-        <span class="tooltip">Saved</span>
-      </li> -->
-      <li>
-        <a href="#">
-          <RouterLink to="/shop">
-            <i class='bx bx-shopping-bag'></i>
-            <span class="links_name">Shop</span>
-          </RouterLink>
-        </a>
-        <span class="tooltip">Shop</span>
-      </li>
-      <li>
-        <a href="#">
-          <RouterLink to="/boss/all">
-            <i class='bx bxs-trophy'></i>
-            <span class="links_name">Bosses</span>
-          </RouterLink>
-        </a>
-        <span class="tooltip">Bosses</span>
-      </li>
-      <li>
-        <a href="#">
-          <RouterLink to="/maps">
-            <i class='bx bxs-map'></i>
-            <span class="links_name">Maps</span>
-          </RouterLink>
-        </a>
-        <span class="tooltip">Maps</span>
-      </li>
-      <li>
-        <a href="#">
-          <RouterLink to="/settings">
-            <i class="bx bx-cog"></i>
-            <span class="links_name">Setting</span>
-          </RouterLink>
-        </a>
-        <span class="tooltip">Setting</span>
-      </li>
-      <li class="profile">
-        <div class="profile-details">
-          <div class="name_job">
-            <div class="name" v-if="user && user.username">{{ user.username }}</div>
-            <div class="job">Software Developer</div>
-          </div>
-        </div>
-        <i class="bx bx-log-out" id="log_out" @click="logout"></i>
-      </li>
-    </ul>
-  </aside>
+          <i class="bx bx-log-out" id="log_out"></i>
+        </li>
+      </ul>
+    </div>
+    <section class="home-section" :class="theme">
+      <RouterView />
+    </section>
+
+  </div>
 </template>
 <style scoped>
-.sideNavScrollBar {
-  overflow: hidden;
-}
-
 /* Google Font Link */
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap');
 
@@ -264,32 +217,13 @@ const searchCategories = (query) => {
   font-family: 'Poppins', sans-serif;
 }
 
-aside {
-  display: flex;
-  flex-direction: column;
-
-  width: calc(2rem + 48px);
-  overflow: hidden;
-  min-height: 100vh;
-  padding: 1rem;
-
-  transition: 0.2 ease-in-out;
-}
-
-.sidebar-container {
-  position: fixed;
-  height: 100%;
-}
-
 .sidebar {
-  position: relative;
-  /* position: fixed; */
-  /* left: 0; */
-  /* top: 0; */
-  /* height: 100%; */
+  position: fixed;
+  left: 0;
+  top: 0;
+  height: 100%;
   width: 78px;
   background: #11101d;
-  /* background: #209fe954; */
   padding: 6px 14px;
   z-index: 99;
   transition: all 0.5s ease;
@@ -299,26 +233,60 @@ aside {
   width: 250px;
 }
 
+.sidebar .toggle-btn-container {
+  height: 50px;
+  width: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  border-radius: 12px;
+  text-decoration: none;
+  transition: all 0.4s ease;
+}
+
+.sidebar .toggle-btn-container:hover {
+  background: #fff;
+}
+
+.sidebar .toggle-container {
+  display: flex;
+  flex-direction: row;
+  /* justify-content: center; */
+  align-items: center;
+  /* overflow: hidden; */
+  height: 50px;
+}
+
+.sidebar .toggle-btn {
+  color: white;
+  /* position: absolute; */
+  /* top: 50%; */
+  /* right: 0; */
+  /* transform: translateY(-50%); */
+  font-size: 22px;
+  transition: all 0.4s ease;
+  font-size: 23px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.5s ease;
+}
+
+.sidebar .toggle-btn:hover {
+  color: black;
+}
+
 .sidebar .logo-details {
   height: 60px;
   display: flex;
   align-items: center;
   position: relative;
-  color: white;
+  overflow: hidden;
 }
 
 .sidebar .logo-details .icon {
   opacity: 0;
   transition: all 0.5s ease;
-}
-
-.sidebar .logo-details .nav-icons {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  position: absolute;
-  right: 0;
-  cursor: pointer;
 }
 
 .sidebar .logo-details .logo_name {
@@ -334,23 +302,21 @@ aside {
   opacity: 1;
 }
 
-.sidebar .logo-details #btn {
-  position: absolute;
-  top: 50%;
-  right: 0;
-  transform: translateY(-50%);
-  font-size: 22px;
-  transition: all 0.4s ease;
-  font-size: 23px;
-  text-align: center;
-  cursor: pointer;
-  transition: all 0.5s ease;
+/* .sidebar .logo-details #btn {
+    position: absolute;
+    top: 50%;
+    right: 0;
+    transform: translateY(-50%);
+    font-size: 22px;
+    transition: all 0.4s ease;
+    font-size: 23px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.5s ease;
 }
-
 .sidebar.open .logo-details #btn {
-  text-align: right;
-}
-
+    text-align: right;
+} */
 .sidebar i {
   color: #fff;
   height: 60px;
@@ -361,42 +327,20 @@ aside {
 }
 
 .sidebar .nav-list {
-  /* margin-top: 20px; */
+  margin-top: 20px;
   height: 100%;
-  /* height: calc(100% - 140px); */
-
-
-  /* overflow-y: scroll; */
-  /* overflow-x: hidden; */
-  /* overflow: auto; */
-  /* margin: -6px -14px; */
-}
-
-.sidebar .nav-list li {
-  margin: 5px 0;
-}
-
-.router-link-active,
-.router-link-exact-active {
-  background-color: white !important;
-  color: black !important;
-}
-
-.router-link-exact-active span,
-.router-link-exact-active i {
-  color: black !important;
 }
 
 .sidebar li {
   position: relative;
-  /* margin: 8px 6px; */
+  margin: 8px 0;
   list-style: none;
 }
 
 .sidebar li .tooltip {
   position: absolute;
   top: -20px;
-  left: calc(100% + 55px);
+  left: calc(100% + 15px);
   z-index: 3;
   background: #fff;
   box-shadow: 0 5px 10px rgba(0, 0, 0, 0.3);
@@ -476,26 +420,6 @@ aside {
   background: #fff;
 }
 
-/* .sidebar li a>#sideNavTimers {
-  border-top-right-radius: 0;
-  border-bottom-right-radius: 0;
-} */
-
-/* #sideNavTimers {
-  border-top-right-radius: 0;
-  border-bottom-right-radius: 0;
-} */
-
-.sideNavTimersCompressed {
-  border-top-right-radius: 0;
-  border-bottom-right-radius: 0;
-}
-
-.sideNavTimersExpanded {
-  border-top-right-radius: 0 !important;
-  border-bottom-right-radius: 0 !important;
-}
-
 .sidebar li a .links_name {
   color: #fff;
   font-size: 15px;
@@ -525,7 +449,6 @@ aside {
 }
 
 .sidebar li.profile {
-  display: flex;
   position: fixed;
   height: 60px;
   width: 78px;
@@ -534,7 +457,7 @@ aside {
   padding: 10px 14px;
   background: #1d1b31;
   transition: all 0.5s ease;
-  overflow-x: hidden;
+  overflow: hidden;
 }
 
 .sidebar.open li.profile {
@@ -586,15 +509,17 @@ aside {
 }
 
 .home-section {
+  /* padding: 50px; */
+  /* border: 1px solid lime; */
   position: relative;
   /* background: #e4e9f7; */
-  background: #34363b;
-  min-height: 100vh;
+  /* min-height: 100vh; */
   top: 0;
   left: 78px;
   width: calc(100% - 78px);
   transition: all 0.5s ease;
-  z-index: 2;
+  z-index: 5;
+  background-color: black;
 }
 
 .sidebar.open~.home-section {
@@ -603,29 +528,11 @@ aside {
 }
 
 .home-section .text {
-  display: inline-block;
+  /* display: inline-block; */
   color: #11101d;
   font-size: 25px;
   font-weight: 500;
   margin: 18px;
-}
-
-.timer-extend {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  background: none;
-  color: white;
-  background: rgba(28, 27, 48, 1);
-  height: 50px;
-  border-top-right-radius: 10px;
-  border-bottom-right-radius: 10px;
-  cursor: pointer;
-}
-
-.timer-extend:hover {
-  color: black;
-  background: white;
 }
 
 @media (max-width: 420px) {
@@ -634,27 +541,18 @@ aside {
   }
 }
 
-/* Scrollbar */
-/* width */
-::-webkit-scrollbar {
-  width: 10px;
+/* Light / Dark  */
+.dark {
+  background-color: black;
+  color: white;
 }
 
-/* Track */
-::-webkit-scrollbar-track {
-  /* background: #f1f1f1; */
-  background: black;
-  height: 40px;
+.light {
+  background-color: white;
+  color: black;
 }
 
-/* Handle */
-::-webkit-scrollbar-thumb {
-  /* background: #888; */
-  background: #1d1b31;
-}
-
-/* Handle on hover */
-::-webkit-scrollbar-thumb:hover {
-  background: white;
+.accordion {
+  color: white;
 }
 </style>

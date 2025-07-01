@@ -51,6 +51,12 @@ function submitEdit() {
                         <option value="Medium">Medium</option>
                         <option value="Low">Low</option>
                     </select>
+
+                    <select name="author" id="author">
+                        <option value="">Author 1</option>
+                        <option value="">Author 2</option>
+                        <option value="">Author 3</option>
+                    </select>
                 </div>
 
                 <!-- <div class="bottom">

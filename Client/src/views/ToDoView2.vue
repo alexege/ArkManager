@@ -73,7 +73,7 @@ const filteredTodosIncomplete = computed(() =>
     <div id="app">
         <div style="width: 80%; margin: 0 auto;">
 
-            <h1>Dynamic CSS Grid Example</h1>
+            <h1>To do List</h1>
 
             <AddTodo />
 

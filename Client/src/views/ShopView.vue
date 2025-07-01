@@ -52,9 +52,9 @@ const handleNotificationClick = (id) => {
 .shop-container {
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    /* justify-content: center; */
     align-items: center;
-    width: 100vw;
+    /* width: 100vw; */
     margin: 0 auto;
     height: 100vh;
     /* background-color: #3693af; */

@@ -91,74 +91,37 @@ const permissionToManage = (todo) => {
 <template>
   <div class="todo-container">
 
-    <div class="completion">
+    <div class="completion grid-item-field ">
       <input type="checkbox" v-if="permissionToManage(todo)" class="checkbox" @click="toggleCompleted(todo)"
         :checked="todo.completed" />
     </div>
 
-    <div class="categories">
+    <div class="categories grid-item-field">
       <span v-for="category in todo.categories" :key="category" class="category">
         <a @click.prevent="$emit('category', category.name)">
           {{ category.name }}
         </a>
         <i class="bx bx-x" @click="deleteCategory(category._id)" />
-        <!-- <a :href="`/todo/category/${category.name}`">{{ category.name }}</a> -->
       </span>
     </div>
 
-    <!-- <template v-if="isEditing && permissionToManage(todo)">
-      <input type="text" v-model="editItem.title" @blur="updateTodo(todo)">
-    </template>
-<template v-else>
-      <div>{{ todo.title }}</div>
-    </template> -->
-
-    <div class="content">
-      <!-- <template v-if="isEditing && permissionToManage(todo)">
-        <textarea name="" id="" class="todo-body" v-model="editItem" @blur="updateTodo(todo)"
-          @keydown.enter="$event.target.blur()" autofocus @focus="$event.target.select()">
-        </textarea>
-      </template>
-      <template v-else> -->
-      <!-- Todo Body -->
+    <div class="content grid-item-field">
       <span class="todo-body" @dblclick="toggleEditMode(todo)">
         <span :class="{ completed: todo.completed }">{{ todo.title }}</span>
       </span>
-      <!-- </template> -->
     </div>
-    <div class="author">
+    <div class="author grid-item-field">
       <template v-if="todo.author && todo.author.username">
         {{ todo.author.username }}
       </template>
     </div>
 
-    <div class="priority"
+    <div class="priority grid-item-field"
       :class="{ high: todo.priority == 'High', medium: todo.priority == 'Medium', low: todo.priority == 'Low' }">
       <span class="priority">{{ todo.priority }}</span>
     </div>
 
-    <!-- <template v-if="permissionToManage(todo)">
-      <div class="actions">
-        <span @click="toggleEditMode(todo)">
-          <i class="bx bx-edit"></i>
-        </span>
-        <span @click="deleteTodoItem(todo._id)">
-          <i class="bx bx-trash"></i>
-        </span>
-      </div>
-    </template>
-    <template v-else>
-      <div class="actions">
-        <span disabled :class="disabled">
-          <i class="bx bx-edit"></i>
-        </span>
-        <span disabled :class="disabled">
-          <i class="bx bx-trash"></i>
-        </span>
-      </div>
-    </template> -->
-
-    <div class="actions">
+    <div class="actions grid-item-field">
       <span :class="{ disabled: !permissionToManage(todo) }" @click="permissionToManage(todo) && toggleEditMode(todo)">
         <i class="bx bx-edit"></i>
       </span>
@@ -182,6 +145,45 @@ const permissionToManage = (todo) => {
 .todo-container {
   display: grid;
   grid-template-columns: .5fr 2fr 4fr 1fr 1fr 1fr;
+  gap: 10px;
+}
+
+.grid-item-field {
+  display: flex;
+  padding: 5px;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 5px;
+  background-color: rgba(255, 255, 255, 0.15);
+}
+
+.grid-item-field:not(:first-of-type):not(:last-of-type) {
+  border: 1px solid #ccc;
+}
+
+.grid-item-field.actions {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  cursor: pointer;
+}
+
+.grid-item-field.actions button {
+  /* padding: .25em; */
+  background: none;
+  color: white;
+  border: 1px solid white;
+  cursor: pointer;
+}
+
+.grid-item-field.actions button:hover {
+  padding: .25em;
+  background: none;
+  color: black;
+  background-color: white;
+  border: 1px solid black;
+  cursor: pointer;
 }
 
 .completion {
@@ -282,14 +284,14 @@ const permissionToManage = (todo) => {
   color: purple;
 }
 
-.todo-body {
+/* .todo-body {
   width: 100%;
   height: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
   border: 1px solid white;
-}
+} */
 
 /* Priority */
 .high {
@@ -299,7 +301,6 @@ const permissionToManage = (todo) => {
   border: 1px solid black;
   padding: 2px 5px;
   min-width: 30px;
-  margin: .25em;
   cursor: pointer;
 }
 
@@ -310,7 +311,6 @@ const permissionToManage = (todo) => {
   border: 1px solid black;
   padding: 2px 5px;
   min-width: 30px;
-  margin: .25em;
   cursor: pointer;
 }
 
@@ -321,7 +321,6 @@ const permissionToManage = (todo) => {
   border: 1px solid black;
   padding: 2px 5px;
   min-width: 30px;
-  margin: .25em;
   cursor: pointer;
 }
 </style>

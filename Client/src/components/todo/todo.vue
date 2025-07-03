@@ -117,8 +117,11 @@ function handleWheel(event) {
     </div>
 
     <div class="categories grid-item-field" @wheel.prevent="handleWheel" ref="scrollContainer">
-      <div v-for="category in todo.categories" :key="category._id">
-        <category :category="category" />
+
+      <div class="category-wrapper">
+        <div v-for="category in todo.categories" :key="category._id">
+          <category :category="category" />
+        </div>
       </div>
 
       <!-- <span v-for="category in todo.categories" :key="category" class="category scroll-container"
@@ -163,6 +166,18 @@ function handleWheel(event) {
 
 
 <style scoped>
+.category-wrapper {
+  display: inline-flex;
+  gap: 5px;
+
+  margin-left: auto;
+  margin-right: auto;
+
+  /* Prevent shrinking and allow wrapping to stay horizontal */
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
 .checkbox {
   cursor: pointer;
 }
@@ -226,7 +241,8 @@ function handleWheel(event) {
 
 .categories {
   display: flex;
-  justify-content: center;
+  justify-content: flex-start;
+  scroll-behavior: smooth;
   align-items: center;
   flex: 2;
   /* flex-wrap: wrap; */

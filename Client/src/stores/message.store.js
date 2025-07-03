@@ -5,6 +5,7 @@
 import axios from 'axios'
 import { defineStore, storeToRefs } from 'pinia'
 import { useAuthStore } from './auth.store'
+const activeUser = useAuthStore.activeUser
 const API_URL = 'http://127.0.0.1:8080/api'
 export const useMessageStore = defineStore('message', {
   state: () => ({

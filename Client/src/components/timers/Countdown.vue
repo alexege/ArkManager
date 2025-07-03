@@ -455,6 +455,10 @@ i:hover {
     justify-content: center;
     align-items: center;
     cursor: pointer;
+    text-align: center;
+    overflow: auto;
+    max-height: 50px;
+    max-width: 80%;
 }
 
 .timer-top .close {
@@ -586,6 +590,7 @@ i:hover {
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    text-align: center;
 }
 
 .timer-up-controls {

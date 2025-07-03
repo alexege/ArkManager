@@ -5,7 +5,7 @@ import { storeToRefs } from 'pinia'
 import ModalEditTodo from "../modals/ModalEditTodo.vue";
 import category from "./category.vue";
 
-defineEmits(['category'])
+const emit = defineEmits(['category'])
 const props = defineProps(["todo"]);
 
 // Auth Store
@@ -105,7 +105,6 @@ function handleWheel(event) {
 //   hoveredCategoryId.value = null
 // }
 
-
 </script>
 
 <template>
@@ -120,7 +119,7 @@ function handleWheel(event) {
 
       <div class="category-wrapper">
         <div v-for="category in todo.categories" :key="category._id">
-          <category :category="category" />
+          <category :category="category" @category="$emit('category', $event)" />
         </div>
       </div>
 
@@ -195,7 +194,7 @@ function handleWheel(event) {
   align-items: center;
   /* flex-wrap: wrap; */
   gap: 5px;
-  background-color: rgba(255, 255, 255, 0.15);
+  /* background-color: rgba(255, 255, 255, 0.15); */
   max-height: 26px;
   overflow-x: auto;
   overflow-y: hidden;
@@ -204,7 +203,8 @@ function handleWheel(event) {
   scrollbar-width: none;
 }
 
-.grid-item-field:not(:first-of-type):not(:last-of-type) {
+/* .grid-item-field:not(:first-of-type):not(:last-of-type) { */
+.grid-item-field:not(:nth-child(1)):not(:nth-child(2)):not(:nth-child(5)):not(:last-of-type) {
   border: 1px solid #ccc;
 }
 
@@ -245,8 +245,6 @@ function handleWheel(event) {
   scroll-behavior: smooth;
   align-items: center;
   flex: 2;
-  /* flex-wrap: wrap; */
-  /* outline: 1px solid rgb(28, 197, 104); */
   gap: 5px;
 }
 
@@ -255,7 +253,6 @@ function handleWheel(event) {
   justify-content: center;
   align-items: center;
   flex: 1;
-  /* outline: 1px solid rgb(178, 194, 33); */
 }
 
 .content {
@@ -264,7 +261,6 @@ function handleWheel(event) {
   align-items: center;
   flex-wrap: wrap;
   flex: 5;
-  /* outline: 1px solid rgb(17, 122, 221); */
 }
 
 .author {
@@ -272,7 +268,6 @@ function handleWheel(event) {
   justify-content: center;
   align-items: center;
   flex: 1;
-  /* outline: 1px solid rgb(0, 255, 42); */
 }
 
 .actions {
@@ -280,7 +275,6 @@ function handleWheel(event) {
   justify-content: space-around;
   align-items: center;
   flex: 1;
-  /* outline: 1px solid rgb(187, 20, 209); */
 }
 
 .actions .bx {
@@ -342,22 +336,11 @@ function handleWheel(event) {
   color: purple;
 }
 
-/* .todo-body {
-  width: 100%;
-  height: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  border: 1px solid white;
-} */
-
 /* Priority */
 .high {
   background-color: red;
   color: white;
   font-weight: bold;
-  border: 1px solid black;
-  /* padding: 2px 5px; */
   min-width: 30px;
   cursor: pointer;
 }
@@ -366,8 +349,6 @@ function handleWheel(event) {
   background-color: orange;
   color: white;
   font-weight: bold;
-  border: 1px solid black;
-  /* padding: 2px 5px; */
   min-width: 30px;
   cursor: pointer;
 }
@@ -376,161 +357,7 @@ function handleWheel(event) {
   background-color: green;
   color: white;
   font-weight: bold;
-  border: 1px solid black;
-  /* padding: 2px 5px; */
   min-width: 30px;
   cursor: pointer;
 }
 </style>
-<!-- <style scoped>
-.todo-container {
-  min-width: 50%;
-  max-width: 80%;
-  /* outline: 1px solid black; */
-  padding: 5px;
-  margin: 10px auto;
-  position: relative;
-
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-
-  /* outline: 1px solid black; */
-  border-radius: 2px;
-}
-
-.checkbox {
-  margin: 5px;
-  width: 15px;
-  height: 15px;
-}
-
-.checkbox:hover {
-  cursor: pointer;
-}
-
-.todo-category {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.todo-category .category {
-  margin: 0 .25em;
-}
-
-.category {
-  /* background-color: #EEF; */
-  border-radius: 20px;
-  border: 1px #CCF solid;
-  /* padding: 2px 5px; */
-  padding: 8px 12px;
-  /* display: inline; */
-  display: flex;
-  justify-content: center;
-  font-size: .75em;
-  cursor: pointer;
-  min-width: 30px;
-}
-
-.category:hover {
-  outline: 1px solid lime;
-}
-
-.category a {
-  min-height: 20px;
-  text-decoration: none;
-  /* color: black; */
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-}
-
-i {
-  padding: .10em .25em;
-  font-size: 20px;
-  cursor: pointer;
-
-  display: flex;
-  justify-content: center;
-}
-
-i:hover {
-  color: red;
-}
-
-.todo-body input {
-  text-align: center;
-}
-
-.todo-actions {
-  display: flex;
-  flex: 1;
-  align-items: center;
-  justify-content: flex-end;
-}
-
-.todo-actions i {
-  font-size: 1em;
-  padding: 0 5px;
-  cursor: pointer;
-}
-
-.todo-actions i:hover {
-  color: white;
-}
-
-.completed {
-  text-decoration: line-through;
-}
-
-/* .updated-at,
-.created-at {
-  font-size: 10px;
-} */
-
-.is-completed {
-  outline: 2px solid lime;
-  /* background-color: rgba(50, 205, 50, 0.25); */
-  background-color: black;
-}
-
-.is-incomplete {
-  outline: 2px solid red;
-  /* background-color: rgba(255, 0, 0, 0.25); */
-  background-color: black;
-}
-
-.todo-top {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-around;
-  align-items: center;
-  height: 75%;
-}
-
-.todo-left {
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-start;
-  align-items: center;
-  /* min-width: 115px; */
-  flex: 1;
-}
-
-.todo-bottom {
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-  font-size: 10px;
-  height: 25%;
-}
-
-.todo-body {
-  flex: 2;
-}
-
-.priority {}
-</style> -->

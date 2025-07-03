@@ -4,7 +4,6 @@ import Dashboard from '../views/Dashboard.vue'
 import Drag from '../views/Drag.vue'
 import DragAndDrop from '../views/DragAndDrop.vue'
 import ToDoView from '@/views/ToDoView.vue'
-import ToDoView2 from '@/views/ToDoView2.vue'
 import Profile from '../views/Profile.vue'
 import NotesView from '@/views/NotesView.vue'
 import SettingsView from '@/views/SettingsView.vue'
@@ -61,11 +60,6 @@ const router = createRouter({
     {
       path: '/todo',
       name: 'todo',
-      component: ToDoView2
-    },
-    {
-      path: '/todo2',
-      name: 'todo2',
       component: ToDoView
     },
     {

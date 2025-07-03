@@ -198,7 +198,8 @@ const { uploadFiles } = createUploader('YOUR URL HERE')
 .role {
   padding: .5em;
   margin: .5em;
-  background: white;
+  color: white;
+  background: #1d1b31;
   border: 1px solid black;
   border-radius: 5px;
 }

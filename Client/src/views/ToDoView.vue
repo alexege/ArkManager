@@ -1,20 +1,20 @@
 <script setup>
-import { ref, computed, watch } from "vue";
-import { storeToRefs } from "pinia";
-import { useRoute } from "vue-router";
+import { ref, computed } from 'vue';
+import { storeToRefs } from 'pinia';
+import { useRoute } from 'vue-router';
 
 // Components
-import Todo from "@/components/todo/todo.vue";
-import AddTodo from "@/components/todo/addTodo.vue";
+import Todo from '@/components/todo/todo.vue';
+import AddTodo from '@/components/todo/addTodo.vue';
 
 // Stores
-import { useTodoListStore } from "@/stores/todo.store";
-import { useCategoryStore } from "@/stores/category.store";
+import { useTodoListStore } from '@/stores/todo.store';
+import { useCategoryStore } from '@/stores/category.store';
 import { useAuthStore } from "@/stores/auth.store";
 
-// Todo List Store
+// TodoList Store
 const todoStore = useTodoListStore();
-const { todoList, completedTodos, incompleteTodos, dropZones } = storeToRefs(todoStore);
+const { completedTodos, incompleteTodos } = storeToRefs(todoStore);
 const { fetchTodos } = todoStore;
 fetchTodos();
 
@@ -23,20 +23,114 @@ const categoryStore = useCategoryStore();
 const { allCategories } = storeToRefs(categoryStore);
 categoryStore.fetchCategories();
 
-// Auth Store
-const { activeUser } = storeToRefs(useAuthStore());
-
 // Route Handling
 const route = useRoute();
 const category = ref(route.params.category);
 
-watch(() => route.params.category, (newCategory) => {
-  category.value = newCategory;
+const addItemInput = ref(null);
+// const headers = ['[✓]', 'Categories', 'Title', 'Author', 'Priority', 'Actions']; // Define headers for the grid
+const headers = [
+  { label: '[✓]', key: null },
+  { label: 'Categories', key: 'Categories' },
+  { label: 'Title', key: 'Title' },
+  { label: 'Author', key: 'Author' },
+  { label: 'Priority', key: 'Priority' },
+  { label: 'Actions', key: null }
+]
+
+// Sort Logic
+const sortBy = ref(null)
+const sortDir = ref(1)
+
+const toggleSort = (header) => {
+  if (sortBy.value === header) {
+    sortDir.value = sortDir.value * -1
+  } else {
+    sortBy.value = header
+    sortDir.value = 1
+  }
+}
+
+const sortedTodosIncomplete = computed(() => {
+  let list = category.value
+    ? todoStore.getInCompleteTodosByCategory(category.value)
+    : incompleteTodos.value
+
+  if (!sortBy.value) return list
+
+  return [...list].sort((a, b) => {
+    const valA = getSortableValue(a, sortBy.value)
+    const valB = getSortableValue(b, sortBy.value)
+
+    if (sortBy.value === 'Priority') {
+      const orderA = priorityOrder[valA?.charAt(0).toUpperCase() + valA?.slice(1).toLowerCase()] ?? -1
+      const orderB = priorityOrder[valB?.charAt(0).toUpperCase() + valB?.slice(1).toLowerCase()] ?? -1
+      return (orderA - orderB) * sortDir.value
+    }
+
+    if (valA < valB) return -1 * sortDir.value
+    if (valA > valB) return 1 * sortDir.value
+    return 0
+  })
+})
+
+const sortedTodosComplete = computed(() => {
+
+  let list = category.value
+    ? todoStore.getCompleteTodosByCategory(category.value)
+    : completedTodos.value
+
+  if (!sortBy.value) return list
+
+  return [...list].sort((a, b) => {
+    const valA = getSortableValue(a, sortBy.value)
+    const valB = getSortableValue(b, sortBy.value)
+
+    if (sortBy.value === 'Priority') {
+      const orderA = priorityOrder[valA?.charAt(0).toUpperCase() + valA?.slice(1).toLowerCase()] ?? -1
+      const orderB = priorityOrder[valB?.charAt(0).toUpperCase() + valB?.slice(1).toLowerCase()] ?? -1
+      return (orderA - orderB) * sortDir.value
+    }
+
+    if (valA < valB) return -1 * sortDir.value
+    if (valA > valB) return 1 * sortDir.value
+    return 0
+  })
+})
+
+const priorityOrder = {
+  'Low': 1,
+  'Medium': 2,
+  'High': 3
+}
+
+function getSortableValue(todo, column) {
+  switch (column) {
+    case 'Categories':
+      return todo.categories?.[0]?.name || ''
+    case 'Title':
+      return todo.title || ''
+    case 'Author':
+      return todo.author?.name || ''
+    case 'Priority':
+      return todo.priority?.charAt(0).toUpperCase() + todo.priority?.slice(1).toLowerCase()
+    default:
+      return ''
+  }
+}
+
+const newItem = ref({
+  completed: false,
+  categories: [],
+  description: null,
+  priority: 'Low'
 });
 
-// Filtered Todos
-const filteredTodos = computed(() => todoStore.getTodosByCategory(category.value));
+const deleteCategory = (category) => {
+  console.log("Deleting category:", category)
+}
 
+//  Computed
 const filteredTodosComplete = computed(() =>
   category.value ? todoStore.getCompleteTodosByCategory(category.value) : completedTodos.value
 );
@@ -45,36 +139,8 @@ const filteredTodosIncomplete = computed(() =>
   category.value ? todoStore.getInCompleteTodosByCategory(category.value) : incompleteTodos.value
 );
 
-// Drag and Drop
-const startZoneId = ref(null);
-
-const startDrag = (event, item) => {
-  event.dataTransfer.dropEffect = "move";
-  event.dataTransfer.effectAllowed = "move";
-  event.dataTransfer.setData("itemId", item.id);
-  startZoneId.value = item;
-};
-
-const onDrop = (event, zoneId) => {
-  const start = dropZones.value.find(zone => zone.zoneId == startZoneId.value);
-  const end = dropZones.value.find(zone => zone.zoneId == zoneId);
-
-  if (start && end) {
-    [start.todo, end.todo] = [end.todo, start.todo]; // Swap todos
-  }
-};
-
-// Category Management
-const activeCategoryFilter = ref('All');
-
-const activeCategory = (cat) => {
-  activeCategoryFilter.value = cat;
-  category.value = cat;
-};
-
-const deleteCategory = (id) => {
-  categoryStore.deleteCategory(id);
-};
+// Auth Store
+const { activeUser } = storeToRefs(useAuthStore());
 
 // Permission Handling
 const hasPermission = (category) => {
@@ -85,184 +151,112 @@ const hasPermission = (category) => {
     activeUser.value.roles.includes("ROLE_MODERATOR")
   );
 };
+
+// Filter by active category
+const activeCategoryFilter = ref('All')
+const activeCategory = (cat) => {
+  if (activeCategoryFilter.value === cat) {
+    console.log("is equal");
+    activeCategoryFilter.value = 'All';
+    category.value = 'All';
+  } else {
+    activeCategoryFilter.value = cat;
+    category.value = cat;
+  }
+
+  //TODO: Update store to keep track of active category to highlight todo categories
+}
 </script>
 
 <template>
-  <div class="todo-container">
-    <h2>Add a new Todo Item</h2>
+  <div id="app">
+    <div class="container">
+      <h1 class="title">To do List</h1>
+      <AddTodo />
 
-    <!-- Add Todo List Item Form -->
-    <AddTodo />
-
-    <!-- Category List -->
-    <div class="category-list">
-      <div v-for="category in allCategories" :key="category" class="category">
-        <a @click.prevent="activeCategory(category.name)">
+      <!-- Category List -->
+      <div class="category-list">
+        <div v-for="category in allCategories" :key="category" class="category"
+          :class="{ active: category.name === activeCategoryFilter }" @click.prevent="activeCategory(category.name)">
           <span>{{ category.name }}</span>
-          <span v-if="hasPermission(category)" @click.prevent="deleteCategory(category._id)">
-            <i class="bx bx-x"></i>
-          </span>
-        </a>
-      </div>
-    </div>
-
-    <div class="content">
-      <div class="grid" v-if="filteredTodosIncomplete.length">
-        <h3>Pending ({{ filteredTodosIncomplete.length }})</h3>
-        <ul class="todo-headers">
-          <li class="completion">Completion</li>
-          <li class="categories">Categories</li>
-          <li class="todo">Todo</li>
-          <li class="author">Author</li>
-          <li class="priority">Priority</li>
-          <li class="actions">Actions</li>
-        </ul>
-
-        <!-- Grid Items -->
-        <div class="todo-grid">
-          <Todo v-for="todo in filteredTodosIncomplete" :key="todo._id" :todo="todo" @category="activeCategory" />
         </div>
-
       </div>
-    </div>
 
-    <div class="content">
-      <!-- Incomplete Todos -->
+      <!-- Incomplete Item Rows -->
       <div class="incomplete-items" v-if="filteredTodosIncomplete.length">
-        <h3>Pending ({{ filteredTodosIncomplete.length }})</h3>
-        <ul class="todo-headers">
-          <li class="completion">Completion</li>
-          <li class="categories">Categories</li>
-          <li class="todo">Todo</li>
-          <li class="author">Author</li>
-          <li class="priority">Priority</li>
-          <li class="actions">Actions</li>
-        </ul>
-        <div v-for="todo in filteredTodosIncomplete" :key="todo._id">
-          <Todo :todo="todo" @category="activeCategory" />
+        <h4 class="grid-title incomplete">Incomplete Items ({{ filteredTodosIncomplete.length }})</h4>
+        <!-- Header Row -->
+        <div class="grid-header">
+          <div class="grid-header-item" v-for="(header, index) in headers" :key="'header-' + index"
+            @click="header.key && toggleSort(header.key)">
+            {{ header.label }}
+            <span v-if="sortBy === header.key">
+              {{ sortDir === 1 ? '↑' : '↓' }}
+            </span>
+          </div>
+        </div>
+
+        <hr style="margin-bottom: .75em;">
+
+        <div class="grid-items">
+          <div v-for="todo in sortedTodosIncomplete" :key="todo._id">
+            <!-- <todo :todo="todo" @category="handleCategorySelection" /> -->
+            <todo :todo="todo" @category="activeCategory($event)" />
+          </div>
         </div>
       </div>
 
-      <!-- Completed Todos -->
+      <!-- Completed Item Rows -->
       <div class="completed-items" v-if="filteredTodosComplete.length">
-        <h3>Completed ({{ filteredTodosComplete.length }})</h3>
-        <ul class="todo-headers">
-          <li class="completion">Completion</li>
-          <li class="categories">Categories</li>
-          <li class="todo">Todo</li>
-          <li class="author">Author</li>
-          <li class="priority">Priority</li>
-          <li class="actions">Actions</li>
-        </ul>
-        <div v-for="todo in filteredTodosComplete" :key="todo._id">
-          <Todo :todo="todo" @category="activeCategory" />
+
+        <h4 class="grid-title completed">Completed Items ({{ filteredTodosComplete.length }})</h4>
+
+        <!-- Header Row -->
+        <div class="grid-header">
+          <div class="grid-header-item" v-for="(header, index) in headers" :key="'header-' + index"
+            @click="header.key && toggleSort(header.key)">
+            {{ header.label }}
+            <span v-if="sortBy === header.key">
+              {{ sortDir === 1 ? '↑' : '↓' }}
+            </span>
+          </div>
+        </div>
+
+        <hr style="margin-bottom: .75em;">
+
+        <div class="grid-items">
+          <div v-for="todo in sortedTodosComplete" :key="todo._id">
+            <todo :todo="todo" />
+          </div>
         </div>
       </div>
     </div>
   </div>
 </template>
+
 <style scoped>
-.grid {
-  display: grid;
-  /* grid-template-columns: repeat(6, minmax(200px, 1fr)); */
-  gap: 1em;
+.active {
+  color: black;
+  background-color: white;
+  border: 1px solid black;
+  /* background-color: rgba(255, 255, 255, 0.15); */
 }
 
-.todo-headers {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(.25fr, 1fr));
-  padding: .25rem;
-  list-style: none;
-  margin: 0 0 8px 0;
-}
-
-.todo-headers li {
-  padding: .5rem;
-}
-
-.todo-grid {
-  display: grid;
-  grid-template-columns: 1fr 2fr 1fr auto minmax(2fr, 1fr) .25em;
-  gap: .25em;
-}
-
-
-
-/* Layout */
-.todo-container {
+#app {
+  font-family: Arial, sans-serif;
   text-align: center;
-  color: white;
-  height: 100%;
-}
-
-.content {
-  display: flex;
-  gap: 1em;
-  padding-top: 1em;
+  margin-top: 20px;
+  /* width: 80%; */
   margin: 0 auto;
-  width: 90%;
 }
 
-/* Column Flex Layout */
-.todo-headers {
-  display: flex;
-  flex-direction: row;
-  border-bottom: 1px solid white;
+.container {
+  width: 80%;
+  margin: 0 auto;
 }
 
-.todo-headers li {
-  list-style: none;
-  flex: 1;
-  text-align: center;
-  border: 1px solid red;
-}
-
-/* Header Column Widths */
-.completion,
-.author,
-.priority,
-.actions {
-  flex: 1;
-}
-
-.categories {
-  flex: 2;
-}
-
-.todo {
-  flex: 3;
-}
-
-/* Completed & Incomplete Items */
-.incomplete-items,
-.completed-items {
-  flex: 1;
-  border: 1px solid white;
-}
-
-.todo-headers .categories {
-  flex: 2;
-}
-
-.todo-headers .todo {
-  flex: 5;
-}
-
-/* Add Todo Form */
-.add-todo-form {
-  padding: 1em;
-  display: flex;
-  justify-content: center;
-}
-
-.add-todo-form input {
-  flex: 1;
-  padding: 0.25em;
-  border-radius: 5px;
-}
-
-.add-todo-form button {
-  padding: 0.25em;
+h1.title {
+  margin: 1.5em;
 }
 
 /* Category List */
@@ -274,39 +268,140 @@ const hasPermission = (category) => {
 }
 
 .category {
-  border-radius: 20px;
-  border: 1px solid #CCF;
-  padding: 8px 12px;
-  display: flex;
-  justify-content: center;
-  font-size: 0.75em;
+  font-size: .75em;
+  border: 1px solid white;
+  padding: 6px 12px;
+  border-radius: 12px;
   cursor: pointer;
-  min-width: 30px;
-  font-family: "Trip Sans VF", "Trip Sans", Arial, sans-serif;
 }
 
-.category:hover {
-  outline: 1px solid lime;
+.delete-category {
+  border: 1px solid white;
+  border-radius: 50%;
+  padding: 2px 4px;
+  margin: 0 2px;
+  cursor: pointer;
 }
 
-.category a {
-  min-height: 20px;
-  text-decoration: none;
+.delete-category:hover {
+  color: red;
+}
+
+.grid-title {
+  color: white;
+  margin: 1em;
+}
+
+.grid-title.incomplete {
+  color: #ff0000;
+}
+
+.grid-title.completed {
+  color: #00ff00;
+}
+
+.grid-header {
+  display: grid;
+  grid-template-columns: .5fr 2fr 4fr 1fr 1fr 1fr;
+  /* 4 equal-width columns */
+  margin-bottom: 10px;
+  gap: 10px;
+  font-weight: bold;
+  text-align: center;
+}
+
+.grid-header-item {
+  color: white;
+  cursor: pointer;
+}
+
+.grid-items {
+  display: grid;
+  grid-template-columns: 1fr;
+  /* Single column to ensure each item takes up an entire row */
+  gap: 10px;
+  margin-bottom: 5em;
+}
+
+.grid-item {
+  display: grid;
+  grid-template-columns: .5fr 3fr 1fr 1fr 1fr;
+  /* 4 equal-width columns for each item */
+  gap: 10px;
+  color: white;
+  /* border: 1px solid #ccc; */
+  /* background-color: #f9f9f9; */
+}
+
+.grid-item-field {
   display: flex;
+  padding: 5px;
+  justify-content: center;
   align-items: center;
-  color: inherit;
+  flex-wrap: wrap;
+  gap: 5px;
 }
 
-/* Icons */
-i {
-  padding: 0.1em 0.25em;
-  font-size: 20px;
+.grid-item-field:not(:first-of-type):not(:last-of-type) {
+  border: 1px solid #ccc;
+}
+
+.grid-item-field.actions {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
   cursor: pointer;
+}
+
+.grid-item-field.actions button {
+  padding: .25em;
+  background: none;
+  color: white;
+  border: 1px solid white;
+  cursor: pointer;
+}
+
+.grid-item-field.actions button:hover {
+  padding: .25em;
+  background: none;
+  color: black;
+  background-color: white;
+  border: 1px solid black;
+  cursor: pointer;
+}
+
+.add-item {
   display: flex;
   justify-content: center;
+  align-items: center;
+  gap: 5px;
 }
 
-i:hover {
+.add-item-button {
+  margin: 1em 0;
+  padding: .25em;
+  cursor: pointer;
+}
+
+.add-item input[type="text"] {
+  height: 25px;
+  min-width: 30em;
+}
+
+.add-item select {
+  height: 30px;
+  width: 85px;
+}
+
+.low {
+  color: lime;
+}
+
+.med {
+  color: orange;
+}
+
+.high {
   color: red;
 }
 </style>

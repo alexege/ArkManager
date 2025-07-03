@@ -107,6 +107,16 @@ onMounted(() => {
     validateTimersWithDropZones();
 })
 
+import notificationService from '@/utils/notificationService.js'
+const triggerNotification = (message, type, duration, persistent) => {
+    console.log("Testing");
+    notificationService.addNotification(message, type, duration, persistent)
+}
+
+const handleNotificationClick = (id) => {
+    notificationService.removeNotification(id)
+}
+
 </script>
 <template>
     <div class="timer-view">

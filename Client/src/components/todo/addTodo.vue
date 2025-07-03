@@ -262,45 +262,46 @@ form {
   flex-direction: row;
 }
 
-
-/* Categories */
 .category-list {
   display: flex;
   flex-direction: row;
-  justify-content: center;
-  gap: .25em;
+  overflow: auto;
 }
 
+/* Categories */
 .category {
-  /* border-radius: 20px;
-  border: 1px #CCF solid;
-  padding: 8px 12px;
-  display: flex;
-  justify-content: center;
-  font-size: 1em;
-  cursor: pointer;
-  min-width: 30px; */
-
-  display: flex;
-  align-items: center;
-  color: black;
-  background-color: #eef;
-  border-radius: 15px;
-  padding: 2px 6px;
-  margin-right: 4px;
+  /* display: flex; */
+  /* align-items: center; */
+  /* border-radius: 15px; */
+  /* padding: 2px 6px; */
+  /* margin-right: 4px; */
+  position: relative;
+  /* color: black; */
+  color: white;
+  /* background-color: #eef; */
+  border: 1px solid white;
+  padding: 2px 10px;
   font-size: 0.8em;
   justify-content: center;
+  border-radius: 20px;
 }
 
 .category:hover {
   outline: 1px solid lime;
 }
 
-.category .bx:hover {
-  color: red;
+.category-x {
+  position: absolute;
+  top: -5px;
+  right: -5px;
   cursor: pointer;
+  border-radius: 50%;
+  background: white;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
-
 
 .category a {
   min-height: 20px;
@@ -310,11 +311,6 @@ form {
   flex-direction: row;
   justify-content: center;
   align-items: center;
-}
-
-.category a:hover {
-  cursor: pointer;
-  color: purple;
 }
 
 i {

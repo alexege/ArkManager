@@ -43,9 +43,32 @@ const hideNav = () => {
   // console.log(`isNavLocked.value: ${isNavLocked.value}`)
   if (!isNavLocked.value) openSideNav.value = false
 }
+
+
+
+// Notification Logic
+import NotificationBubble from '@/components/notifications/notificationBubble.vue'
+import notificationService from '@/utils/notificationService.js'
+
+const notifications = computed(() => notificationService.notifications)
+
+const triggerNotification = (message, type, duration, persistent) => {
+  notificationService.addNotification(message, 'success', 3000)
+}
+
+const handleNotificationClick = (id) => {
+  notificationService.removeNotification(id)
+}
+
 </script>
 <template>
   <div class="wrapper">
+
+    <transition-group name="notification" tag="div" class="notification-container">
+      <NotificationBubble v-for="notification in notifications" :key="notification.id" :message="notification.message"
+        :type="notification.type" :visible="true" @click="handleNotificationClick(notification.id)" />
+    </transition-group>
+
     <div class="sidebar" :class="{ open: openSideNav }" @mouseenter="showNav()" @mouseleave="hideNav()">
       <div class="toggle-container">
         <li class="toggle-btn-container">
@@ -554,5 +577,44 @@ const hideNav = () => {
 
 .accordion {
   color: white;
+}
+
+/* Notification Styles */
+/* Notification Animations */
+.notification-container {
+  position: fixed;
+  bottom: 20px;
+  /* Stick to bottom */
+  right: 20px;
+  display: flex;
+  flex-direction: column-reverse;
+  /* New notifications go to bottom */
+  gap: 10px;
+  z-index: 1000;
+}
+
+.notification-enter-active,
+.notification-leave-active {
+  transition: all 0.5s ease;
+}
+
+.notification-enter-from {
+  opacity: 0;
+  transform: translateY(20px);
+}
+
+.notification-enter-to {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.notification-leave-from {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.notification-leave-to {
+  opacity: 0;
+  transform: translateY(20px);
 }
 </style>

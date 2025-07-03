@@ -10,6 +10,7 @@ import AddTodo from '@/components/todo/addTodo.vue';
 // Stores
 import { useTodoListStore } from '@/stores/todo.store';
 import { useCategoryStore } from '@/stores/category.store';
+import { useAuthStore } from "@/stores/auth.store";
 
 // TodoList Store
 const todoStore = useTodoListStore();
@@ -67,6 +68,19 @@ const filteredTodosIncomplete = computed(() =>
     category.value ? todoStore.getInCompleteTodosByCategory(category.value) : incompleteTodos.value
 );
 
+// Auth Store
+const { activeUser } = storeToRefs(useAuthStore());
+
+// Permission Handling
+const hasPermission = (category) => {
+    if (!activeUser.value) return false;
+    return (
+        category.author?.id === activeUser.value.id ||
+        activeUser.value.roles.includes("ROLE_ADMIN") ||
+        activeUser.value.roles.includes("ROLE_MODERATOR")
+    );
+};
+
 </script>
 
 <template>
@@ -77,17 +91,20 @@ const filteredTodosIncomplete = computed(() =>
 
             <AddTodo />
 
-            <!-- Add Todo Item -->
-            <!-- <div class="add-item">
-                <input type="text" v-model="newItem.description" id="addItemInput" class="form-input" ref="addItemInput"
-                    @keydown.enter="addItem">
-                <select name="" id="priority" v-model="newItem.priority" class="form-input">
-                    <option value="Low">Low</option>
-                    <option value="Medium">Medium</option>
-                    <option value="High">High</option>
-                </select>
-                <button @click="addItem" class="add-item-button">Add Item</button>
-            </div> -->
+            <!-- <pre>{{ allCategories }}</pre> -->
+
+            <!-- Category List -->
+            <div class="category-list">
+                <div v-for="category in allCategories" :key="category" class="category">
+                    <a @click.prevent="activeCategory(category.name)">
+                        <span>{{ category.name }}</span>
+                        <!-- <span v-if="hasPermission(category)" @click.prevent="deleteCategory(category._id)">
+                            <i class="bx bx-x"></i>
+                        </span> -->
+                    </a>
+                    <!-- <category :category="category" @delete-category="deleteCategory" /> -->
+                </div>
+            </div>
 
             <!-- Incomplete Item Rows -->
             <div class="incomplete-items" v-if="filteredTodosIncomplete.length">
@@ -141,11 +158,20 @@ const filteredTodosIncomplete = computed(() =>
     margin: 0 auto;
 }
 
+/* Category List */
+.category-list {
+    display: flex;
+    justify-content: center;
+    gap: 0.5em;
+    padding: 1em;
+}
+
 .category {
     font-size: .75em;
     border: 1px solid white;
-    padding: 4px 3px;
+    padding: 6px 12px;
     border-radius: 12px;
+    cursor: pointer;
 }
 
 .delete-category {

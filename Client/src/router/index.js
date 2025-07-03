@@ -61,12 +61,12 @@ const router = createRouter({
     {
       path: '/todo',
       name: 'todo',
-      component: ToDoView
+      component: ToDoView2
     },
     {
       path: '/todo2',
       name: 'todo2',
-      component: ToDoView2
+      component: ToDoView
     },
     {
       path: '/todo/category/:category',

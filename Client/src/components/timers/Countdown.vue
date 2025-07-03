@@ -88,6 +88,7 @@ const startCountDown = () => {
         if (timeRemaining.value == 0) {
             percentLeft.value = 0
             timerComplete.value = true
+            triggerNotification(`${props.timer.name} timer has expired!`, 'success', 3000, true)
         }
 
         let end = now + timeRemaining.value
@@ -285,6 +286,16 @@ const backgroundStyle = computed(() => {
     // Return the computed style
     return `rgb(${r}, ${g}, ${b})`;
 });
+
+import notificationService from '@/utils/notificationService.js'
+const triggerNotification = (message, type, duration, persistent) => {
+    console.log("Testing");
+    notificationService.addNotification(message, type, duration, persistent)
+}
+
+const handleNotificationClick = (id) => {
+    notificationService.removeNotification(id)
+}
 
 </script>
 <template>

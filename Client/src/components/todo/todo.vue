@@ -3,9 +3,10 @@ import { ref, computed, onMounted, onBeforeMount, onBeforeUnmount } from "vue";
 import { storeToRefs } from 'pinia'
 
 import ModalEditTodo from "../modals/ModalEditTodo.vue";
+import category from "./category.vue";
 
 defineEmits(['category'])
-defineProps(["todo"]);
+const props = defineProps(["todo"]);
 
 // Auth Store
 import { useAuthStore } from "@/stores/auth.store";
@@ -17,9 +18,7 @@ const todoStore = useTodoListStore();
 const { toggleCompleted, editTodo, deleteTodo } = todoStore;
 
 const isEditing = ref(false);
-const editItem = ref({
-  title: null
-});
+const editItem = ref(props.todo);
 
 const toggleEditMode = (todo) => {
   editItem.value = todo.title;
@@ -86,6 +85,27 @@ const permissionToManage = (todo) => {
   }
 }
 
+const isHovered = ref(false)
+const scrollContainer = ref(null)
+
+function handleWheel(event) {
+  console.log("Scrolling");
+  if (scrollContainer.value) {
+    scrollContainer.value.scrollLeft += event.deltaY
+  }
+}
+
+// const hoveredCategoryId = ref(null)
+
+// const handleMouseEnter = (id) => {
+//   hoveredCategoryId.value = id
+// }
+
+// const handleMouseLeave = () => {
+//   hoveredCategoryId.value = null
+// }
+
+
 </script>
 
 <template>
@@ -96,13 +116,18 @@ const permissionToManage = (todo) => {
         :checked="todo.completed" />
     </div>
 
-    <div class="categories grid-item-field">
-      <span v-for="category in todo.categories" :key="category" class="category">
+    <div class="categories grid-item-field" @wheel.prevent="handleWheel" ref="scrollContainer">
+      <div v-for="category in todo.categories" :key="category._id">
+        <category :category="category" />
+      </div>
+
+      <!-- <span v-for="category in todo.categories" :key="category" class="category scroll-container"
+        @mouseenter="handleMouseEnter(category._id)" @mouseleave="handleMouseLeave">
         <a @click.prevent="$emit('category', category.name)">
           {{ category.name }}
         </a>
-        <i class="bx bx-x" @click="deleteCategory(category._id)" />
-      </span>
+        <i class="bx bx-x category-x" v-if="hoveredCategoryId === category._id" @click="deleteCategory(category._id)" />
+      </span> -->
     </div>
 
     <div class="content grid-item-field">
@@ -153,9 +178,15 @@ const permissionToManage = (todo) => {
   padding: 5px;
   justify-content: center;
   align-items: center;
-  flex-wrap: wrap;
+  /* flex-wrap: wrap; */
   gap: 5px;
   background-color: rgba(255, 255, 255, 0.15);
+  max-height: 26px;
+  overflow-x: auto;
+  overflow-y: hidden;
+  white-space: nowrap;
+
+  scrollbar-width: none;
 }
 
 .grid-item-field:not(:first-of-type):not(:last-of-type) {
@@ -198,7 +229,7 @@ const permissionToManage = (todo) => {
   justify-content: center;
   align-items: center;
   flex: 2;
-  flex-wrap: wrap;
+  /* flex-wrap: wrap; */
   /* outline: 1px solid rgb(28, 197, 104); */
   gap: 5px;
 }
@@ -247,27 +278,38 @@ const permissionToManage = (todo) => {
 
 /* Categories */
 .category {
-  display: flex;
-  align-items: center;
-  color: black;
-  background-color: #eef;
+  /* display: flex; */
+  /* align-items: center; */
   /* border-radius: 15px; */
   /* padding: 2px 6px; */
   /* margin-right: 4px; */
-  padding: 1px 2px;
+  position: relative;
+  /* color: black; */
+  color: white;
+  /* background-color: #eef; */
+  border: 1px solid white;
+  padding: 2px 10px;
   font-size: 0.8em;
   justify-content: center;
+  border-radius: 20px;
 }
 
 .category:hover {
   outline: 1px solid lime;
 }
 
-.category .bx:hover {
-  color: red;
+.category-x {
+  position: absolute;
+  top: -5px;
+  right: -5px;
   cursor: pointer;
+  border-radius: 50%;
+  background: white;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
-
 
 .category a {
   min-height: 20px;
@@ -299,7 +341,7 @@ const permissionToManage = (todo) => {
   color: white;
   font-weight: bold;
   border: 1px solid black;
-  padding: 2px 5px;
+  /* padding: 2px 5px; */
   min-width: 30px;
   cursor: pointer;
 }
@@ -309,7 +351,7 @@ const permissionToManage = (todo) => {
   color: white;
   font-weight: bold;
   border: 1px solid black;
-  padding: 2px 5px;
+  /* padding: 2px 5px; */
   min-width: 30px;
   cursor: pointer;
 }
@@ -319,7 +361,7 @@ const permissionToManage = (todo) => {
   color: white;
   font-weight: bold;
   border: 1px solid black;
-  padding: 2px 5px;
+  /* padding: 2px 5px; */
   min-width: 30px;
   cursor: pointer;
 }

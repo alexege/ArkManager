@@ -22,6 +22,7 @@ import NotificationBubble from '@/components/notifications/notificationBubble.vu
 import notificationService from '@/utils/notificationService.js'
 const notifications = computed(() => notificationService.notifications)
 const triggerNotification = () => {
+    console.log("Triggered notification!")
     notificationService.addNotification('This is a notification!', 'success')
 }
 const handleNotificationClick = (id) => {
@@ -33,8 +34,8 @@ const handleNotificationClick = (id) => {
     <div class="shop-container">
         <button @click="triggerNotification">Trigger Notification</button>
 
-        <NotificationBubble v-for="notification in notifications" :key="notification.id" :message="notification.message"
-            :type="notification.type" :visible="true" @click="handleNotificationClick(notification.id)" />
+        <!-- <NotificationBubble v-for="notification in notifications" :key="notification.id" :message="notification.message"
+            :type="notification.type" :visible="true" @click="handleNotificationClick(notification.id)" /> -->
         <h2>Shop View</h2>
         <div>Cart: ({{ totalItemsInCart }})</div>
         <div>Total: ({{ cartTotalPrice }})</div>

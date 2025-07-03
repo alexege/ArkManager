@@ -10,30 +10,30 @@
 
 @media screen and (min-width: 640px) {
   body {
-    outline: 1px solid red;
+    /* outline: 1px solid red; */
   }
 }
 
 @media screen and (min-width: 768px) {
   body {
-    outline: 1px solid lime;
+    /* outline: 1px solid lime; */
   }
 }
 
 @media screen and (min-width: 1024px) {
   body {
-    outline: 1px solid cyan;
+    /* outline: 1px solid cyan; */
   }
 }
 
 @media screen and (min-width: 1280px) {
   body {
-    outline: 1px solid orange;
+    /* outline: 1px solid orange; */
   }
 }
 
 @media screen and (min-width: 1536px) {
   body {
-    outline: 1px solid purple;
+    /* outline: 1px solid purple; */
   }
 }

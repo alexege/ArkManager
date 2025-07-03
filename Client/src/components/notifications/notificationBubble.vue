@@ -23,10 +23,7 @@ const handleClick = () => {
 </script>
 <style scoped>
 .notification-bubble {
-    position: fixed;
-    bottom: 10px;
-    right: 10px;
-    padding: 10px;
+    padding: 10px 20px;
     border-radius: 5px;
     background-color: #333;
     color: #fff;

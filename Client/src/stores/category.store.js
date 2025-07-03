@@ -6,7 +6,7 @@ const API_URL = 'http://127.0.0.1:8080/api'
 export const useCategoryStore = defineStore('category', {
   state: () => ({
     category: null,
-    categories: []
+    categories: ['All']
   }),
   getters: {
     allCategories: (state) => {
@@ -18,9 +18,7 @@ export const useCategoryStore = defineStore('category', {
       this.categories = []
       this.loading = true
       try {
-        this.categories = await fetch(`${API_URL}/categories`).then((response) =>
-          response.json()
-        )
+        this.categories = await fetch(`${API_URL}/categories`).then((response) => response.json())
       } catch (error) {
         this.error = error
       } finally {

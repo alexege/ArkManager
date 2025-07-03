@@ -152,21 +152,33 @@ const hasPermission = (category) => {
     );
 };
 
+// Filter by active category
+const activeCategoryFilter = ref('All')
+const activeCategory = (cat) => {
+    if (activeCategoryFilter.value === cat) {
+        console.log("is equal");
+        activeCategoryFilter.value = 'All';
+        category.value = 'All';
+    } else {
+        activeCategoryFilter.value = cat;
+        category.value = cat;
+    }
+}
+
 </script>
 
 <template>
     <div id="app">
-        <div style="width: 80%; margin: 0 auto;">
-
+        <div class="container">
             <h1 class="title">To do List</h1>
-            <span style="color:white;">{{ header }}</span>
             <AddTodo />
 
             <!-- <pre>{{ allCategories }}</pre> -->
 
             <!-- Category List -->
             <div class="category-list">
-                <div v-for="category in allCategories" :key="category" class="category">
+                <div v-for="category in allCategories" :key="category" class="category"
+                    :class="{ active: category.name === activeCategoryFilter }">
                     <a @click.prevent="activeCategory(category.name)">
                         <span>{{ category.name }}</span>
                         <!-- <span v-if="hasPermission(category)" @click.prevent="deleteCategory(category._id)">
@@ -229,11 +241,23 @@ const hasPermission = (category) => {
 </template>
 
 <style scoped>
+.active {
+    color: black;
+    background-color: white;
+    border: 1px solid black;
+    /* background-color: rgba(255, 255, 255, 0.15); */
+}
+
 #app {
     font-family: Arial, sans-serif;
     text-align: center;
     margin-top: 20px;
     /* width: 80%; */
+    margin: 0 auto;
+}
+
+.container {
+    width: 80%;
     margin: 0 auto;
 }
 

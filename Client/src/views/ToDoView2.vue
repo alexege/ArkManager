@@ -28,7 +28,96 @@ const route = useRoute();
 const category = ref(route.params.category);
 
 const addItemInput = ref(null);
-const headers = ['[✓]', 'Categories', 'Title', 'Author', 'Priority', 'Actions']; // Define headers for the grid
+// const headers = ['[✓]', 'Categories', 'Title', 'Author', 'Priority', 'Actions']; // Define headers for the grid
+const headers = [
+    { label: '[✓]', key: null },
+    { label: 'Categories', key: 'Categories' },
+    { label: 'Title', key: 'Title' },
+    { label: 'Author', key: 'Author' },
+    { label: 'Priority', key: 'Priority' },
+    { label: 'Actions', key: null }
+]
+
+// Sort Logic
+const sortBy = ref(null)
+const sortDir = ref(1)
+
+const toggleSort = (header) => {
+    if (sortBy.value === header) {
+        sortDir.value = sortDir.value * -1
+    } else {
+        sortBy.value = header
+        sortDir.value = 1
+    }
+}
+
+const sortedTodosIncomplete = computed(() => {
+    let list = category.value
+        ? todoStore.getInCompleteTodosByCategory(category.value)
+        : incompleteTodos.value
+
+    if (!sortBy.value) return list
+
+    return [...list].sort((a, b) => {
+        const valA = getSortableValue(a, sortBy.value)
+        const valB = getSortableValue(b, sortBy.value)
+
+        if (sortBy.value === 'Priority') {
+            const orderA = priorityOrder[valA?.charAt(0).toUpperCase() + valA?.slice(1).toLowerCase()] ?? -1
+            const orderB = priorityOrder[valB?.charAt(0).toUpperCase() + valB?.slice(1).toLowerCase()] ?? -1
+            return (orderA - orderB) * sortDir.value
+        }
+
+        if (valA < valB) return -1 * sortDir.value
+        if (valA > valB) return 1 * sortDir.value
+        return 0
+    })
+})
+
+const sortedTodosComplete = computed(() => {
+
+    let list = category.value
+        ? todoStore.getCompleteTodosByCategory(category.value)
+        : completedTodos.value
+
+    if (!sortBy.value) return list
+
+    return [...list].sort((a, b) => {
+        const valA = getSortableValue(a, sortBy.value)
+        const valB = getSortableValue(b, sortBy.value)
+
+        if (sortBy.value === 'Priority') {
+            const orderA = priorityOrder[valA?.charAt(0).toUpperCase() + valA?.slice(1).toLowerCase()] ?? -1
+            const orderB = priorityOrder[valB?.charAt(0).toUpperCase() + valB?.slice(1).toLowerCase()] ?? -1
+            return (orderA - orderB) * sortDir.value
+        }
+
+        if (valA < valB) return -1 * sortDir.value
+        if (valA > valB) return 1 * sortDir.value
+        return 0
+    })
+})
+
+const priorityOrder = {
+    'Low': 1,
+    'Medium': 2,
+    'High': 3
+}
+
+function getSortableValue(todo, column) {
+    switch (column) {
+        case 'Categories':
+            return todo.categories?.[0]?.name || ''
+        case 'Title':
+            return todo.title || ''
+        case 'Author':
+            return todo.author?.name || ''
+        case 'Priority':
+            return todo.priority?.charAt(0).toUpperCase() + todo.priority?.slice(1).toLowerCase()
+        default:
+            return ''
+    }
+}
 
 const newItem = ref({
     completed: false,
@@ -36,24 +125,6 @@ const newItem = ref({
     description: null,
     priority: 'Low'
 });
-
-//   Methods
-// const addItem = () => {
-//     items.value.push({
-//         completed: false,
-//         categories: ['test'],
-//         description: newItem.value.description,
-//         priority: newItem.value.priority,
-//         author: 'Author Name',
-//     });
-
-//     //Set newItem back to default values
-//     newItem.value.description = ''
-//     newItem.value.priority = 'Low'
-
-//     // Move focus back to the input field
-//     addItemInput.value.focus();
-// };
 
 const deleteCategory = (category) => {
     console.log("Deleting category:", category)
@@ -87,8 +158,8 @@ const hasPermission = (category) => {
     <div id="app">
         <div style="width: 80%; margin: 0 auto;">
 
-            <h1>To do List</h1>
-
+            <h1 class="title">To do List</h1>
+            <span style="color:white;">{{ header }}</span>
             <AddTodo />
 
             <!-- <pre>{{ allCategories }}</pre> -->
@@ -111,15 +182,19 @@ const hasPermission = (category) => {
                 <h4 class="grid-title incomplete">Incomplete Items ({{ filteredTodosIncomplete.length }})</h4>
                 <!-- Header Row -->
                 <div class="grid-header">
-                    <div class="grid-header-item" v-for="(header, index) in headers" :key="'header-' + index">
-                        {{ header }}
+                    <div class="grid-header-item" v-for="(header, index) in headers" :key="'header-' + index"
+                        @click="header.key && toggleSort(header.key)">
+                        {{ header.label }}
+                        <span v-if="sortBy === header.key">
+                            {{ sortDir === 1 ? '↑' : '↓' }}
+                        </span>
                     </div>
                 </div>
 
                 <hr style="margin-bottom: .75em;">
 
                 <div class="grid-items">
-                    <div v-for="todo in filteredTodosIncomplete" :key="todo._id">
+                    <div v-for="todo in sortedTodosIncomplete" :key="todo._id">
                         <todo :todo="todo" />
                     </div>
                 </div>
@@ -132,15 +207,19 @@ const hasPermission = (category) => {
 
                 <!-- Header Row -->
                 <div class="grid-header">
-                    <div class="grid-header-item" v-for="(header, index) in headers" :key="'header-' + index">
-                        {{ header }}
+                    <div class="grid-header-item" v-for="(header, index) in headers" :key="'header-' + index"
+                        @click="header.key && toggleSort(header.key)">
+                        {{ header.label }}
+                        <span v-if="sortBy === header.key">
+                            {{ sortDir === 1 ? '↑' : '↓' }}
+                        </span>
                     </div>
                 </div>
 
                 <hr style="margin-bottom: .75em;">
 
                 <div class="grid-items">
-                    <div v-for="todo in filteredTodosComplete" :key="todo._id">
+                    <div v-for="todo in sortedTodosComplete" :key="todo._id">
                         <todo :todo="todo" />
                     </div>
                 </div>
@@ -156,6 +235,10 @@ const hasPermission = (category) => {
     margin-top: 20px;
     /* width: 80%; */
     margin: 0 auto;
+}
+
+h1.title {
+    margin: 1.5em;
 }
 
 /* Category List */
@@ -211,6 +294,7 @@ const hasPermission = (category) => {
 
 .grid-header-item {
     color: white;
+    cursor: pointer;
 }
 
 .grid-items {

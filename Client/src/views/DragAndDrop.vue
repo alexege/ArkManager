@@ -10,6 +10,7 @@ const dropZones = ref([])
 const storeTimers = ref([])
 
 import { useTimerStore } from '@/stores/timer.store';
+import Stopwatch from '@/components/timers/Stopwatch.vue';
 const timerStore = useTimerStore()
 const { fetchTimers, updateTimer } = useTimerStore();
 fetchTimers();
@@ -139,42 +140,42 @@ const onDragLeave = (event) => {
     <div class="grid">
 
       <!-- {{ storeTimers }} -->
-      <template v-for="(zone, index) in dropZones" :key="zone.id">
-        <div class="drop-zone" :class="[{ preview: dragActive }, { 'fade-in': dragActive }]"
-          @drop="onDrop($event, index)" @dragover.prevent @dragenter="onDragEnter" @dragleave="onDragLeave">
+      <div v-for="(zone, index) in dropZones" :key="index" class="drop-zone"
+        :class="[{ preview: dragActive }, { 'fade-in': dragActive }]" @drop="onDrop($event, index)" @dragover.prevent
+        @dragenter="onDragEnter" @dragleave="onDragLeave">
 
-          <div v-for="timer in getCell(index)" :key="timer._id" class="drag-el">
+        <div v-for="timer in getCell(index)" :key="timer._id" class="drag-el">
 
-            <div class="controls">
+          <div class="controls">
 
-              <label v-if="timer.type == 'countdown'">countdown</label>
-              <label v-if="timer.type == 'stopwatch'">stopwatch</label>
-              <Toggle :label="timer.title" :initial-value="timer.type == 'countdown' ? true : false"
-                :is-toggled="timer.enabled"></Toggle>
+            <label v-if="timer.type == 'countdown'">countdown</label>
+            <label v-if="timer.type == 'stopwatch'">stopwatch</label>
+            <Toggle :label="timer.title" :initial-value="timer.type == 'countdown' ? true : false"
+              :is-toggled="timer.enabled"></Toggle>
 
-              <button class="handle" @mousedown="(event) => {
-                const dragEl = event.currentTarget.parentNode
-                dragEl.setAttribute('draggable', 'true')
-                dragEl.addEventListener('dragstart', (e) => startDrag(e, timer))
-                dragEl.dispatchEvent(new Event('dragstart')) // Start the drag event
-              }
-                " @mouseup="(event) => {
-                  const dragEl = event.currentTarget.parentNode
-                  dragEl.removeAttribute('draggable')
-                }
-                  ">
-                &#x2630;
-              </button>
+            <button class="handle" @mousedown="(event) => {
+              const dragEl = event.currentTarget.parentNode
+              dragEl.setAttribute('draggable', 'true')
+              dragEl.addEventListener('dragstart', (e) => startDrag(e, timer))
+              dragEl.dispatchEvent(new Event('dragstart')) // Start the drag event
+            }
+            " @mouseup="(event) => {
+              const dragEl = event.currentTarget.parentNode
+              dragEl.removeAttribute('draggable')
+            }
+            ">
+              &#x2630;
+            </button>
 
-              <i @click="onClose" class='bx bx-x'></i>
-            </div>
-
-
-            <Countdown :timer="timer" />
+            <i @click="onClose" class='bx bx-x'></i>
           </div>
 
+
+          <Countdown v-if="timer.type == 'countdown'" :timer="timer" />
+          <Stopwatch v-if="timer.type == 'stopwatch'" :timer="timer" />
         </div>
-      </template>
+
+      </div>
     </div>
   </div>
 </template>

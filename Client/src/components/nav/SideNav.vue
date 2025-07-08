@@ -72,9 +72,11 @@ const handleNotificationClick = (id) => {
     <div class="sidebar" :class="{ open: openSideNav }" @mouseenter="showNav()" @mouseleave="hideNav()">
       <div class="toggle-container">
         <li class="toggle-btn-container">
-          <span class="material-symbols-outlined toggle-btn" @click="toggleNavLock()">
+          <!-- <span class="material-symbols-outlined toggle-btn" @click="toggleNavLock()">
             {{ isNavLocked ? 'lock_open' : 'lock' }}
-          </span>
+          </span> -->
+          <!-- <i :class="['bx', { 'bx-lock-open': !isNavLocked, 'bx-lock': isNavLocked }]" @click="toggleNavLock()" /> -->
+          <i :class="isNavLocked ? 'bx bx-lock' : 'bx bx-lock-open-alt'" @click="toggleNavLock()" />
         </li>
       </div>
 
@@ -201,6 +203,15 @@ const handleNotificationClick = (id) => {
             <span class="links_name">Saved</span>
           </a>
           <span class="tooltip">Saved</span>
+        </li>
+        <li>
+          <a href="#">
+            <RouterLink link to="/maps">
+              <i class="bx bx-map"></i>
+              <span class="links_name">Maps</span>
+            </RouterLink>
+          </a>
+          <span class="tooltip">Maps</span>
         </li>
         <li>
           <a href="#">

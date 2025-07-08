@@ -153,7 +153,7 @@ const updateMessage = (message) => {
           </div>
         </div>
       </ul>
-      <!-- 
+      <!--
     Messages:
     <pre>{{ messageStore.messages }}</pre>
     Replies:
@@ -173,8 +173,10 @@ const updateMessage = (message) => {
   /* outline: 1px solid purple; */
   /* background: rgba(0, 255, 0, 0.15); */
   /* margin: 0.5em; */
-  background: rgba(211, 209, 209, 0.2);
-  outline: 1px solid black;
+  background: rgba(211, 209, 209, 0.05);
+  border-radius: 1rem;
+  padding: .5rem;
+  outline: 1px solid white;
   list-style: none;
   margin-bottom: 1em;
   box-shadow: 2px 2px 5px black;
@@ -259,6 +261,7 @@ const updateMessage = (message) => {
 .message-header input[type=text] {
   border: none;
   background-color: #e2dede;
+  color: black;
 }
 
 .message-title {
@@ -269,8 +272,8 @@ const updateMessage = (message) => {
   font-size: 0.75em;
   flex: 2;
   margin-right: 15px;
-  padding: 5px;
   white-space: pre;
+  background-color: rgba(255, 255, 255, 0.025);
 }
 
 .message-body textarea {
@@ -278,7 +281,9 @@ const updateMessage = (message) => {
   height: 100%;
   resize: none;
   border: none;
-  background-color: #e2dede;
+  color: black;
+  background-color: rgba(255, 255, 255, 0.15);
+
   font-family: 'Poppins', sans-serif;
   font-size: 1em;
   border-radius: 5px;

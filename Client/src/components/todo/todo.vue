@@ -1,168 +1,98 @@
 <script setup>
-import { ref, computed, onMounted, onBeforeMount, onBeforeUnmount } from "vue";
+import { ref, computed } from "vue";
 import { storeToRefs } from 'pinia'
 
 import ModalEditTodo from "../modals/ModalEditTodo.vue";
-import category from "./category.vue";
+import Category from "./category.vue";
 
 const emit = defineEmits(['category'])
-const props = defineProps(["todo"]);
+const props = defineProps({ todo: Object })
 
 // Auth Store
 import { useAuthStore } from "@/stores/auth.store";
-const { activeUser } = storeToRefs(useAuthStore());
+const { activeUser } = storeToRefs(useAuthStore())
 
-// Todo List Store
-import { useTodoListStore } from "../../stores/todo.store";
-const todoStore = useTodoListStore();
-const { toggleCompleted, editTodo, deleteTodo } = todoStore;
+// Todo Store
+import { useTodoListStore } from "@/stores/todo.store";
+const todoStore = useTodoListStore()
 
-const isEditing = ref(false);
-const editItem = ref(props.todo);
+const isEditing = ref(false)
+const editItem = ref(props.todo)
 
-const toggleEditMode = (todo) => {
-  editItem.value = todo.title;
-  editItem.value = todo
-  isEditing.value = !isEditing.value;
-};
-const updateTodo = (todo) => {
-  console.log("updateTodo:", todo);
+const canManage = computed(() => {
+  if (!activeUser.value) return false
+  const user = activeUser.value
+  return (
+    user.roles.includes("ROLE_ADMIN") ||
+    user.roles.includes("ROLE_MODERATOR") ||
+    (props.todo.author && user.id === props.todo.author._id)
+  )
+})
 
-  // todo.title = editItem.value;
-  isEditing.value = !isEditing.value;
+const toggleEditMode = () => {
+  isEditing.value = !isEditing.value
+  editItem.value = props.todo
+}
 
-  todoStore.editTodo(todo._id, todo);
-};
+const updateTodo = (updatedTodo) => {
+  isEditing.value = false
+  todoStore.editTodo(updatedTodo._id, updatedTodo)
+}
 
 const deleteTodoItem = (itemId) => {
-
-  const confirmed = window.confirm('Are you sure  you wish to delete this item?')
-  if (confirmed) {
-    todoStore.deleteTodo(itemId);
-  }
-};
-
-const timeDiff = (date1, date2) => {
-  if (date1 > date2) {
-    [date1, date2] = [date2, date1];
-  }
-
-  // Get the total difference in milliseconds
-  const diffInMs = date2 - date1;
-
-  // Return false if value is too small (nothing shows up)
-  if (diffInMs == 0 || diffInMs < 1000) {
-    console.log("Diff in time too small, not rendering time since posted")
-    return false;
-  }
-
-  // Calculate the differences
-  const days = Math.floor(diffInMs / (1000 * 60 * 60 * 24));
-  const hours = Math.floor(diffInMs / (1000 * 60 * 60));
-  const minutes = Math.floor((diffInMs % (1000 * 60 * 60)) / (1000 * 60));
-  const seconds = Math.floor((diffInMs % (1000 * 60)) / 1000);
-
-  return { days, hours, minutes, seconds };
-};
-
-// Permission to interact / edit content
-const permissionToManage = (todo) => {
-
-  // Admin, Moderator, Author/Owner
-
-  if (activeUser.value) {
-    // Content Owner
-    if (todo.author && activeUser.value.id === todo.author._id) {
-      //Has full access, as is owner
-    } else if (activeUser.value.roles.includes("ROLE_ADMIN")) {
-      //Has full access, as is admin
-    } else if (activeUser.value.roles.includes("ROLE_MODERATOR")) {
-      //Has full access, as is moderator
-    } else {
-      return false
-    }
-    return true
+  if (confirm('Are you sure you wish to delete this item?')) {
+    todoStore.deleteTodo(itemId)
   }
 }
 
-const isHovered = ref(false)
 const scrollContainer = ref(null)
-
-function handleWheel(event) {
-  console.log("Scrolling");
-  if (scrollContainer.value) {
-    scrollContainer.value.scrollLeft += event.deltaY
-  }
+const handleWheel = (event) => {
+  if (scrollContainer.value) scrollContainer.value.scrollLeft += event.deltaY
 }
-
-// const hoveredCategoryId = ref(null)
-
-// const handleMouseEnter = (id) => {
-//   hoveredCategoryId.value = id
-// }
-
-// const handleMouseLeave = () => {
-//   hoveredCategoryId.value = null
-// }
-
 </script>
+
 
 <template>
   <div class="todo-container">
-
-    <div class="completion grid-item-field ">
-      <input type="checkbox" v-if="permissionToManage(todo)" class="checkbox" @click="toggleCompleted(todo)"
+    <div class="completion grid-item-field">
+      <input v-if="canManage" type="checkbox" class="checkbox" @click="todoStore.toggleCompleted(todo)"
         :checked="todo.completed" />
     </div>
 
     <div class="categories grid-item-field" @wheel.prevent="handleWheel" ref="scrollContainer">
-
       <div class="category-wrapper">
-        <div v-for="category in todo.categories" :key="category._id">
-          <category :category="category" @category="$emit('category', $event)" />
-        </div>
+        <Category v-for="category in todo.categories" :key="category._id" :category="category"
+          @category="$emit('category', $event)" />
       </div>
-
-      <!-- <span v-for="category in todo.categories" :key="category" class="category scroll-container"
-        @mouseenter="handleMouseEnter(category._id)" @mouseleave="handleMouseLeave">
-        <a @click.prevent="$emit('category', category.name)">
-          {{ category.name }}
-        </a>
-        <i class="bx bx-x category-x" v-if="hoveredCategoryId === category._id" @click="deleteCategory(category._id)" />
-      </span> -->
     </div>
 
     <div class="content grid-item-field">
-      <span class="todo-body" @dblclick="toggleEditMode(todo)">
+      <span class="todo-body" @dblclick="toggleEditMode">
         <span :class="{ completed: todo.completed }">{{ todo.title }}</span>
       </span>
     </div>
+
     <div class="author grid-item-field">
-      <template v-if="todo.author && todo.author.username">
-        {{ todo.author.username }}
-      </template>
+      <template v-if="todo.author?.username">{{ todo.author.username }}</template>
     </div>
 
     <div class="priority grid-item-field"
-      :class="{ high: todo.priority == 'High', medium: todo.priority == 'Medium', low: todo.priority == 'Low' }">
+      :class="{ high: todo.priority === 'High', medium: todo.priority === 'Medium', low: todo.priority === 'Low' }">
       <span class="priority">{{ todo.priority }}</span>
     </div>
 
     <div class="actions grid-item-field">
-      <span :class="{ disabled: !permissionToManage(todo) }" @click="permissionToManage(todo) && toggleEditMode(todo)">
+      <span :class="{ disabled: !canManage }" @click="canManage && toggleEditMode">
         <i class="bx bx-edit"></i>
       </span>
-      <span :class="{ disabled: !permissionToManage(todo) }"
-        @click="permissionToManage(todo) && deleteTodoItem(todo._id)">
+      <span :class="{ disabled: !canManage }" @click="canManage && deleteTodoItem(todo._id)">
         <i class="bx bx-trash"></i>
       </span>
     </div>
 
-    <modal-edit-todo :show="isEditing" :todo="editItem" @close="isEditing = false" @update="updateTodo" />
-
+    <ModalEditTodo :show="isEditing" :todo="editItem" @close="isEditing = false" @update="updateTodo" />
   </div>
 </template>
-
 
 <style scoped>
 .category-wrapper {
@@ -194,7 +124,8 @@ function handleWheel(event) {
   align-items: center;
   /* flex-wrap: wrap; */
   gap: 5px;
-  /* background-color: rgba(255, 255, 255, 0.15); */
+  outline: 1px solid white;
+  background-color: rgba(255, 255, 255, 0.15);
   max-height: 26px;
   overflow-x: auto;
   overflow-y: hidden;

@@ -156,7 +156,7 @@ const permissionToManage = (category) => {
 
         </div>
         <div class="bottom">
-          <select v-model="selectedOption" @change="addTodoCategory" class="select">
+          <select v-model="selectedOption" @keydown.tab="addTodoCategory" class="select">
             <option value="" disabled>Category</option>
             <option value="custom">Custom</option>
             <option vale="">None</option>

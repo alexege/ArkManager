@@ -97,9 +97,9 @@ const mapOptions = ref([
 const selectedMapName = ref(mapOptions.value[0].name)
 
 // Add map to store
-const newMapTitle = ref()
+// const newMapTitle = ref()
 const newMapDetails = ref({
-    title: newMapTitle.value,
+    title: null,
     name: selectedMapName.value,
     points: [],
     img: mapOptions.value.find(map => map.name === selectedMapName.value).img
@@ -107,7 +107,7 @@ const newMapDetails = ref({
 
 const addMap = () => {
     // const map = mapOptions.value.find(map => map.name === selectedMapName.value);
-
+    console.log("adding new map with details:", newMapDetails.value);
     mapStore.createMap(newMapDetails.value);
 }
 
@@ -142,6 +142,8 @@ const renderedMaps = computed(() => {
 
         <h2 class="title">Scout Maps</h2>
 
+        <pre>{{ newMapDetails }}</pre>
+
         <div class="container">
             <!-- Map Thumbnails -->
             <div class="thumbnail-list">
@@ -156,7 +158,7 @@ const renderedMaps = computed(() => {
             <!-- Add Map -->
             <div class="addMap">
                 Add a new Map
-                <input type="text" placeholder="Map Name" v-model="newMapTitle">
+                <input type="text" placeholder="Map Name" v-model="newMapDetails.title">
                 <select name="" id="" v-model="selectedMapName">
                     <option v-for="map in groupedMapData" :key="map" :value="map.name">{{ map.name }}</option>
                 </select>

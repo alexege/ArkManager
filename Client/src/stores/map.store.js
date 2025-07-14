@@ -1,4 +1,8 @@
 import { defineStore, storeToRefs } from 'pinia'
+import axios from 'axios'
+
+const API_URL = 'http://127.0.0.1:8080/api'
+
 export const useMapStore = defineStore('map', {
   state: () => ({
     maps: [
@@ -111,16 +115,36 @@ export const useMapStore = defineStore('map', {
   },
   actions: {
     async createMap(map) {
+      console.log('map passed to store is:', map)
+
       this.loading = true
       this.error = null
+
       try {
-        //Pinia Logic
-        this.maps.push(map)
-      } catch (error) {
-        this.error = error
-      } finally {
-        this.loading = false
+        const res = await axios.post(`${API_URL}/maps`, map)
+        console.log('response was:', res)
+        console.log('response was:', res.data)
+        const newMap = res.data
+        console.log('Map created:', newMap)
+      } catch (e) {
+        console.log('Error creating map:', e)
       }
+
+      // console.log('pinia creating map: ', JSON.stringify(map))
+      // try {
+      //   //Pinia Logic
+
+      //   const res = await axios.post(`${API_URL}/maps`, map)
+      //   console.log('result of creating map: ', res.data)
+      //   const map = res.data
+
+      //   this.maps.push(map)
+      // } catch (error) {
+      //   this.error = error
+      //   console.log('an error was found', error)
+      // } finally {
+      //   this.loading = false
+      // }
     },
     async getAllMaps() {
       this.loading = true

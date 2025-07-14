@@ -14,6 +14,8 @@ db.user = require("./user.model");
 db.role = require("./role.model");
 db.category = require("./category.model");
 db.message = require("./message.model");
+db.map = require("./map.model");
+// db.point = require("./map.model");
 
 db.ROLES = ["user", "admin", "moderator"];
 

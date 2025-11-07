@@ -135,8 +135,6 @@ const onDragLeave = (event) => {
 
     <h2 class="title">Timers</h2>
 
-    <button>Add Timer</button>
-
     <div class="grid">
 
       <!-- {{ storeTimers }} -->

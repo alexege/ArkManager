@@ -129,11 +129,44 @@ const onDragLeave = (event) => {
   if (dropZone) dropZone.classList.remove('drag-over')
 }
 
+const { addTimer, addDropZone, deleteTimer } = useTimerStore();
+var count = 0;
+async function add(type) {
+
+  var data = {
+    name: "Timer Name",
+    type,
+    duration: 0,
+    endDateTime: null,
+    isActive: false,
+    creator: null,
+    img:
+      "https://t3.ftcdn.net/jpg/03/45/05/92/360_F_345059232_CPieT8RIWOUk4JqBkkWkIETYAkmz2b75.jpg",
+    cell: count++
+  };
+
+  await addTimer(data)
+    .then((res) => {
+    })
+    .catch((error) => {
+      console.log("error:", error);
+    });
+}
+
 </script>
 <template>
   <div class="container">
 
     <h2 class="title">Timers</h2>
+
+    <div class="add-timer">
+      <button @click="add('stopwatch')" v-if="activeButton != 'countdowns'">
+        Add Stopwatch
+      </button>
+      <button @click="add('countdown')" v-if="activeButton != 'stopwatches'">
+        Add Countdown
+      </button>
+    </div>
 
     <div class="grid">
 

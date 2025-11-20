@@ -40,7 +40,7 @@ const router = createRouter({
     {
       path: '/',
       name: 'dashboard',
-      component: Dashboard
+      component: Profile
     },
     {
       path: '/drag',
@@ -71,13 +71,13 @@ const router = createRouter({
     {
       path: '/user',
       name: 'profile',
-      component: Profile
+      component: Dashboard
     },
-    {
-      path: '/notes',
-      name: 'notes',
-      component: NotesView
-    },
+    // {
+    //   path: '/notes',
+    //   name: 'notes',
+    //   component: NotesView
+    // },
     {
       path: '/maps',
       name: 'maps',

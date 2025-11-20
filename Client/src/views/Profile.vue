@@ -1,8 +1,22 @@
 <script setup>
 
+import { onMounted } from 'vue';
+
 //Auth Store
 import { useAuthStore } from '@/stores/auth.store';
 const authStore = useAuthStore();
+
+//Todo Store
+import { useTodoListStore } from '@/stores/todo.store';
+const todoStore = useTodoListStore();
+
+//Timer Store
+import { useTimerStore } from '@/stores/timer.store';
+const timerStore = useTimerStore();
+
+// Post Store
+import { useMessageStore } from '@/stores/message.store';
+const postStore = useMessageStore();
 
 import FileUpload from '@/components/fileUpload/FileUpload.vue';
 
@@ -35,87 +49,84 @@ function onInputChange(e) {
 import createUploader from '@/helpers/file-uploader'
 const { uploadFiles } = createUploader('YOUR URL HERE')
 
+
+onMounted(() => {
+  timerStore.fetchTimers();
+  todoStore.fetchTodos();
+  postStore.getAllMessages();
+})
 </script>
 <template>
-  <div class="main">
-    <div class="card profile">
-      <span class="profile-image">
-        <img :src="authStore.user.img" alt="">
-      </span>
-      <h2>{{ authStore.user.username }}</h2>
-      <div class="roles">
-        <label>Roles:</label>
-        <ul>
-          <li v-for="role in authStore.user.roles" :key="role">
-            <span class="role">
-              {{ roleConverter(role) }}
-            </span>
-          </li>
-        </ul>
-      </div>
-    </div>
-    <div class="card stats">
-      Stats
-      <div>
-        <label>Todos:</label>
-        <ul>
-          <li v-for="todo in authStore.user.todos" :key="todo">
-            {{ todo }}
-          </li>
-        </ul>
-      </div>
-      <div>
-        <label>Timers:</label>
-        <ul>
-          <li v-for="todo in authStore.user.todos" :key="todo">
-            {{ todo }}
-          </li>
-        </ul>
-      </div>
-      <div>
-        <label>Posts:</label>
-        <ul>
-          <li v-for="todo in authStore.user.todos" :key="todo">
-            {{ todo }}
-          </li>
-        </ul>
-      </div>
-    </div>
-    <div class="card timers">
-      Timers
-    </div>
-    <div class="card todos">
-      {{ authStore.user.todos }}
-      Todos
-    </div>
-    <div class="card posts">
-      {{ authStore.user.posts }}
-      Posts
-    </div>
+  <div class="wrapper">
 
-    <div class="file-upload">
-      <FileUpload />
-      <DropZone class="drop-area" @files-dropped="addFiles" #default="{ dropZoneActive }">
-        <label for="file-input">
-          <span v-if="dropZoneActive">
-            <span>Drop Them Here</span>
-            <span class="smaller">to add them</span>
-          </span>
-          <span v-else>
-            <span>Drag Your Files Here</span>
-            <span class="smaller">
-              or <strong><em>click here</em></strong> to select files
-            </span>
-          </span>
-          <input type="file" id="file-input" multiple @change="onInputChange" />
-        </label>
-        <ul class="image-list" v-show="files.length">
-          <FilePreview v-for="file of files" :key="file.id" :file="file" tag="li" @remove="removeFile" />
-        </ul>
-      </DropZone>
-      <button @click.prevent="uploadFiles(files)" class="upload-button">Upload</button>
-    </div>
+    <h2 class="welcome-message">Welcome, {{ authStore.user.username }}</h2>
 
+    <div class="main">
+
+      <div class="card profile">
+        <span class="profile-image">
+          <img :src="authStore.user.img" alt="">
+        </span>
+        <h2>{{ authStore.user.username }}</h2>
+        <div class="roles">
+          <label>Roles:</label>
+          <ul>
+            <li v-for="role in authStore.user.roles" :key="role">
+              <span class="role">
+                {{ roleConverter(role) }}
+              </span>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div class="card stats">
+        Stats
+        <div>
+          <label>Todos: {{ todoStore.todoList.length }}</label>
+        </div>
+        <div>
+          <label>Timers: {{ timerStore.timers.length }}</label>
+        </div>
+        <div>
+          <label>Posts: {{ postStore.messages.length }}</label>
+        </div>
+      </div>
+      <div class="card timers">
+        Timers
+      </div>
+      <div class="card todos">
+        {{ authStore.user.todos }}
+        Todos
+      </div>
+      <div class="card posts">
+        {{ authStore.user.posts }}
+        Posts
+      </div>
+
+      <div class="file-upload">
+        <FileUpload />
+        <DropZone class="drop-area" @files-dropped="addFiles" #default="{ dropZoneActive }">
+          <label for="file-input">
+            <span v-if="dropZoneActive">
+              <span>Drop Them Here</span>
+              <span class="smaller">to add them</span>
+            </span>
+            <span v-else>
+              <span>Drag Your Files Here</span>
+              <span class="smaller">
+                or <strong><em>click here</em></strong> to select files
+              </span>
+            </span>
+            <input type="file" id="file-input" multiple @change="onInputChange" />
+          </label>
+          <ul class="image-list" v-show="files.length">
+            <FilePreview v-for="file of files" :key="file.id" :file="file" tag="li" @remove="removeFile" />
+          </ul>
+        </DropZone>
+        <button @click.prevent="uploadFiles(files)" class="upload-button">Upload</button>
+      </div>
+
+    </div>
   </div>
 </template>
 <style scoped>
@@ -224,5 +235,10 @@ const { uploadFiles } = createUploader('YOUR URL HERE')
   flex-direction: column;
   justify-content: center;
   align-items: center;
+}
+
+.welcome-message {
+  text-align: center;
+  padding-top: 1em;
 }
 </style>

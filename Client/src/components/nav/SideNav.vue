@@ -112,6 +112,15 @@ const handleNotificationClick = (id) => {
         </li>
         <li>
           <a href="#">
+            <RouterLink to="/todo">
+              <i class="bx bx-list-ul"></i>
+              <span class="links_name">Todo</span>
+            </RouterLink>
+          </a>
+          <span class="tooltip">Todo</span>
+        </li>
+        <li>
+          <a href="#">
             <RouterLink to="/draganddrop">
               <i class="bx bx-timer"></i>
               <span class="links_name">Timers</span>
@@ -147,16 +156,7 @@ const handleNotificationClick = (id) => {
           </a>
           <span class="tooltip">User</span>
         </li>
-        <li>
-          <a href="#">
-            <RouterLink to="/todo">
-              <i class="bx bx-list-ul"></i>
-              <span class="links_name">Todo</span>
-            </RouterLink>
-          </a>
-          <span class="tooltip">Todo</span>
-        </li>
-        <li>
+        <!-- <li>
           <a href="#">
             <RouterLink to="/notes">
               <i class="bx bx-edit"></i>
@@ -164,7 +164,7 @@ const handleNotificationClick = (id) => {
             </RouterLink>
           </a>
           <span class="tooltip">Notes</span>
-        </li>
+        </li> -->
         <li>
           <a href="#">
             <RouterLink to="/messages">
